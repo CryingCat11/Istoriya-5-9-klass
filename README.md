@@ -1,3 +1,3 @@
 # Тетради по истории, 5–9 классы
 
-Интерактивные тетради к вводным занятиям. Сайт: https://cryingcat11.github.io/istoriya-5-9-klass/
+Интерактивные тетради к вводным занятиям. Сайт: https://cryingcat11.github.io/Istoriya-5-9-klass/
