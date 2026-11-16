@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тетрадь «Тайна первопечатника»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&family=Noto+Serif:wght@500;700&family=Ruslan+Display&display=swap" rel="stylesheet">
+<style>
+/* Бумага и типографская краска: светлая бумага, чёрная краска и киноварь — первые книги печатали в два цвета.
+   Макет как в тетрадях 5 и 6 класса: липкая навигация по этапам, один этап на экране. */
+:root{
+  --paper:#f2eee5;
+  --sheet:#fffdf8;
+  --ink:#1f1c19;
+  --muted:#655d55;
+  --cin:#b3261e;
+  --cin-soft:#f6dcd6;
+  --indigo:#2a4a78;
+  --indigo-soft:#dee6f1;
+  --ok:#2b7a50;
+  --ok-soft:#d9efe2;
+  --bad:#a8461f;
+  --bad-soft:#f8e1d3;
+  --line:#d8cfc0;
+  --display:"Unbounded","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --old:"Noto Serif","Segoe UI Historic","Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+a{color:var(--indigo)}
+:focus-visible{outline:3px solid var(--cin);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--sheet);
+  background-image:repeating-linear-gradient(90deg,transparent 0 40px,rgba(255,255,255,.05) 40px 44px,transparent 44px 88px)}
+.top-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f1c9a8}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #57504a;white-space:nowrap}
+nav a b{color:#ee9a86;font-weight:700;margin-right:4px}
+nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
+nav a[aria-current="page"] b{color:#fff}
+main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
+section.view{display:grid;gap:20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h2{font-size:22px;font-weight:600}
+h3{font-size:18px;font-weight:600}
+.lead{font-size:20px;max-width:65ch;margin:0}
+.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.card p{margin:0;max-width:68ch}
+.note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+label{font-weight:500}
+input[type=text],input[type=password],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn.ghost{background:transparent;color:var(--indigo)}
+.btn:hover{filter:brightness(1.08)}
+.next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
+.ok{background:var(--ok-soft)!important;border-color:var(--ok)!important;color:var(--ink)!important}
+.bad{background:var(--bad-soft)!important;border-color:var(--bad)!important;color:var(--ink)!important}
+.fb{font-weight:500;min-height:1.5em;margin:0}
+.fb.good{color:var(--ok)}.fb.wrong{color:var(--bad)}
+.task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0;padding-top:0}
+.task .q{margin:0;font-weight:500}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.pairs>div{display:grid;gap:4px}
+.small{font-size:15px;color:var(--muted)}
+blockquote{margin:0;padding:12px 16px;background:#f5efe3;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
+/* Машина времени */
+.tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.tm svg{width:100%;height:auto;border-radius:10px;display:block}
+.tm[aria-pressed="true"]{border-color:var(--indigo);box-shadow:0 0 0 4px var(--indigo-soft)}
+.tm b{font-size:18px}
+/* Игра */
+.big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
+.lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+/* Рассказ */
+.split{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.pic svg{width:100%;height:auto;display:block}
+.facts{display:grid;gap:10px}
+.fact{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.fact .y{font-family:var(--display);font-weight:800;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.fact{grid-template-columns:1fr}}
+.reveal{display:grid;gap:8px}
+.reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
+.reveal.open .ans{display:block}
+table.cmp{border-collapse:collapse;width:100%;font-size:16px}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.cmp th{background:#efe8da;font-weight:500}
+/* Старинные цифры */
+.old{font-family:var(--old);font-weight:500}
+.page{background:#fbf6ea;border:2px solid #cdbf9f;border-radius:12px;padding:18px;display:grid;gap:12px}
+.dateline{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:baseline;font-size:17px}
+.dateline .old{font-size:30px;color:var(--cin);letter-spacing:.04em}
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:6px}
+.abc>div{display:grid;grid-template-columns:40px 1fr;align-items:center;gap:4px;background:var(--sheet);border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+.abc .old{font-size:26px;text-align:center;color:var(--cin)}
+.abc b{font-size:16px;font-variant-numeric:tabular-nums}
+.kbd{display:flex;flex-wrap:wrap;gap:6px}
+.kbd button{font-family:var(--old);font-size:22px;min-width:42px;height:42px;border-radius:8px;border:2px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+.kbd button:hover{border-color:var(--indigo)}
+.oldin{font-family:var(--old)!important;font-size:24px!important;letter-spacing:.05em}
+/* Сортировка и мифы */
+.sorti,.myth{display:grid;gap:8px;background:var(--sheet);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.sorti .st,.myth .st{font-weight:500;font-size:18px}
+.myth .ex{display:none;font-size:16px}
+.myth.done .ex{display:block}
+/* Итог */
+.rate{display:flex;gap:6px}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
+.copybox{display:none;gap:8px}
+.copybox.show{display:grid}
+.copybox textarea{min-height:180px;font-size:14px;font-family:ui-monospace,Menlo,Consolas,monospace}
+@media (max-width:640px){header.top{position:static}nav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 40px;font-size:14px;color:var(--muted)}
+footer p{margin:0}
+#reset-ask{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+#reset-ask[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.btn,.tm,nav a{transition:background .15s,border-color .15s,box-shadow .15s}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Тайна первопечатника</div>
+    <nav aria-label="Этапы урока">
+      <a href="#znakomstvo"><b>1</b>Знакомство</a>
+      <a href="#razvedka"><b>2</b>Разведка</a>
+      <a href="#igra"><b>3</b>Раньше или позже?</a>
+      <a href="#rasskaz"><b>4</b>Рассказ</a>
+      <a href="#detektiv"><b>5</b>Детектив</a>
+      <a href="#versii"><b>6</b>Почему он уехал?</a>
+      <a href="#sravni"><b>7</b>Европа и Москва</a>
+      <a href="#mif"><b>8</b>Миф или правда</a>
+      <a href="#itog"><b>9</b>Итог</a>
+      <a href="#dz"><b>10</b>Домашка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. ЗНАКОМСТВО -->
+<section class="view" id="znakomstvo">
+  <div>
+    <p class="kicker">Этап 1 · Знакомство</p>
+    <h1>Машина времени</h1>
+  </div>
+  <p class="lead">У тебя билет на одну поездку в начало Нового времени. Все три места встретятся нам сегодня на занятии. Выбери, куда отправишься, и ответь на два вопроса — коротко, своими словами.</p>
+  <div class="grid3" id="tm-cards">
+    <button class="tm" type="button" data-choice="Майнц, мастерская Гутенберга" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Мастерская печатника: деревянный станок с винтом и рычагом, касса со шрифтом, листы сохнут на верёвке">
+        <rect width="300" height="170" fill="#e9dcc3"/>
+        <g fill="#dccdb0"><rect x="0" y="22" width="300" height="2"/><rect x="0" y="52" width="300" height="2"/><rect x="0" y="82" width="300" height="2"/><rect x="0" y="112" width="300" height="2"/></g>
+        <path d="M222 18 h44 v52 h-44 Z" fill="#b9cfdc"/><path d="M222 18 q22 -16 44 0" fill="#b9cfdc"/>
+        <path d="M244 6 v64 M222 44 h44" stroke="#8a6a44" stroke-width="3"/>
+        <rect x="0" y="138" width="300" height="32" fill="#a07a50"/>
+        <path d="M0 138 H300" stroke="#7a5a36" stroke-width="2"/>
+        <path d="M14 30 Q90 44 166 30" stroke="#7a5a36" stroke-width="1.5" fill="none"/>
+        <g fill="#fffaf0" stroke="#b9a98c"><rect x="30" y="33" width="22" height="28"/><rect x="66" y="37" width="22" height="28"/><rect x="102" y="38" width="22" height="28"/><rect x="138" y="34" width="22" height="28"/></g>
+        <g stroke="#9c8f7a" stroke-width="1.2"><path d="M34 40h14M34 45h14M34 50h10M70 44h14M70 49h14M70 54h9M106 45h14M106 50h14M106 55h10M142 41h14M142 46h14M142 51h8"/></g>
+        <rect x="104" y="58" width="16" height="78" fill="#6e4a28"/><rect x="176" y="58" width="16" height="78" fill="#6e4a28"/>
+        <rect x="96" y="132" width="32" height="8" fill="#5a3b1e"/><rect x="168" y="132" width="32" height="8" fill="#5a3b1e"/>
+        <rect x="98" y="54" width="100" height="12" fill="#5a3b1e"/>
+        <rect x="104" y="86" width="88" height="8" fill="#5a3b1e"/>
+        <rect x="143" y="66" width="10" height="22" fill="#8c8c8c"/>
+        <g stroke="#5f5f5f" stroke-width="1.5"><path d="M143 70l10 3M143 75l10 3M143 80l10 3"/></g>
+        <path d="M153 78 L206 62" stroke="#4a3018" stroke-width="5" stroke-linecap="round"/>
+        <rect x="132" y="94" width="32" height="8" fill="#7a5a36"/>
+        <rect x="96" y="108" width="104" height="9" fill="#5a3b1e"/>
+        <rect x="116" y="102" width="64" height="6" fill="#2b2420"/>
+        <g fill="#7a5a36"><rect x="20" y="104" width="62" height="6"/><rect x="26" y="110" width="5" height="28"/><rect x="71" y="110" width="5" height="28"/></g>
+        <path d="M30 104 v-14 M42 104 v-14" stroke="#6e4a28" stroke-width="3"/>
+        <ellipse cx="30" cy="88" rx="9" ry="6" fill="#2b2420"/><ellipse cx="42" cy="88" rx="9" ry="6" fill="#2b2420"/>
+        <rect x="52" y="96" width="24" height="8" fill="#1f1c19"/>
+        <g fill="#fffaf0" stroke="#b9a98c"><rect x="218" y="122" width="56" height="5"/><rect x="221" y="117" width="56" height="5"/><rect x="216" y="112" width="56" height="5"/></g>
+        <rect x="216" y="127" width="60" height="11" fill="#6e4a28"/>
+      </svg>
+      <b>Майнц, мастерская Гутенберга</b>
+      <span class="small">Германия, середина XV века</span>
+    </button>
+    <button class="tm" type="button" data-choice="Москва, Печатный двор на Никольской, 1564" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Москва XVI века: кирпичная стена с зубцами и башня, бревенчатый двор с высокой крышей и крыльцом">
+        <rect width="300" height="170" fill="#dfe8ee"/>
+        <rect y="140" width="300" height="30" fill="#b9a27c"/>
+        <g stroke="#9c8562" stroke-width="1.5"><path d="M0 148 H300 M0 156 H300 M0 164 H300"/></g>
+        <path d="M0 104 h126 v40 h-126 Z" fill="#a8432f"/>
+        <g fill="#a8432f">
+          <path d="M2 104 v-12 l5 5 l5 -5 v12 Z M20 104 v-12 l5 5 l5 -5 v12 Z M38 104 v-12 l5 5 l5 -5 v12 Z M92 104 v-12 l5 5 l5 -5 v12 Z M110 104 v-12 l5 5 l5 -5 v12 Z"/>
+        </g>
+        <g stroke="#8e3626" stroke-width="1"><path d="M0 114 H126 M0 124 H126 M0 134 H126"/></g>
+        <rect x="54" y="62" width="34" height="82" fill="#9a3a29"/>
+        <path d="M54 62 v-8 l5 4 l5 -4 v8 Z M66 62 v-8 l5 4 l5 -4 v8 Z M78 62 v-8 l5 4 l5 -4 v8 Z" fill="#9a3a29"/>
+        <rect x="66" y="84" width="10" height="16" rx="5" fill="#4a2418"/>
+        <rect x="140" y="86" width="132" height="58" fill="#b8874f"/>
+        <g stroke="#946a3a" stroke-width="1.5"><path d="M140 94 H272 M140 102 H272 M140 110 H272 M140 118 H272 M140 126 H272 M140 134 H272"/></g>
+        <path d="M132 88 L206 46 L280 88 Z" fill="#6e4a28"/>
+        <path d="M150 86 L206 54 L262 86" fill="none" stroke="#8a5f36" stroke-width="3"/>
+        <rect x="196" y="64" width="20" height="16" fill="#f3e3b8" stroke="#6e4a28" stroke-width="2"/>
+        <g fill="#f3e3b8" stroke="#6e4a28" stroke-width="2"><rect x="152" y="98" width="18" height="16"/><rect x="242" y="98" width="18" height="16"/></g>
+        <path d="M150 98 l10 -6 l10 6 M240 98 l10 -6 l10 6" fill="none" stroke="#6e4a28" stroke-width="2"/>
+        <rect x="194" y="104" width="24" height="40" fill="#4a3018"/>
+        <path d="M188 104 L206 92 L224 104 Z" fill="#6e4a28"/>
+        <rect x="186" y="136" width="40" height="5" fill="#5a3b1e"/>
+      </svg>
+      <b>Москва, Печатный двор</b>
+      <span class="small">Никольская улица у Кремля, 1564 год</span>
+    </button>
+    <button class="tm" type="button" data-choice="Каравелла Колумба, 1492" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Парусный корабль с прямыми парусами и красными крестами в открытом океане">
+        <rect width="300" height="170" fill="#e3eef3"/>
+        <circle cx="258" cy="34" r="16" fill="#efc163"/>
+        <path d="M40 30 q6 -5 12 0 q6 -5 12 0 M210 50 q5 -4 10 0 q5 -4 10 0" stroke="#5b6b78" stroke-width="2" fill="none"/>
+        <rect y="122" width="300" height="48" fill="#3f7fb0"/>
+        <path d="M150 20 V118 M106 36 V118 M200 52 V118" stroke="#5a3b1e" stroke-width="4"/>
+        <path d="M206 64 L238 104 L206 104 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M84 46 h44 q6 18 0 36 h-44 q-6 -18 0 -36 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M126 28 h48 q6 20 0 40 h-48 q-6 -20 0 -40 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M130 74 h40 q5 16 0 30 h-40 q-5 -16 0 -30 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M150 36 v24 M140 48 h20" stroke="#b3261e" stroke-width="5"/>
+        <path d="M106 54 v20 M98 64 h16" stroke="#b3261e" stroke-width="4"/>
+        <path d="M150 20 l16 5 l-16 5 Z" fill="#b3261e"/>
+        <path d="M52 106 L66 104 L238 104 L256 96 L246 124 Q150 136 64 124 Z" fill="#7a5230"/>
+        <path d="M50 106 L46 88 L88 88 L88 104 Z" fill="#6e4a28"/><path d="M46 88 H88" stroke="#4a3018" stroke-width="3"/>
+        <path d="M60 116 H244" stroke="#5a3b1e" stroke-width="2"/>
+        <g fill="#3a2a18"><circle cx="100" cy="112" r="2.5"/><circle cx="130" cy="112" r="2.5"/><circle cx="160" cy="112" r="2.5"/><circle cx="190" cy="112" r="2.5"/></g>
+        <path d="M0 132 q20 -7 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#d6e8f4" stroke-width="3" fill="none"/>
+        <path d="M0 150 q25 -6 50 0 t50 0 t50 0 t50 0 t50 0 t50 0" stroke="#9cc3df" stroke-width="2" fill="none"/>
+      </svg>
+      <b>Каравелла Колумба</b>
+      <span class="small">Атлантический океан, 1492 год</span>
+    </button>
+  </div>
+  <div class="card">
+    <p id="tm-picked" class="fb">Нажми на картинку, чтобы выбрать.</p>
+    <div class="grid2">
+      <div><label for="tm-know">Что ты уже знаешь об этом месте или времени?</label><input type="text" id="tm-know" data-save placeholder="Можно одно-два слова"></div>
+      <div><label for="tm-meet">Кого ты там встретишь? Чем там заняты люди?</label><input type="text" id="tm-meet" data-save placeholder="Кто там живёт, кто правит, что делают"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Немного о тебе</h3>
+    <div class="grid2">
+      <div><label for="me-rus">Что сейчас проходите по истории России?</label><input type="text" id="me-rus" data-save placeholder="тема или параграф"></div>
+      <div><label for="me-vse">А по всеобщей истории?</label><input type="text" id="me-vse" data-save placeholder="тема или параграф"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="me-like">Что в истории тебе нравится, а что даётся трудно?</label><input type="text" id="me-like" data-save></div>
+      <div><label for="me-goal">Зачем тебе занятия: оценки, ВПР, интерес, что-то ещё?</label><input type="text" id="me-goal" data-save></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Наши правила</h3>
+    <p>1. Ошибаться можно: ошибка показывает, что нам повторить.</p>
+    <p>2. Спрашивать «почему?» можно всегда.</p>
+    <p>3. Свой ответ доказываем: «Я думаю так, потому что…»</p>
+  </div>
+  <a class="next" href="#razvedka">Дальше: Разведка →</a>
+</section>
+
+<!-- 2. РАЗВЕДКА -->
+<section class="view" id="razvedka" hidden>
+  <div>
+    <p class="kicker">Этап 2 · 13 минут</p>
+    <h1>Разведка</h1>
+  </div>
+  <p class="lead">Это не контрольная, оценок не будет. Здесь вопросы по 6 классу и по началу 7 класса — и по истории России, и по всеобщей. Если тему ещё не проходили или не знаешь ответа, выбери «не знаю» или поставь «?» и иди дальше. В конце нажми «Готово».</p>
+  <form class="card" id="diag" autocomplete="off">
+    <div class="task">
+      <p class="q"><span class="num">1</span>Какой это век? Запиши римскими цифрами.</p>
+      <div class="pairs">
+        <div><label for="d1a">1380 год</label><input type="text" id="d1a" data-save></div>
+        <div><label for="d1b">1480 год</label><input type="text" id="d1b" data-save></div>
+        <div><label for="d1c">1492 год</label><input type="text" id="d1c" data-save></div>
+        <div><label for="d1d">1517 год</label><input type="text" id="d1d" data-save></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">2</span>Расположи события по порядку, от самого раннего.</p>
+      <p class="small">а) Куликовская битва; б) Ледовое побоище; в) Стояние на реке Угре; г) Крещение Руси</p>
+      <div class="pairs">
+        <div><label for="d2a">Первое</label><select id="d2a" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option><option>не знаю</option></select></div>
+        <div><label for="d2b">Второе</label><select id="d2b" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option><option>не знаю</option></select></div>
+        <div><label for="d2c">Третье</label><select id="d2c" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option><option>не знаю</option></select></div>
+        <div><label for="d2d">Четвёртое</label><select id="d2d" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">3</span>Соедини князя и то, чем он известен.</p>
+      <p class="small">А) победил шведов на Неве и рыцарей Ливонского ордена на Чудском озере<br>Б) при нём митрополит перебрался в Москву, а сам князь получил от хана ярлык на великое княжение<br>В) разгромил войско Мамая на Куликовом поле<br>Г) при нём Русь освободилась от власти Орды и появился общерусский Судебник</p>
+      <div class="pairs">
+        <div><label for="d3a">1) Иван III</label><select id="d3a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d3b">2) Александр Невский</label><select id="d3b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d3c">3) Дмитрий Донской</label><select id="d3c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d3d">4) Иван Калита</label><select id="d3d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">4</span>Соедини понятие и его значение.</p>
+      <p class="small">А) грамота хана на право княжить<br>Б) земля, которую давали за службу, пока человек служит<br>В) представитель хана, следивший за сбором дани<br>Г) земля, которая переходит по наследству от отца к сыну</p>
+      <div class="pairs">
+        <div><label for="d4a">1) вотчина</label><select id="d4a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4b">2) ярлык</label><select id="d4b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4c">3) поместье</label><select id="d4c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4d">4) баскак</label><select id="d4d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">5</span>Средневековая Европа. Соедини понятие и его значение.</p>
+      <p class="small">А) объединение городских ремесленников одной профессии<br>Б) собрание представителей сословий в Англии, которое решало вопросы о налогах<br>В) высшая школа, где изучали богословие, право, медицину<br>Г) походы западноевропейских рыцарей на Восток под знаком креста</p>
+      <div class="pairs">
+        <div><label for="d5a">1) крестовые походы</label><select id="d5a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5b">2) цех</label><select id="d5b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5c">3) университет</label><select id="d5c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5d">4) парламент</label><select id="d5d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">6</span>Великие географические открытия. Соедини мореплавателя и его плавание.</p>
+      <p class="small">А) возглавил экспедицию, которая первой обогнула Землю<br>Б) достиг земель за Атлантическим океаном, но считал, что приплыл в Индию<br>В) первым из европейцев проложил морской путь в Индию вокруг Африки<br>Г) первым из европейцев доплыл до южной оконечности Африки — мыса Доброй Надежды</p>
+      <div class="pairs">
+        <div><label for="d6a">1) Христофор Колумб</label><select id="d6a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6b">2) Васко да Гама</label><select id="d6b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6c">3) Фернан Магеллан</label><select id="d6c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6d">4) Бартоломеу Диаш</label><select id="d6d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">7</span>Найди лишнее имя и объясни, почему оно лишнее: Колумб, Магеллан, Мартин Лютер, Васко да Гама.</p>
+      <select id="d7a" data-save aria-label="Лишнее в задании 7"><option value="">—</option><option>Колумб</option><option>Магеллан</option><option>Мартин Лютер</option><option>Васко да Гама</option><option>не знаю</option></select>
+      <textarea id="d7b" data-save aria-label="Объяснение к заданию 7" placeholder="Лишний, потому что…"></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">8</span>Историки считают, что Средние века закончились и началось Новое время примерно…</p>
+      <select id="d8" data-save aria-label="Ответ на задание 8"><option value="">—</option><option>в V веке</option><option>в конце XV века</option><option>в начале XVIII века</option><option>в XX веке</option><option>не знаю</option></select>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">9</span>Прочитай отрывок из Судебника — свода законов Ивана IV. Такое же правило было и в Судебнике Ивана III 1497 года.</p>
+      <blockquote>«А крестьянам отказываться из волости в волость и из села в село один срок в году: за неделю до Юрьева дня осеннего и неделю после Юрьева дня осеннего. А дворы пожилое платят…»<cite>Судебник 1550 г., статья 88. «Отказываться» здесь значит «уходить от владельца земли».</cite></blockquote>
+      <label for="d9a">а) Что разрешает крестьянам эта статья?</label><input type="text" id="d9a" data-save>
+      <label for="d9b">б) Юрьев день осенний — 26 ноября. Как думаешь, почему срок назначили именно на позднюю осень?</label><input type="text" id="d9b" data-save>
+      <label for="d9c">в) «Пожилое» — от слова «жить». Кому крестьянин платил пожилое и за что?</label><textarea id="d9c" data-save></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">10</span>Почему центром объединения русских земель стала именно Москва? Назови две причины.</p>
+      <textarea id="d10" data-save aria-label="Ответ на задание 10"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn" type="submit">Готово</button>
+      <span class="small">Ответы сохранятся, даже если случайно закрыть страницу.</span>
+    </div>
+  </form>
+  <div class="card" id="diag-done" hidden>
+    <h3>Отлично, разведка закончена!</h3>
+    <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
+    <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
+    <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
+  </div>
+  <a class="next" href="#igra">Дальше: Раньше или позже? →</a>
+</section>
+
+<!-- 3. ИГРА -->
+<section class="view" id="igra" hidden>
+  <div>
+    <p class="kicker">Этап 3 · Разминка</p>
+    <h1>Раньше или позже?</h1>
+  </div>
+  <p class="lead">Точка отсчёта — 1564 год: в Москве выходит первая точно датированная печатная книга. Это событие было раньше или позже? Все эти события вы будете проходить в 7 классе.</p>
+  <div class="big-event" id="g1-event" aria-live="polite">…</div>
+  <div class="lr">
+    <button class="btn" type="button" data-side="E">← Раньше 1564</button>
+    <button class="btn" type="button" data-side="L">Позже 1564 →</button>
+  </div>
+  <p class="fb" id="g1-fb" aria-live="polite"></p>
+  <p class="small">Верно: <span class="score" id="g1-score">0</span> из <span class="score" id="g1-total">0</span></p>
+  <a class="next" href="#rasskaz">Дальше: Рассказ →</a>
+</section>
+
+<!-- 4. РАССКАЗ -->
+<section class="view" id="rasskaz" hidden>
+  <div>
+    <p class="kicker">Этап 4 · Слушаем и смотрим</p>
+    <h1>Книга, которая изменила мир</h1>
+  </div>
+  <p class="lead">Тысячи лет каждую книгу писали от руки. Переписчик тратил на толстую книгу месяцы, а ошибался почти каждый. Потом появилась машина, которая за день делала сотни одинаковых страниц.</p>
+  <div class="split">
+    <figure class="card pic" style="margin:0">
+      <svg viewBox="0 0 400 440" role="img" aria-label="Схема печати в четыре шага: литера с зеркальной буквой, набранная строка, набор под краской и листом, готовый лист">
+        <rect width="400" height="440" fill="#fffdf8"/>
+        <g font-family="Rubik, sans-serif" font-size="15" fill="#4a423b">
+          <text x="20" y="26"><tspan font-weight="700" fill="#b3261e">1</tspan>  Литера — брусок с зеркальной буквой</text>
+          <text x="20" y="134"><tspan font-weight="700" fill="#b3261e">2</tspan>  Литеры собирают в строки</text>
+          <text x="20" y="242"><tspan font-weight="700" fill="#b3261e">3</tspan>  Набор мажут краской, сверху кладут лист</text>
+          <text x="20" y="350"><tspan font-weight="700" fill="#b3261e">4</tspan>  Пресс прижимает лист — буквы читаются</text>
+        </g>
+        <g transform="translate(40 40)">
+          <path d="M0 14 L14 0 L54 0 L40 14 Z" fill="#b8b8b8"/>
+          <path d="M40 14 L54 0 L54 60 L40 74 Z" fill="#7d7d7d"/>
+          <rect x="0" y="14" width="40" height="60" fill="#9a9a9a"/>
+          <text x="27" y="12" text-anchor="middle" transform="translate(54 0) scale(-1 1)" font-family="Noto Serif, serif" font-size="13" font-weight="700" fill="#1f1c19">Б</text>
+          <path d="M70 30 h40" stroke="#b3261e" stroke-width="2" marker-end="url(#ar)"/>
+          <rect x="124" y="4" width="52" height="52" rx="4" fill="#d9d4cb" stroke="#9a9a9a" stroke-width="2"/>
+          <text x="150" y="44" text-anchor="middle" transform="translate(300 0) scale(-1 1)" font-family="Noto Serif, serif" font-size="38" font-weight="700" fill="#1f1c19">Б</text>
+          <text x="196" y="26" font-family="Rubik, sans-serif" font-size="13" fill="#655d55">так выглядит буква</text>
+          <text x="196" y="42" font-family="Rubik, sans-serif" font-size="13" fill="#655d55">на литере сверху</text>
+        </g>
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#b3261e"/></marker></defs>
+        <g transform="translate(40 148)">
+          <rect width="320" height="62" rx="4" fill="#6e4a28"/>
+          <rect x="10" y="10" width="300" height="42" fill="#c8c8c8"/>
+          <g stroke="#a9a9a9" stroke-width="1"><path d="M40 10v42M70 10v42M100 10v42M130 10v42M160 10v42M190 10v42M220 10v42M250 10v42M280 10v42"/></g>
+          <text x="160" y="41" text-anchor="middle" transform="translate(320 0) scale(-1 1)" font-family="Noto Serif, serif" font-size="24" font-weight="700" fill="#1f1c19" letter-spacing="6">АПОСТОЛЪ</text>
+        </g>
+        <g transform="translate(40 256)">
+          <rect x="0" y="34" width="320" height="34" rx="3" fill="#5a3b1e"/>
+          <rect x="10" y="40" width="300" height="22" fill="#1f1c19"/>
+          <rect x="30" y="6" width="260" height="22" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+          <path d="M160 28 v8" stroke="#b3261e" stroke-width="2" marker-end="url(#ar)"/>
+          <g transform="translate(300 2)"><rect x="-4" y="-2" width="8" height="18" rx="3" fill="#7a5230"/><path d="M-14 26 q14 -16 28 0 Z" fill="#2b2420"/></g>
+        </g>
+        <g transform="translate(40 364)">
+          <rect width="320" height="62" fill="#fffaf0" stroke="#c9bfa8" stroke-width="2"/>
+          <text x="160" y="41" text-anchor="middle" font-family="Noto Serif, serif" font-size="24" font-weight="700" fill="#b3261e" letter-spacing="6">АПОСТОЛЪ</text>
+        </g>
+      </svg>
+      <figcaption class="small">Схема, а не точный чертёж. Один набор даёт сотни одинаковых листов — но и опечатка повторится во всех.</figcaption>
+    </figure>
+    <div class="facts">
+      <div class="fact"><span class="y">868</span><span>Китай: древнейшая сохранившаяся печатная книга с датой — «Алмазная сутра». Её печатали с деревянных досок, где вся страница вырезана целиком.</span></div>
+      <div class="fact"><span class="y">XI век</span><span>Китаец Би Шэн придумал отдельные знаки из обожжённой глины, которые можно переставлять.</span></div>
+      <div class="fact"><span class="y">около 1455</span><span>Майнц, Германия: <b>Иоганн Гутенберг</b> печатает Библию. Его изобретение — металлические литеры, которые легко отливать и собирать в любые слова, печатный пресс и особая краска.</span></div>
+      <div class="fact"><span class="y">1493</span><span>Письмо Колумба об открытии новых земель печатают в разных городах Европы: о нём узнают за месяцы, а не за годы.</span></div>
+      <div class="fact"><span class="y">1517</span><span>Тезисы Мартина Лютера против продажи индульгенций за несколько недель расходятся по Германии — во многом благодаря печати.</span></div>
+      <div class="fact"><span class="y">1550-е</span><span>В Москве уже печатают книги, но без имён мастеров и без даты. Их называют <b>анонимными</b>.</span></div>
+      <div class="fact"><span class="y">1564</span><span>Москва: <b>Иван Фёдоров</b> и <b>Пётр Мстиславец</b> выпускают «Апостол» — первую русскую печатную книгу с точной датой.</span></div>
+      <div class="fact"><span class="y">1574</span><span>Львов: Иван Фёдоров печатает «Азбуку» — первый печатный учебник для восточных славян.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Почему в Москве решили печатать книги?</h3>
+    <p>Об этом рассказал сам Фёдоров в <b>послесловии</b> к «Апостолу» — записи в конце книги. Типографию устроили по приказу царя Ивана IV и с благословения митрополита Макария. Царь давал деньги из своей казны и сам приходил посмотреть на работу.</p>
+    <p>Главная причина — нужны были <b>исправные</b> церковные книги. Переписчики ошибались, и в разных рукописях одна и та же молитва читалась по-разному. Печатная книга во всех экземплярах одинакова: значит, во всех храмах будет один и тот же текст.</p>
+    <p>Мастерская стояла на <b>Никольской улице</b> рядом с Кремлём. Сейчас на этом месте здание, перестроенное в XIX веке, а сама улица — одна из старейших в Москве.</p>
+  </div>
+  <div class="card">
+    <h3>Что такое «Апостол»?</h3>
+    <p>Это церковная книга: в ней «Деяния апостолов» и послания апостолов — часть Нового Завета, которую читают на службе. Книгу украсили узорными заставками и большими буквами в начале глав, а заголовки печатали красной краской — киноварью. Так, по распространённому объяснению, и появилось выражение «красная строка».</p>
+  </div>
+  <div class="card reveal" id="r1">
+    <h3>Подумай</h3>
+    <p>Историки называют книгопечатание одной из причин, по которым Средние века сменились Новым временем. Как печатный станок мог изменить жизнь людей?</p>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="r1">Показать ответ</button></div>
+    <p class="ans">Книги стали дешевле, и их стало гораздо больше. Читать смогли не только монахи и богачи. Новые идеи, карты, открытия и споры о вере за недели расходились по всей Европе — их уже нельзя было остановить или забыть.</p>
+  </div>
+  <a class="next" href="#detektiv">Дальше: Детектив →</a>
+</section>
+
+<!-- 5. ДЕТЕКТИВ -->
+<section class="view" id="detektiv" hidden>
+  <div>
+    <p class="kicker">Этап 5 · Работа с источником</p>
+    <h1>Расшифруй дату</h1>
+  </div>
+  <p class="lead">В послесловии Фёдоров записал, когда начал и когда закончил печатать «Апостол». Но цифр, к которым мы привыкли, на Руси тогда не было. Даты записаны буквами — и считали годы не от Рождества Христова.</p>
+  <div class="page">
+    <div class="dateline">
+      <span>Начали печатать: год</span><span class="old">҂зо҃а</span>
+      <span>месяц апрель, число</span><span class="old">ѳ҃і</span>
+      <span>Закончили: год</span><span class="old">҂зо҃в</span>
+      <span>месяц март, число</span><span class="old">а҃</span>
+    </div>
+    <p class="small">Числа записаны так, как в послесловии «Апостола». Слова вокруг — наш пересказ.</p>
+  </div>
+  <div class="card">
+    <h3>Шаг 1. Буквы-цифры</h3>
+    <p>У каждой буквы было своё числовое значение — так считали ещё греки в Византии. Знак <span class="old">҂</span> перед буквой означает тысячи: <span class="old">҂з</span> = 7000. Значок <span class="old">҃</span> сверху (титло) показывает, что это число, а не слово. Значения букв складываются.</p>
+    <div class="abc" id="abc"></div>
+    <div class="pairs">
+      <div><label for="n1">Год начала</label><input type="text" id="n1" data-save inputmode="numeric"></div>
+      <div><label for="n2">Число в апреле</label><input type="text" id="n2" data-save inputmode="numeric"></div>
+      <div><label for="n3">Год конца</label><input type="text" id="n3" data-save inputmode="numeric"></div>
+      <div><label for="n4">Число в марте</label><input type="text" id="n4" data-save inputmode="numeric"></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="n-check">Проверить</button></div>
+    <p class="fb" id="n-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Шаг 2. Переведи на наш календарь</h3>
+    <p>На Руси годы считали <b>от сотворения мира</b>. По расчётам того времени, от сотворения мира до Рождества Христова прошло 5508 лет. А Новый год в XVI веке встречали не 1 января, а <b>1 сентября</b>.</p>
+    <p class="note">Правило: если событие было с января по август — вычитаем 5508. Если с сентября по декабрь — вычитаем 5509, потому что новый год «от сотворения мира» уже наступил, а наш — ещё нет.</p>
+    <div class="pairs">
+      <div><label for="y1">Апрель 7071 года — это какой год?</label><input type="text" id="y1" data-save inputmode="numeric"></div>
+      <div><label for="y2">Март 7072 года — это какой год?</label><input type="text" id="y2" data-save inputmode="numeric"></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="y-check">Проверить</button></div>
+    <p class="fb" id="y-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Шаг 3. Подумай над находкой</h3>
+    <div class="task reveal" id="q1">
+      <p class="q">Сколько времени печатали «Апостол»?</p>
+      <input type="text" id="dq1" data-save aria-label="Ответ: сколько печатали">
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q1">Проверить себя</button></div>
+      <p class="ans">Почти 11 месяцев: с 19 апреля 1563 года по 1 марта 1564 года. Всё было новым: мастерам пришлось самим отлить буквы, наладить станок и сверить текст.</p>
+    </div>
+    <div class="task reveal" id="q2">
+      <p class="q">Почему 19 записано как <span class="old">ѳі</span> — сначала 9, потом 10?</p>
+      <input type="text" id="dq2" data-save aria-label="Ответ про 19">
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q2">Проверить себя</button></div>
+      <p class="ans">Так и говорили: «девять на десять». Отсюда наше слово «девятнадцать». Числа от 11 до 19 записывали в том порядке, в каком произносили.</p>
+    </div>
+    <div class="task reveal" id="q3">
+      <p class="q">★ Пока Фёдоров печатал книгу, наступил новый, 7072 год. Какого числа и в каком нашем году его встречали?</p>
+      <input type="text" id="dq3" data-save aria-label="Ответ про новый год">
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q3">Проверить себя</button></div>
+      <p class="ans">1 сентября 1563 года. А в 1700 году Пётр I велел считать годы от Рождества Христова и встречать Новый год 1 января — об этом будем говорить в 8 классе.</p>
+    </div>
+  </div>
+  <p class="note">Как работает историк: дату из послесловия сверяют с бумагой, шрифтом и другими книгами. Так учёные и узнали, что «безымянные» московские книги 1550-х годов вышли раньше «Апостола»: в них даты нет, их датируют по бумаге и шрифту.</p>
+  <a class="next" href="#versii">Дальше: Почему он уехал? →</a>
+</section>
+
+<!-- 6. ВЕРСИИ -->
+<section class="view" id="versii" hidden>
+  <div>
+    <p class="kicker">Этап 6 · Два источника, разные версии</p>
+    <h1>Почему первопечатник уехал из Москвы?</h1>
+  </div>
+  <p class="lead">Через несколько лет после «Апостола» Иван Фёдоров и Пётр Мстиславец уехали в Великое княжество Литовское и печатали книги там. Почему? Прочитай два текста и реши, кому и насколько можно верить.</p>
+  <div class="card">
+    <h3>Источник 1. Сам Иван Фёдоров</h3>
+    <blockquote>«Мы подвержены были беспрестанно всяческим озлоблениям, не от самого государя, а от многих начальников, духовных и светских, которые из зависти умышляли на нас многие ереси, намереваясь благо превратить во зло и Божье дело вконец погубить».<cite>Иван Фёдоров. Послесловие к «Апостолу», Львов, 1574 г. Перевод по учебнику истории России для 7 класса.</cite></blockquote>
+    <p class="small">Ересь — учение, которое церковь считает отступлением от истинной веры. Обвинение в ереси было очень опасным.</p>
+    <div class="task reveal" id="v1">
+      <p class="q">а) Кто, по словам Фёдорова, виноват в его бедах? А кого он прямо называет невиновным?</p>
+      <textarea id="dv1" data-save></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v1">Проверить себя</button></div>
+      <p class="ans">Виноваты «многие начальники, духовные и светские», которые из зависти обвиняли его в ереси. Невиновным он называет самого государя — Ивана IV.</p>
+    </div>
+    <div class="task reveal" id="v2">
+      <p class="q">б) Фёдоров писал это уже во Львове, через 10 лет после «Апостола». Почему, как думаешь, он так подчёркивает: «не от самого государя»?</p>
+      <textarea id="dv2" data-save></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v2">Проверить себя</button></div>
+      <p class="ans">Возможных ответов несколько. Царь был его покровителем и дал деньги на типографию. Фёдоров мог не хотеть, чтобы его считали врагом царя или беглецом. А может, так и было на самом деле. По одному этому тексту проверить нельзя: автор рассказывает о себе и защищает своё дело.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Источник 2. Историк Николай Карамзин, XIX век</h3>
+    <p>Карамзин писал свою «Историю государства Российского» через 250 лет после событий. По его версии, печатные книги вызвали <i>«негодование многих грамотеев, которые жили списыванием книг церковных»</i>: переписчики теряли заработок. К ним присоединились суеверные люди, которых испугала новинка. А после смерти митрополита Макария у Фёдорова не стало защитника.</p>
+    <p class="small">Н. М. Карамзин. История государства Российского, т. 9 (пересказ, короткая цитата).</p>
+    <div class="task reveal" id="v3">
+      <p class="q">в) Чем версия Карамзина отличается от слов самого Фёдорова? Что у Карамзина — факт, а что — его объяснение?</p>
+      <textarea id="dv3" data-save></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v3">Проверить себя</button></div>
+      <p class="ans">Фёдоров пишет о зависти «начальников» и обвинениях в ереси. Карамзин добавляет переписчиков и суеверных людей — это его объяснение, Фёдоров о них не пишет. Факты: Фёдоров уехал, Макарий умер в 1563 году.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Что думают историки сейчас</h3>
+    <p>Точные причины отъезда <b>неизвестны</b>: других документов почти нет. Историки обсуждают несколько версий: зависть и обвинения в ереси, о которых пишет сам Фёдоров; недовольство переписчиков; смерть покровителя; тревожное время начала опричнины. Советский историк М. Н. Тихомиров считал, что Фёдоров уехал по поручению царя. В пользу этого говорят, что мастера увезли с собой шрифт и доски с узорами — на тайное бегство это не очень похоже.</p>
+    <label for="dv4">Какая версия кажется тебе самой убедительной и почему? Какого документа не хватает, чтобы знать точно?</label>
+    <textarea id="dv4" data-save></textarea>
+  </div>
+  <a class="next" href="#sravni">Дальше: Европа и Москва →</a>
+</section>
+
+<!-- 7. СРАВНИ -->
+<section class="view" id="sravni" hidden>
+  <div>
+    <p class="kicker">Этап 7 · Причины и сравнение</p>
+    <h1>Европа и Москва</h1>
+  </div>
+  <div class="card">
+    <h3>Цепочка последствий</h3>
+    <p>Расставь звенья цепочки по порядку: что из чего следует?</p>
+    <p class="small">а) больше людей покупают и читают книги; б) Гутенберг печатает металлическими литерами; в) новые идеи и открытия быстро расходятся по Европе; г) книги дешевеют, и их становится много</p>
+    <div class="pairs">
+      <div><label for="c1">Первое</label><select id="c1" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="c2">Второе</label><select id="c2" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="c3">Третье</label><select id="c3" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="c4">Четвёртое</label><select id="c4" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="c-check">Проверить</button></div>
+    <p class="fb" id="c-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Где это было: в Европе или в Москве XVI века?</h3>
+    <div class="grid2" id="sorts"></div>
+    <p class="note">Важно: это главные различия, но не правило без исключений. В Европе тоже печатали церковные книги, а в Москве позже, в XVII веке, стали печатать и учебники.</p>
+  </div>
+  <div class="card reveal" id="s1">
+    <h3>Сделай вывод</h3>
+    <label for="ds1">Учебник спрашивает: «Можно ли утверждать, что книгопечатание в XVI в. было государственным делом?» Ответь и приведи два довода.</label>
+    <textarea id="ds1" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="s1">Проверить себя</button></div>
+    <p class="ans">Да, в Москве — государственным. Типографию устроили по приказу царя, деньги давали из царской казны, печатали книги, нужные государству и церкви. В Европе типографии чаще открывали частные мастера ради заработка.</p>
+  </div>
+  <a class="next" href="#mif">Дальше: Миф или правда →</a>
+</section>
+
+<!-- 8. МИФ -->
+<section class="view" id="mif" hidden>
+  <div>
+    <p class="kicker">Этап 8 · Закрепление</p>
+    <h1>Миф или правда?</h1>
+  </div>
+  <p class="lead">Сначала скажи учителю: «Это миф, потому что…» или «Это правда, потому что…», а потом нажми кнопку.</p>
+  <div class="grid2" id="myths"></div>
+  <a class="next" href="#itog">Дальше: Итог →</a>
+</section>
+
+<!-- 9. ИТОГ -->
+<section class="view" id="itog" hidden>
+  <div>
+    <p class="kicker">Этап 9 · Итог</p>
+    <h1>Расскажи и подведём итог</h1>
+  </div>
+  <div class="card">
+    <h3>Расскажи учителю по плану</h3>
+    <p>1. Как печатали книги и что изменил печатный станок?</p>
+    <p>2. Кто, где и когда выпустил «Апостол»? Откуда мы точно знаем дату?</p>
+    <p>3. Как на Руси записывали числа и считали годы?</p>
+    <p>4. Почему Фёдоров уехал из Москвы — какие есть версии и почему точно неизвестно?</p>
+  </div>
+  <div class="card">
+    <div class="grid2">
+      <div><p>Насколько сегодня было интересно?</p><div class="rate" data-rate="interest"></div></div>
+      <div><p>Насколько было понятно?</p><div class="rate" data-rate="clear"></div></div>
+    </div>
+    <div class="grid2">
+      <div><label for="it-best">Что было самым интересным?</label><input type="text" id="it-best" data-save></div>
+      <div><label for="it-hard">Что было трудным?</label><input type="text" id="it-hard" data-save></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="all-copy">Скопировать все ответы для учителя</button></div>
+    <div class="copybox" id="all-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="all-text"></textarea></div>
+  </div>
+  <div class="card">
+    <h3>Только для учителя: очистить тетрадь</h3>
+    <p class="small">Стирает все ответы во всех разделах тетради — от «Знакомства» до «Домашки» — и открывает её с начала. Сначала скопируйте ответы ученика. Нужен код учителя.</p>
+    <div class="row" id="reset-row">
+      <input type="password" id="reset-pin" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Код учителя" aria-label="Код учителя" style="max-width:170px">
+      <button class="btn ghost" type="button" id="reset-btn">Стереть все ответы</button>
+      <span id="reset-ask" hidden><span class="fb wrong">Точно стереть все ответы во всей тетради?</span>
+        <button class="btn" type="button" id="reset-yes">Да, стереть</button>
+        <button class="btn ghost" type="button" id="reset-no">Отмена</button></span>
+    </div>
+    <p class="fb" id="reset-fb" aria-live="polite"></p>
+  </div>
+  <a class="next" href="#dz">Дальше: Домашнее задание →</a>
+</section>
+
+<!-- 10. ДЗ -->
+<section class="view" id="dz" hidden>
+  <div>
+    <p class="kicker">Этап 10 · 20 минут дома</p>
+    <h1>Домашнее задание</h1>
+  </div>
+  <div class="card">
+    <h3>1. Старинные даты</h3>
+    <div class="task">
+      <p class="q">а) В летописи первое упоминание Москвы стоит под годом 6655 от сотворения мира. Какой это год по нашему счёту? (Вычти 5508.)</p>
+      <input type="text" id="h1" data-save inputmode="numeric" style="max-width:200px">
+    </div>
+    <div class="task">
+      <p class="q">б) Сейчас ноябрь 2026 года. Какой сейчас год от сотворения мира? Запиши его числом, а потом буквами-цифрами — нажимай на кнопки.</p>
+      <div class="pairs">
+        <div><label for="h2a">Числом</label><input type="text" id="h2a" data-save inputmode="numeric"></div>
+        <div><label for="h2b">Буквами</label><input type="text" id="h2b" data-save class="oldin"></div>
+      </div>
+      <div class="kbd" id="kbd" aria-label="Клавиатура старинных цифр"></div>
+      <p class="small">Нужных значений нет в таблице на этапе 5? Вот ещё: <span class="old">с</span> = 200, <span class="old">т</span> = 300, <span class="old">у</span> = 400, <span class="old">ф</span> = 500, <span class="old">х</span> = 600, <span class="old">ѱ</span> = 700, <span class="old">ѿ</span> = 800, <span class="old">ц</span> = 900.</p>
+    </div>
+    <div class="row"><button class="btn" type="button" id="h-check1">Проверить</button><button class="btn ghost" type="button" id="kbd-clear">Стереть буквы</button></div>
+    <p class="fb" id="h-fb1" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>2. Титульный лист твоей книги</h3>
+    <p>Придумай книгу, которую ты бы напечатал(а). На листе бумаги сделай её «выходные данные», как у Фёдорова: название, кто напечатал, где и когда. Дату напиши старинными буквами-цифрами. Первую букву названия нарисуй большой и красной, как в «Апостоле». Сфотографируй и пришли учителю.</p>
+  </div>
+  <div class="card">
+    <h3>3. Проверь себя</h3>
+    <div class="pairs">
+      <div><label for="t1">В каком году вышел московский «Апостол»?</label><select id="t1" data-save><option value="">—</option><option>1455</option><option>1564</option><option>1649</option></select></div>
+      <div><label for="t2">Кто помогал Ивану Фёдорову?</label><select id="t2" data-save><option value="">—</option><option>Пётр Мстиславец</option><option>Андрей Чохов</option><option>Иоганн Гутенберг</option></select></div>
+      <div><label for="t3">Где Фёдоров напечатал «Азбуку»?</label><select id="t3" data-save><option value="">—</option><option>в Москве</option><option>в Майнце</option><option>во Львове</option></select></div>
+      <div><label for="t4">С какого дня начинался год на Руси в XVI веке?</label><select id="t4" data-save><option value="">—</option><option>с 1 января</option><option>с 1 марта</option><option>с 1 сентября</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="t-check">Проверить</button></div>
+    <p class="fb" id="t-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>4. Фото учебников</h3>
+    <p>Сфотографируй оглавление обоих учебников истории — России и всеобщей — и отметь параграфы, которые вы проходите сейчас. Напиши одну тему с начала года, которая была самой непонятной. Пришли учителю.</p>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>Тетрадь к вводному занятию по истории, 7 класс. Ответы хранятся только в этом браузере; чтобы учитель их увидел, используй кнопки «Скопировать».</p>
+</footer>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+/* ---------- хранение ---------- */
+const KEY="pervopechat7-v1";
+let D={};
+try{D=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){D={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+$$("[data-save]").forEach(el=>{
+  if(D[el.id]!==undefined) el.value=D[el.id];
+  el.addEventListener("input",()=>{D[el.id]=el.value;save()});
+  el.addEventListener("change",()=>{D[el.id]=el.value;save()});
+});
+
+/* ---------- навигация ---------- */
+const views=$$("section.view");
+function show(){
+  const id=(location.hash||"").slice(1);
+  const v=views.find(x=>x.id===id)||views[0];
+  views.forEach(x=>x.hidden=(x!==v));
+  $$("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
+show();
+
+/* ---------- утилиты ---------- */
+function fb(el,text,good){el.textContent=text;el.className="fb "+(good===true?"good":good===false?"wrong":"")}
+function toRoman(n){const m=[[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];let r="";for(const [v,s] of m){while(n>=v){r+=s;n-=v}}return r}
+function cent(s){
+  s=(s||"").toUpperCase().replace(/Х/g,"X").replace(/І/g,"I").replace(/[^0-9IVXLCDM]/g,"");
+  if(/^\d+$/.test(s)) s=toRoman(parseInt(s,10));
+  return s;
+}
+const num=s=>parseInt(String(s||"").replace(/\D/g,""),10);
+async function copy(text,box,ta,btn){
+  ta.value=text;
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  catch(e){box.classList.add("show");ta.focus();ta.select()}
+}
+$$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
+const val=id=>($("#"+id)||{}).value||"";
+
+/* ---------- 1. Машина времени ---------- */
+const tms=$$("#tm-cards .tm");
+function setTm(choice){
+  tms.forEach(b=>b.setAttribute("aria-pressed",b.dataset.choice===choice?"true":"false"));
+  fb($("#tm-picked"),choice?"Ты отправляешься: "+choice+".":"Нажми на картинку, чтобы выбрать.",choice?true:undefined);
+}
+tms.forEach(b=>b.addEventListener("click",()=>{D.tm=b.dataset.choice;save();setTm(D.tm)}));
+setTm(D.tm||"");
+
+/* ---------- 2. Разведка ---------- */
+function pairsScore(list){const c=list.filter(([id,a])=>val(id)===a).length;return c===4?2:c>=2?1:0}
+function diagScore(){
+  let s=0;
+  const c=[["d1a","XIV"],["d1b","XV"],["d1c","XV"],["d1d","XVI"]].filter(([id,a])=>cent(val(id))===a).length;
+  s+=c===4?2:c>=2?1:0;
+  if([val("d2a"),val("d2b"),val("d2c"),val("d2d")].join("")==="гбав") s+=1;
+  s+=pairsScore([["d3a","Г"],["d3b","А"],["d3c","В"],["d3d","Б"]]);
+  s+=pairsScore([["d4a","Г"],["d4b","А"],["d4c","Б"],["d4d","В"]]);
+  s+=pairsScore([["d5a","Г"],["d5b","А"],["d5c","В"],["d5d","Б"]]);
+  s+=pairsScore([["d6a","Б"],["d6b","В"],["d6c","А"],["d6d","Г"]]);
+  if(val("d7a")==="Мартин Лютер") s+=1;
+  if(val("d8")==="в конце XV века") s+=1;
+  return s;
+}
+function diagText(){
+  const L=[];
+  L.push("РАЗВЕДКА (диагностика)");
+  L.push("1) 1380 — "+val("d1a")+"; 1480 — "+val("d1b")+"; 1492 — "+val("d1c")+"; 1517 — "+val("d1d"));
+  L.push("2) порядок: "+[val("d2a"),val("d2b"),val("d2c"),val("d2d")].join(" "));
+  L.push("3) Иван III "+val("d3a")+", Александр Невский "+val("d3b")+", Дмитрий Донской "+val("d3c")+", Иван Калита "+val("d3d"));
+  L.push("4) вотчина "+val("d4a")+", ярлык "+val("d4b")+", поместье "+val("d4c")+", баскак "+val("d4d"));
+  L.push("5) крестовые походы "+val("d5a")+", цех "+val("d5b")+", университет "+val("d5c")+", парламент "+val("d5d"));
+  L.push("6) Колумб "+val("d6a")+", Васко да Гама "+val("d6b")+", Магеллан "+val("d6c")+", Диаш "+val("d6d"));
+  L.push("7) лишнее: "+val("d7a")+"; почему: "+val("d7b"));
+  L.push("8) Новое время: "+val("d8"));
+  L.push("9а) "+val("d9a"));
+  L.push("9б) "+val("d9b"));
+  L.push("9в) "+val("d9c"));
+  L.push("10) "+val("d10"));
+  L.push("Автопроверка заданий 1–8: "+diagScore()+" из 13. Объяснение в 7, задания 9–10 (до 6 баллов) проверяет учитель.");
+  return L.join("\n");
+}
+$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-text").value=diagText();$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
+$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
+
+/* ---------- 3. Игра ---------- */
+const events=[
+  ["Колумб достигает берегов Америки","E","1492 год. Уже через год его письмо об открытии напечатали в нескольких городах Европы."],
+  ["Мартин Лютер выступает против продажи индульгенций","E","1517 год. Печать помогла его тезисам быстро разойтись по Германии."],
+  ["Экспедиция Магеллана отправляется в кругосветное плавание","E","1519 год."],
+  ["Иван IV венчается на царство","E","1547 год — первый русский царь."],
+  ["Войско Ивана IV берёт Казань","E","1552 год. Фёдоров пишет, что именно после этого царь стал искать мастеров печатного дела."],
+  ["Отряд Ермака отправляется в Сибирь","L","Начало 1580-х годов."],
+  ["Андрей Чохов отливает Царь-пушку","L","1586 год. Её и сейчас можно увидеть в Кремле."],
+  ["Шекспир пишет «Гамлета»","L","Около 1600 года."],
+  ["Минин и Пожарский освобождают Москву","L","1612 год, конец Смуты."],
+  ["Принято Соборное уложение — новый свод законов","L","1649 год. Его сразу напечатали на Печатном дворе."]
+];
+let gi=0,gs=0,gt=0,locked=false;
+function g1(){ $("#g1-event").textContent=events[gi%events.length][0]; }
+$$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
+  if(locked)return; locked=true;
+  const ev=events[gi%events.length];const right=ev[1]===b.dataset.side; gt++; if(right)gs++;
+  $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
+  fb($("#g1-fb"),(right?"Верно! ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
+  setTimeout(()=>{gi++;g1();locked=false},2600);
+}));
+g1();
+
+/* ---------- 5. Детектив ---------- */
+const ABC=[["а",1],["в",2],["г",3],["д",4],["є",5],["ѕ",6],["з",7],["и",8],["ѳ",9],["і",10],["к",20],["л",30],["м",40],["н",50],["ѯ",60],["о",70],["п",80],["ч",90],["р",100]];
+$("#abc").innerHTML=ABC.map(([c,n])=>'<div><span class="old">'+c+'</span><b>'+n+'</b></div>').join("");
+$("#n-check").addEventListener("click",()=>{
+  const k=[["n1",7071],["n2",19],["n3",7072],["n4",1]];let n=0;
+  k.forEach(([id,a])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(num(e.value)===a){e.classList.add("ok");n++}else e.classList.add("bad")});
+  D.ncheck=n;save();
+  fb($("#n-fb"),n===4?"Всё верно! Начали в 7071 году 19 апреля, закончили в 7072 году 1 марта.":"Верно "+n+" из 4. Подсказка: ҂з = 7000, о = 70, а = 1 — сложи их.",n===4);
+});
+$("#y-check").addEventListener("click",()=>{
+  const a=num(val("y1")),b=num(val("y2"));
+  $("#y1").classList.toggle("ok",a===1563);$("#y1").classList.toggle("bad",!!val("y1")&&a!==1563);
+  $("#y2").classList.toggle("ok",b===1564);$("#y2").classList.toggle("bad",!!val("y2")&&b!==1564);
+  if(a===1563&&b===1564) fb($("#y-fb"),"Верно! Работу начали 19 апреля 1563 года, а закончили 1 марта 1564 года. Эту дату и называют в учебнике.",true);
+  else fb($("#y-fb"),"Пока не так. Апрель и март — это месяцы с января по август, значит, вычитаем 5508.",false);
+});
+
+/* ---------- 7. Цепочка и сортировка ---------- */
+$("#c-check").addEventListener("click",()=>{
+  const got=[val("c1"),val("c2"),val("c3"),val("c4")].join("");D.chain=got;save();
+  if(got==="бгав") fb($("#c-fb"),"Верно! Изобретение → дешёвые книги → больше читателей → идеи расходятся быстро.",true);
+  else fb($("#c-fb"),"Пока не так. С чего всё началось? И что должно случиться с ценой книг, чтобы их стали покупать многие?",false);
+});
+const SORT=[
+  ["Типографию открывает мастер, чтобы продавать книги и зарабатывать.","E","В Европе типографии чаще всего были частным делом."],
+  ["Типографию устраивают по приказу государя, деньги дают из казны.","M","Так было в Москве: Фёдоров пишет, что царь щедро давал средства."],
+  ["Печатают почти только книги для церковной службы.","M","В Москве XVI века — да: «Апостол», Часовник, Евангелие, Псалтырь."],
+  ["Печатают карты, рассказы путешественников, научные книги и листовки.","E","В Европе печать быстро стала служить и науке, и спорам."],
+  ["Книги выходят на латыни и на языках разных народов.","E","Латынь — язык учёных и церкви на Западе, но всё больше книг выходило на родных языках."],
+  ["Книги выходят на церковнославянском языке.","M","На нём писали и служили в православной церкви."]
+];
+$("#sorts").innerHTML=SORT.map((s,i)=>'<div class="sorti" id="so'+i+'"><span class="st">'+(i+1)+'. '+s[0]+'</span><div class="row"><button class="btn ghost" type="button" data-so="'+i+'" data-a="E">Европа</button><button class="btn ghost" type="button" data-so="'+i+'" data-a="M">Москва</button></div><p class="fb"></p></div>').join("");
+$$("#sorts [data-so]").forEach(b=>b.addEventListener("click",()=>{
+  const i=+b.dataset.so,s=SORT[i],right=b.dataset.a===s[1],box=$("#so"+i);
+  $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
+  fb($(".fb",box),(right?"Верно! ":"Не совсем. ")+s[2],right);
+  if(D["so"+i]===undefined){D["so"+i]=right?"верно":"ошибка";save()}
+}));
+
+/* ---------- 8. Миф ---------- */
+const MY=[
+  ["Гутенберг первым в мире придумал печатать книги.",false,"Миф. В Китае печатали с деревянных досок за сотни лет до него, а подвижные знаки из глины придумал Би Шэн в XI веке. Гутенберг создал удобный способ печати металлическими литерами — и именно он распространился по всему миру."],
+  ["Иван Фёдоров напечатал самую первую книгу в Москве.",false,"Не совсем. Ещё в 1550-е годы в Москве вышли книги без даты и без имён мастеров. «Апостол» 1564 года — первая точно датированная. На проверке так и говори: «первая датированная печатная книга»."],
+  ["Первые печатные книги в Москве были учебниками для детей.",false,"Миф. Сначала печатали церковные книги. Первый печатный учебник, «Азбуку», Фёдоров выпустил уже во Львове в 1574 году."],
+  ["В XVI веке на Руси Новый год встречали 1 сентября.",true,"Правда. Так было до 1700 года, когда Пётр I перенёс Новый год на 1 января."],
+  ["Как только появилась печать, книги перестали переписывать от руки.",false,"Миф. Рукописи создавали ещё долго. Даже при Иване IV в Москве сделали огромные рукописные книги — Лицевой летописный свод с тысячами рисунков и Великие Четьи-Минеи."]
+];
+$("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="st">'+(i+1)+'. '+m[0]+'</span><div class="row"><button class="btn ghost" type="button" data-m="'+i+'" data-a="0">Миф</button><button class="btn ghost" type="button" data-m="'+i+'" data-a="1">Правда</button></div><p class="ex fb"></p></div>').join("");
+$$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
+  const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
+  $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
+}));
+
+/* ---------- 9. Итог ---------- */
+$$(".rate").forEach(r=>{const k=r.dataset.rate;for(let n=1;n<=5;n++){const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-label",n+" из 5");b.setAttribute("aria-pressed",String(D[k]==n));b.addEventListener("click",()=>{D[k]=n;save();$$("button",r).forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});r.appendChild(b)}});
+function allText(){
+  const L=[];
+  L.push("ЗНАКОМСТВО: машина времени — "+(D.tm||"не выбрано")+"; знаю: "+val("tm-know")+"; встречу там: "+val("tm-meet"));
+  L.push("О СЕБЕ: история России — "+val("me-rus")+"; всеобщая — "+val("me-vse")+"; нравится/трудно — "+val("me-like")+"; цель — "+val("me-goal"));
+  L.push("");L.push(diagText());L.push("");
+  L.push("РАНЬШЕ ИЛИ ПОЗЖЕ 1564: "+(D.game||"не играл(а)"));
+  L.push("ДЕТЕКТИВ: числа "+[val("n1"),val("n2"),val("n3"),val("n4")].join(", ")+" (верно: 7071, 19, 7072, 1); годы "+val("y1")+", "+val("y2")+" (верно: 1563, 1564)");
+  L.push("Сколько печатали: "+val("dq1")+(D.open_q1?" (открывал ответ)":""));
+  L.push("Почему ѳі: "+val("dq2")+(D.open_q2?" (открывал ответ)":""));
+  L.push("Новый 7072 год: "+val("dq3")+(D.open_q3?" (открывал ответ)":""));
+  L.push("ВЕРСИИ: кто виноват — "+val("dv1")+"; «не от государя» — "+val("dv2")+"; Карамзин vs Фёдоров — "+val("dv3")+"; своя версия — "+val("dv4"));
+  L.push("ЕВРОПА И МОСКВА: цепочка "+val("c1")+val("c2")+val("c3")+val("c4")+" (верно: бгав); сортировка (первый ответ): "+SORT.map((s,i)=>(i+1)+" "+(D["so"+i]||"—")).join(", ")+"; вывод — "+val("ds1"));
+  L.push("МИФ ИЛИ ПРАВДА (первый ответ): "+MY.map((m,i)=>(i+1)+" "+(D["myth"+i]||"—")).join(", "));
+  L.push("ИТОГ: интересно "+(D.interest||"—")+"/5, понятно "+(D.clear||"—")+"/5; интересное: "+val("it-best")+"; трудное: "+val("it-hard"));
+  return L.join("\n");
+}
+$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
+
+/* ---------- 10. ДЗ ---------- */
+const KB=["҂","а","в","г","д","є","ѕ","з","и","ѳ","і","к","л","м","н","ѯ","о","п","ч","р","с","т","у","ф","х","ѱ","ѿ","ц"];
+$("#kbd").innerHTML=KB.map(c=>'<button type="button" data-k="'+c+'">'+c+'</button>').join("");
+$$("#kbd [data-k]").forEach(b=>b.addEventListener("click",()=>{const el=$("#h2b");el.value+=b.dataset.k;D.h2b=el.value;save()}));
+$("#kbd-clear").addEventListener("click",()=>{$("#h2b").value="";D.h2b="";save()});
+function normOld(s){return (s||"").replace(/[҃\s.]/g,"").replace(/е/g,"є").toLowerCase()}
+$("#h-check1").addEventListener("click",()=>{
+  const a=num(val("h1"))===1147,b=num(val("h2a"))===7535,c=normOld(val("h2b"))==="҂зфлє";
+  const msg=[];
+  msg.push(a?"а) верно: 1147 год.":"а) пока не так: 6655 − 5508 = ?");
+  msg.push(b?"б) число верно: 7535.":"б) число: сейчас ноябрь — значит, прибавляем 5509.");
+  msg.push(c?"Буквами верно: ҂зфлє!":(b?"Буквами: 7000 + 500 + 30 + 5.":""));
+  fb($("#h-fb1"),msg.join(" "),a&&b&&c);
+});
+$("#t-check").addEventListener("click",()=>{
+  const r=[[val("t1")==="1564","1"],[val("t2")==="Пётр Мстиславец","2"],[val("t3")==="во Львове","3"],[val("t4")==="с 1 сентября","4"]];
+  const n=r.filter(x=>x[0]).length;
+  fb($("#t-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+});
+
+/* ---------- Сброс ---------- */
+const PIN_H=2832316291;
+function fnv(str){let h=0x811c9dc5;const b=new TextEncoder().encode(str);for(const c of b){h^=c;h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+let pinWait=false;
+$("#reset-btn").addEventListener("click",()=>{
+  if(pinWait)return;
+  const pin=($("#reset-pin").value||"").trim();
+  if(fnv("perv7:"+pin)===PIN_H){fb($("#reset-fb"),"");$("#reset-pin").hidden=true;$("#reset-ask").hidden=false;$("#reset-btn").hidden=true;return}
+  $("#reset-pin").value="";pinWait=true;
+  fb($("#reset-fb"),"Неверный код. Эта кнопка только для учителя.",false);
+  setTimeout(()=>{pinWait=false},3000);
+});
+$("#reset-pin").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#reset-btn").click()}});
+$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#reset-btn").hidden=false;$("#reset-pin").hidden=false;$("#reset-pin").value=""});
+$("#reset-yes").addEventListener("click",()=>{
+  try{localStorage.removeItem(KEY)}catch(e){}
+  try{history.replaceState(null,"","#znakomstvo")}catch(e){}
+  location.reload();
+});
+})();
+</script>
+</body>
+</html>

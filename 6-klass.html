@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тетрадь «Письма из-под земли»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&family=Noto+Serif:wght@500;700&family=Ruslan+Display&display=swap" rel="stylesheet">
+<style>
+/* Береста и киноварь: светлый «берестяной» фон, тёмные чернила, киноварь как в древних заглавных буквах, индиго для кнопок.
+   Макет как в тетради 5 класса: липкая навигация по этапам, один этап на экране — удобно в демонстрации экрана. */
+:root{
+  --bark:#f1ece1;
+  --sheet:#fffdf7;
+  --ink:#2b2420;
+  --muted:#6b6056;
+  --cin:#b0391f;
+  --cin-soft:#f7ddd3;
+  --indigo:#284a7c;
+  --indigo-soft:#dde5f2;
+  --ok:#2b7a50;
+  --ok-soft:#d9efe2;
+  --bad:#a8461f;
+  --bad-soft:#f8e1d3;
+  --line:#d9cfbd;
+  --display:"Unbounded","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --old:"Noto Serif","Segoe UI Historic","Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bark);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+a{color:var(--indigo)}
+:focus-visible{outline:3px solid var(--cin);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--sheet);
+  background-image:repeating-linear-gradient(90deg,transparent 0 46px,rgba(255,255,255,.05) 46px 58px,transparent 58px 130px)}
+.top-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f3d9b0}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #5b4f45;white-space:nowrap}
+nav a b{color:#f0a487;font-weight:700;margin-right:4px}
+nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
+nav a[aria-current="page"] b{color:#fff}
+main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
+section.view{display:grid;gap:20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h2{font-size:22px;font-weight:600}
+h3{font-size:18px;font-weight:600}
+.lead{font-size:20px;max-width:65ch;margin:0}
+.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.card p{margin:0;max-width:68ch}
+.note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+label{font-weight:500}
+input[type=text],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn.ghost{background:transparent;color:var(--indigo)}
+.btn:hover{filter:brightness(1.08)}
+.next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
+.ok{background:var(--ok-soft)!important;border-color:var(--ok)!important;color:var(--ink)!important}
+.bad{background:var(--bad-soft)!important;border-color:var(--bad)!important;color:var(--ink)!important}
+.fb{font-weight:500;min-height:1.5em;margin:0}
+.fb.good{color:var(--ok)}.fb.wrong{color:var(--bad)}
+.task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0;padding-top:0}
+.task .q{margin:0;font-weight:500}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.pairs>div{display:grid;gap:4px}
+.small{font-size:15px;color:var(--muted)}
+blockquote{margin:0;padding:12px 16px;background:#f6efe0;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
+/* Машина времени */
+.tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.tm svg{width:100%;height:auto;border-radius:10px;display:block}
+.tm[aria-pressed="true"]{border-color:var(--indigo);box-shadow:0 0 0 4px var(--indigo-soft)}
+.tm b{font-size:18px}
+/* Игра */
+.big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
+.lr3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lr3 .btn{font-size:18px;padding:14px 8px;border-radius:14px}
+@media (max-width:560px){.lr3{grid-template-columns:1fr}}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+/* Рассказ */
+.split{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.pic svg{width:100%;height:auto;display:block}
+.facts{display:grid;gap:10px}
+.fact{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.fact .y{font-family:var(--display);font-weight:800;font-size:19px;color:var(--cin);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.fact{grid-template-columns:1fr}}
+.reveal{display:grid;gap:8px}
+.reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
+.reveal.open .ans{display:block}
+/* Древние буквы */
+.old{font-family:var(--old);font-weight:500}
+.bark{background:linear-gradient(180deg,#f7f1e4,#efe5cf);border:2px solid #cdbb98;border-radius:16px;padding:18px 16px;position:relative;
+  background-image:repeating-linear-gradient(0deg,transparent 0 22px,rgba(90,70,40,.10) 22px 24px,transparent 24px 61px),linear-gradient(180deg,#f7f1e4,#efe5cf)}
+.chars{display:flex;flex-wrap:wrap;row-gap:10px;font-family:var(--old);font-size:30px;line-height:1.1}
+.ch{font:inherit;background:none;border:0;border-right:3px solid transparent;padding:2px 1px;margin:0;cursor:pointer;color:var(--ink);border-radius:2px}
+.ch:hover{background:rgba(40,74,124,.10)}
+.ch.brk{border-right-color:var(--indigo);margin-right:12px}
+.ch.brk.ok{border-right-color:var(--ok)!important;background:transparent!important}
+.ch.brk.bad{border-right-color:var(--bad)!important;background:var(--bad-soft)!important}
+.ch.miss{box-shadow:inset -3px 0 0 var(--ok)}
+.tail{color:var(--muted);font-family:var(--old);font-size:30px;padding:2px 4px}
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.abc>div{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.abc .old{font-size:32px;text-align:center;color:var(--cin)}
+.abc span.t{font-size:14px;line-height:1.25}
+.abc span.t b{font-size:17px;display:block}
+.sklad{font-family:var(--old);font-size:26px;letter-spacing:.06em;overflow-wrap:anywhere}
+/* Миф */
+.myth{display:grid;gap:8px;background:var(--sheet);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.myth .st{font-weight:500;font-size:19px}
+.myth .ex{display:none;font-size:16px}
+.myth.done .ex{display:block}
+/* Итог */
+.rate{display:flex;gap:6px}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
+.copybox{display:none;gap:8px}
+.copybox.show{display:grid}
+.copybox textarea{min-height:180px;font-size:14px;font-family:ui-monospace,Menlo,Consolas,monospace}
+@media (max-width:640px){header.top{position:static}nav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 40px;font-size:14px;color:var(--muted);display:grid;gap:10px}
+footer p{margin:0}
+#reset-ask{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+#reset-ask[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.btn,.tm,nav a,.ch{transition:background .15s,border-color .15s,box-shadow .15s,margin .12s}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Письма из-под земли</div>
+    <nav aria-label="Этапы урока">
+      <a href="#znakomstvo"><b>1</b>Знакомство</a>
+      <a href="#razvedka"><b>2</b>Разведка</a>
+      <a href="#igra"><b>3</b>Русь или Европа?</a>
+      <a href="#rasskaz"><b>4</b>Рассказ</a>
+      <a href="#detektiv"><b>5</b>Детектив</a>
+      <a href="#onfim"><b>6</b>Онфим</a>
+      <a href="#gorod"><b>7</b>Город грамот</a>
+      <a href="#mif"><b>8</b>Миф или правда</a>
+      <a href="#itog"><b>9</b>Итог</a>
+      <a href="#dz"><b>10</b>Домашка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. ЗНАКОМСТВО -->
+<section class="view" id="znakomstvo">
+  <div>
+    <p class="kicker">Этап 1 · Знакомство</p>
+    <h1>Машина времени</h1>
+  </div>
+  <p class="lead">У тебя билет на одну поездку в Средние века. Все три места встретятся нам сегодня на занятии. Выбери, куда отправишься, и ответь на два вопроса — коротко, своими словами.</p>
+  <div class="grid3" id="tm-cards">
+    <button class="tm" type="button" data-choice="Новгородский торг, XIII век" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Новгород XIII века: торг с лавками и избами, Софийский собор за деревянной стеной, ладья на Волхове">
+        <defs>
+          <linearGradient id="nvSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdeea"/><stop offset="1" stop-color="#eef2f2"/></linearGradient>
+          <linearGradient id="nvRiver" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f97b8"/><stop offset="1" stop-color="#4f7aa0"/></linearGradient>
+          <pattern id="nvLogs" width="6" height="4" patternUnits="userSpaceOnUse"><rect width="6" height="4" fill="#a3764a"/><path d="M0 3.6H6" stroke="#7a5432" stroke-width="0.8"/></pattern>
+          <pattern id="nvLogs2" width="6" height="4" patternUnits="userSpaceOnUse"><rect width="6" height="4" fill="#b78a5a"/><path d="M0 3.6H6" stroke="#8a6238" stroke-width="0.8"/></pattern>
+          <pattern id="nvStake" width="4" height="20" patternUnits="userSpaceOnUse"><rect width="4" height="20" fill="#8c6440"/><path d="M3.6 0V20" stroke="#6a4a2c" stroke-width="0.8"/></pattern>
+        </defs>
+        <rect width="300" height="170" fill="url(#nvSky)"/>
+        <!-- дальний лес -->
+        <path d="M0 98 Q12 90 24 96 Q36 88 50 95 Q64 87 78 94 Q92 88 106 95 Q120 89 134 95 L134 112 L0 112 Z" fill="#9db29a"/>
+        <path d="M226 96 Q240 89 254 95 Q268 88 282 94 Q292 90 300 93 L300 112 L226 112 Z" fill="#9db29a"/>
+        <!-- Софийский собор -->
+        <g>
+          <rect x="150" y="72" width="66" height="40" fill="#f5f0e4"/>
+          <rect x="196" y="72" width="20" height="40" fill="#e3dccb"/>
+          <path d="M150 72 a11 9 0 0 1 22 0 a11 9 0 0 1 22 0 a11 9 0 0 1 22 0 Z" fill="#f5f0e4" stroke="#d8d0bd" stroke-width="0.8"/>
+          <g fill="#c9c0aa"><rect x="158" y="84" width="3" height="8" rx="1.5"/><rect x="170" y="84" width="3" height="8" rx="1.5"/><rect x="182" y="84" width="3" height="8" rx="1.5"/><rect x="203" y="84" width="3" height="8" rx="1.5"/></g>
+          <!-- барабаны и шлемовидные главы -->
+          <rect x="158" y="58" width="9" height="13" fill="#ece5d4"/>
+          <path d="M156.5 59 Q156.5 50 162.5 45 Q168.5 50 168.5 59 Z" fill="#7f8790"/>
+          <rect x="199" y="58" width="9" height="13" fill="#e0d8c5"/>
+          <path d="M197.5 59 Q197.5 50 203.5 45 Q209.5 50 209.5 59 Z" fill="#7f8790"/>
+          <rect x="177" y="48" width="12" height="22" fill="#f1ebdc"/>
+          <g fill="#c9c0aa"><rect x="180" y="53" width="2" height="7" rx="1"/><rect x="184.5" y="53" width="2" height="7" rx="1"/></g>
+          <path d="M175 49 Q175 37 183 30 Q191 37 191 49 Z" fill="#d6a93a"/>
+          <path d="M183 30 V21 M180 24 H186" stroke="#9c7a24" stroke-width="1.2"/>
+          <path d="M162.5 45 V39 M160.5 41.5 H164.5 M203.5 45 V39 M201.5 41.5 H205.5" stroke="#5c636b" stroke-width="1"/>
+        </g>
+        <!-- деревянная стена детинца с башней -->
+        <rect x="138" y="96" width="96" height="18" fill="url(#nvStake)"/>
+        <path d="M138 96 L140.0 93 L142 96 L144.0 93 L146 96 L148.0 93 L150 96 L152.0 93 L154 96 L156.0 93 L158 96 L160.0 93 L162 96 L164.0 93 L166 96 L168.0 93 L170 96 L172.0 93 L174 96 L176.0 93 L178 96 L180.0 93 L182 96 L184.0 93 L186 96 L188.0 93 L190 96 L192.0 93 L194 96 L196.0 93 L198 96 L200.0 93 L202 96 L204.0 93 L206 96 L208.0 93 L210 96 L212.0 93 L214 96 L216.0 93 L218 96 L220.0 93 L222 96 L224.0 93 L226 96 L228.0 93 L230 96 L232.0 93 L234 96 Z" fill="#8c6440"/>
+        <rect x="226" y="80" width="18" height="34" fill="url(#nvLogs)"/>
+        <path d="M223 81 L235 68 L247 81 Z" fill="#5e3f24"/>
+        <rect x="232" y="88" width="5" height="6" fill="#3d2814"/>
+        <!-- торг: избы и лавки -->
+        <rect x="8" y="88" width="34" height="26" fill="url(#nvLogs)"/>
+        <path d="M4 89 L25 72 L46 89 Z" fill="#6b4626"/>
+        <path d="M25 72 L25 70" stroke="#4a2f18" stroke-width="2"/>
+        <rect x="20" y="97" width="9" height="8" fill="#3d2814"/><rect x="21" y="98" width="7" height="6" fill="#e9c97a" opacity=".55"/>
+        <rect x="48" y="94" width="26" height="20" fill="url(#nvLogs2)"/>
+        <path d="M45 95 L61 82 L77 95 Z" fill="#7a5230"/>
+        <rect x="57" y="101" width="7" height="6" fill="#3d2814"/>
+        <rect x="100" y="90" width="32" height="24" fill="url(#nvLogs)"/>
+        <path d="M96 91 L116 75 L136 91 Z" fill="#6b4626"/>
+        <rect x="111" y="98" width="9" height="16" fill="#4a3018"/>
+        <!-- лавки с навесами -->
+        <g>
+          <rect x="76" y="103" width="22" height="11" fill="#9a7048"/>
+          <path d="M74 103 L100 103 L97 97 L77 97 Z" fill="#b0392a"/>
+          <path d="M80 97 L79 103 M86 97 L86 103 M92 97 L93 103" stroke="#f3e6cf" stroke-width="2"/>
+          <circle cx="81" cy="101" r="1.8" fill="#d6a93a"/><circle cx="86" cy="101" r="1.8" fill="#c86a3a"/><circle cx="91" cy="101" r="1.8" fill="#8aa05a"/>
+        </g>
+        <!-- люди на торгу -->
+        <g>
+          <circle cx="44" cy="106" r="2.3" fill="#e7c3a0"/><path d="M41 109 h6 l1 7 h-8 Z" fill="#3f6b8a"/>
+          <circle cx="84" cy="111" r="2.3" fill="#e7c3a0"/><path d="M81 114 h6 l1 7 h-8 Z" fill="#a8452c"/>
+          <circle cx="139" cy="110" r="2.3" fill="#e7c3a0"/><path d="M136 113 h6 l1 7 h-8 Z" fill="#6c7a3c"/><path d="M135 113 h-2 v6" stroke="#6b4626" stroke-width="1.2" fill="none"/>
+        </g>
+        <!-- берег с деревянной мостовой -->
+        <rect x="0" y="114" width="300" height="10" fill="#8b6a46"/>
+        <g stroke="#6e5234" stroke-width="0.8"><path d="M6 114v10M14 114v10M22 114v10M30 114v10M38 114v10M46 114v10M54 114v10M62 114v10M70 114v10M78 114v10M86 114v10M94 114v10M102 114v10M110 114v10M118 114v10M126 114v10M134 114v10M142 114v10M150 114v10M158 114v10M166 114v10M174 114v10M182 114v10M190 114v10M198 114v10M206 114v10M214 114v10M222 114v10M230 114v10M238 114v10M246 114v10M254 114v10M262 114v10M270 114v10M278 114v10M286 114v10M294 114v10"/></g>
+        <!-- Волхов -->
+        <rect x="0" y="124" width="300" height="46" fill="url(#nvRiver)"/>
+        <g stroke="#9fbfd8" stroke-width="1" fill="none" opacity=".8"><path d="M20 138 q6 -3 12 0 t12 0"/><path d="M200 134 q6 -3 12 0 t12 0"/><path d="M240 156 q6 -3 12 0 t12 0"/><path d="M120 160 q6 -3 12 0 t12 0"/></g>
+        <!-- ладья -->
+        <g>
+          <path d="M44 149 Q78 160 120 149 L116 154 Q80 163 48 154 Z" fill="#5a3a1e"/>
+          <path d="M42 150 l-5 -6 M122 149 l5 -6" stroke="#5a3a1e" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M82 150 V120" stroke="#4a2f18" stroke-width="2"/>
+          <path d="M70 123 H94" stroke="#4a2f18" stroke-width="1.6"/>
+          <path d="M71 124 H93 L91 145 H73 Z" fill="#efe3c8"/>
+          <path d="M71 131 H93 M72 138 H92" stroke="#b0392a" stroke-width="2.2"/>
+          <g stroke="#6e4a28" stroke-width="1.2"><path d="M60 154 l-6 8M72 156 l-5 8M96 156 l5 8M108 154 l6 8"/></g>
+        </g>
+      </svg>
+      <b>Новгородский торг</b>
+      <span class="small">XIII век, берег реки Волхов</span>
+    </button>
+    <button class="tm" type="button" data-choice="Рыцарский замок во Франции" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Французский каменный замок с башнями, донжоном и подъёмным мостом; перед ним шатры рыцарского турнира">
+        <defs>
+          <linearGradient id="csSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9d6ee"/><stop offset="1" stop-color="#f1eef6"/></linearGradient>
+          <pattern id="csStone" width="12" height="7" patternUnits="userSpaceOnUse"><rect width="12" height="7" fill="#bdb4a4"/><path d="M0 6.6H12M6 0V3.3M0 3.3H12M0 3.3V6.6M12 3.3V6.6" stroke="#a49a88" stroke-width="0.6" fill="none"/></pattern>
+          <pattern id="csStoneD" width="12" height="7" patternUnits="userSpaceOnUse"><rect width="12" height="7" fill="#a89e8d"/><path d="M0 6.6H12M6 0V3.3M0 3.3H12" stroke="#8f8574" stroke-width="0.6" fill="none"/></pattern>
+        </defs>
+        <rect width="300" height="170" fill="url(#csSky)"/>
+        <path d="M0 108 Q40 92 90 102 Q150 88 210 100 Q260 90 300 104 V130 H0 Z" fill="#a9bf94"/>
+        <!-- донжон -->
+        <rect x="128" y="34" width="44" height="56" fill="url(#csStoneD)"/>
+        <path d="M128 34 V28 H134 V34 H139 V28 H145 V34 H150 V28 H156 V34 H161 V28 H167 V34 H172 H172 V36 H128 Z" fill="#a89e8d"/>
+        <rect x="146" y="46" width="8" height="12" rx="4" fill="#3e3328"/>
+        <path d="M150 28 V12" stroke="#4a3c30" stroke-width="1.4"/>
+        <path d="M150 13 h17 l-4 5 l4 5 h-17 Z" fill="#2f4f8f"/>
+        <path d="M155 16 l2 2 l2 -2 l-1 4 h-2 Z" fill="#e2b93b"/>
+        <!-- куртина -->
+        <rect x="70" y="72" width="160" height="50" fill="url(#csStone)"/>
+        <path d="M70 72 V65 H78 V72 H84 V65 H92 V72 H98 V65 H106 V72 H112 V65 H120 V72 H126 V65 H134 V72 H140 V65 H148 V72 H154 V65 H162 V72 H168 V65 H176 V72 H182 V65 H190 V72 H196 V65 H204 V72 H210 V65 H218 V72 H224 H230 V74 H70 Z" fill="#bdb4a4"/>
+        <g fill="#3e3328"><rect x="96" y="84" width="3" height="10"/><rect x="118" y="84" width="3" height="10"/><rect x="179" y="84" width="3" height="10"/><rect x="201" y="84" width="3" height="10"/></g>
+        <!-- ворота с решёткой -->
+        <path d="M137 122 V100 a13 13 0 0 1 26 0 V122 Z" fill="#3a3027"/>
+        <g stroke="#7d6a52" stroke-width="1.2"><path d="M141 92 V112 M146 88 V112 M150 87 V112 M154 88 V112 M159 92 V112 M138 98 H162 M138 104 H162 M138 110 H162"/></g>
+        <!-- башни -->
+        <g>
+          <rect x="48" y="52" width="30" height="72" fill="url(#csStoneD)"/>
+          <path d="M44 53 L63 20 L82 53 Z" fill="#544674"/>
+          <path d="M63 20 L63 53 L82 53 Z" fill="#463a63"/>
+          <rect x="60" y="66" width="3" height="10" fill="#3e3328"/><rect x="60" y="92" width="3" height="10" fill="#3e3328"/>
+          <path d="M63 20 V8" stroke="#4a3c30" stroke-width="1.2"/><path d="M63 9 l12 3 l-12 3 Z" fill="#b0392a"/>
+          <rect x="222" y="52" width="30" height="72" fill="url(#csStoneD)"/>
+          <path d="M218 53 L237 20 L256 53 Z" fill="#544674"/>
+          <path d="M237 20 L237 53 L256 53 Z" fill="#463a63"/>
+          <rect x="235" y="66" width="3" height="10" fill="#3e3328"/><rect x="235" y="92" width="3" height="10" fill="#3e3328"/>
+          <path d="M237 20 V8" stroke="#4a3c30" stroke-width="1.2"/><path d="M237 9 l12 3 l-12 3 Z" fill="#b0392a"/>
+        </g>
+        <!-- ров и подъёмный мост -->
+        <path d="M30 124 H270 V132 H30 Z" fill="#5f84a6"/>
+        <path d="M137 122 L163 122 L166 133 L134 133 Z" fill="#8a6840"/>
+        <g stroke="#6b4f30" stroke-width="0.8"><path d="M136 126 H164 M135 129.5 H165"/></g>
+        <path d="M137 100 L134 124 M163 100 L166 124" stroke="#2e2a26" stroke-width="0.8"/>
+        <!-- луг и турнир -->
+        <rect x="0" y="132" width="300" height="38" fill="#8fae78"/>
+        <g>
+          <path d="M18 160 L34 136 L50 160 Z" fill="#f3ead8"/>
+          <path d="M26 148 L34 136 L34 160 L26 160 Z" fill="#b0392a"/>
+          <path d="M34 136 V128" stroke="#4a3c30" stroke-width="1"/><path d="M34 129 l8 2 l-8 2 Z" fill="#2f4f8f"/>
+          <path d="M31 160 Q34 151 37 160 Z" fill="#5a3a24"/>
+          <path d="M252 160 L268 138 L284 160 Z" fill="#f3ead8"/>
+          <path d="M260 149 L268 138 L268 160 L260 160 Z" fill="#2f4f8f"/>
+          <path d="M268 138 V130" stroke="#4a3c30" stroke-width="1"/><path d="M268 131 l8 2 l-8 2 Z" fill="#e2b93b"/>
+          <path d="M265 160 Q268 152 271 160 Z" fill="#3a3027"/>
+        </g>
+        <!-- барьер ристалища -->
+        <path d="M66 152 H232" stroke="#8a5a2c" stroke-width="3"/>
+        <g stroke="#6b4626" stroke-width="2"><path d="M70 152 V160 M100 152 V160 M130 152 V160 M160 152 V160 M190 152 V160 M220 152 V160"/></g>
+        <g fill="#b0392a"><path d="M70 152 l6 -4 v8 Z"/><path d="M130 152 l6 -4 v8 Z"/><path d="M190 152 l6 -4 v8 Z"/></g>
+        <g fill="#2f4f8f"><path d="M100 152 l6 -4 v8 Z"/><path d="M160 152 l6 -4 v8 Z"/><path d="M220 152 l6 -4 v8 Z"/></g>
+      </svg>
+      <b>Рыцарский замок</b>
+      <span class="small">Франция, время рыцарских турниров</span>
+    </button>
+    <button class="tm" type="button" data-choice="Константинополь, собор Святой Софии" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Константинополь: храм Святой Софии с большим куполом, морские стены с башнями, кипарисы и византийский корабль с треугольным парусом">
+        <defs>
+          <linearGradient id="kpSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d9a8"/><stop offset="1" stop-color="#f8ecd2"/></linearGradient>
+          <linearGradient id="kpSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f86b0"/><stop offset="1" stop-color="#36658c"/></linearGradient>
+          <linearGradient id="kpDome" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9aa4ad"/><stop offset=".5" stop-color="#c3cad0"/><stop offset="1" stop-color="#8a939c"/></linearGradient>
+        </defs>
+        <rect width="300" height="170" fill="url(#kpSky)"/>
+        <circle cx="262" cy="30" r="14" fill="#e9b04a"/>
+        <!-- дальние дома -->
+        <g>
+          <rect x="14" y="92" width="22" height="22" fill="#e6c9a2"/><path d="M12 92 L25 84 L38 92 Z" fill="#b5523a"/>
+          <rect x="38" y="98" width="18" height="16" fill="#efd6b4"/><path d="M36 98 L47 91 L58 98 Z" fill="#c2603f"/>
+          <rect x="236" y="94" width="20" height="20" fill="#efd6b4"/><path d="M234 94 L246 86 L258 94 Z" fill="#c2603f"/>
+          <rect x="258" y="98" width="26" height="16" fill="#e6c9a2"/><path d="M256 98 L271 90 L286 98 Z" fill="#b5523a"/>
+          <g fill="#8b5a3c"><rect x="20" y="99" width="3" height="5"/><rect x="28" y="99" width="3" height="5"/><rect x="244" y="101" width="3" height="5"/><rect x="266" y="103" width="3" height="5"/></g>
+        </g>
+        <!-- колонна -->
+        <rect x="66" y="58" width="6" height="56" fill="#d9cdb8"/><rect x="64" y="56" width="10" height="3" fill="#c8baa2"/><rect x="63" y="112" width="12" height="3" fill="#c8baa2"/>
+        <!-- кипарисы -->
+        <g fill="#4f6b3f"><path d="M82 114 Q78 92 84 74 Q90 92 86 114 Z"/><path d="M222 114 Q218 94 224 78 Q230 94 226 114 Z"/><path d="M60 114 Q57 100 61 88 Q65 100 63 114 Z"/></g>
+        <!-- Святая София -->
+        <g>
+          <rect x="96" y="80" width="108" height="34" fill="#d9a77c"/>
+          <rect x="96" y="80" width="108" height="5" fill="#c99369"/>
+          <rect x="92" y="70" width="14" height="44" fill="#cf9b70"/><rect x="194" y="70" width="14" height="44" fill="#cf9b70"/>
+          <path d="M92 70 h14 l-2 -4 h-10 Z M194 70 h14 l-2 -4 h-10 Z" fill="#b98560"/>
+          <path d="M104 80 a20 14 0 0 1 32 0 Z" fill="#b8c0c7"/>
+          <path d="M164 80 a20 14 0 0 1 32 0 Z" fill="#b8c0c7"/>
+          <rect x="118" y="62" width="64" height="18" fill="#d39e72"/>
+          <rect x="114" y="60" width="72" height="4" fill="#c18c62"/>
+          <g fill="#f6e2b8"><rect x="122" y="66" width="3" height="7" rx="1.5"/><rect x="128" y="66" width="3" height="7" rx="1.5"/><rect x="134" y="66" width="3" height="7" rx="1.5"/><rect x="140" y="66" width="3" height="7" rx="1.5"/><rect x="146" y="66" width="3" height="7" rx="1.5"/><rect x="152" y="66" width="3" height="7" rx="1.5"/><rect x="158" y="66" width="3" height="7" rx="1.5"/><rect x="164" y="66" width="3" height="7" rx="1.5"/><rect x="170" y="66" width="3" height="7" rx="1.5"/><rect x="176" y="66" width="3" height="7" rx="1.5"/></g>
+          <path d="M116 61 Q150 32 184 61 Z" fill="url(#kpDome)"/>
+          <g stroke="#8a939c" stroke-width="0.6" fill="none"><path d="M150 47 V61 M140 48.5 Q135 54 132 61 M160 48.5 Q165 54 168 61 M130 52 Q125 56 123 61 M170 52 Q175 56 177 61"/></g>
+          <path d="M150 47 V37 M147 40 H153" stroke="#b08a2a" stroke-width="1.4"/>
+          <g fill="#7a4a2e"><path d="M112 92 v10 h6 v-10 a3 3 0 0 0 -6 0 Z"/><path d="M126 92 v10 h6 v-10 a3 3 0 0 0 -6 0 Z"/><path d="M168 92 v10 h6 v-10 a3 3 0 0 0 -6 0 Z"/><path d="M182 92 v10 h6 v-10 a3 3 0 0 0 -6 0 Z"/></g>
+          <path d="M143 114 V98 a7 7 0 0 1 14 0 V114 Z" fill="#6a3f26"/>
+        </g>
+        <!-- морские стены -->
+        <rect x="0" y="114" width="300" height="16" fill="#cdb48e"/>
+        <path d="M0 114 V110 H6 V114 H11 V110 H17 V114 H22 V110 H28 V114 H33 V110 H39 V114 H44 V110 H50 V114 H55 V110 H61 V114 H66 V110 H72 V114 H77 V110 H83 V114 H88 V110 H94 V114 H99 V110 H105 V114 H110 V110 H116 V114 H121 V110 H127 V114 H132 V110 H138 V114 H143 V110 H149 V114 H154 V110 H160 V114 H165 V110 H171 V114 H176 V110 H182 V114 H187 V110 H193 V114 H198 V110 H204 V114 H209 V110 H215 V114 H220 V110 H226 V114 H231 V110 H237 V114 H242 V110 H248 V114 H253 V110 H259 V114 H264 V110 H270 V114 H275 V110 H281 V114 H286 V110 H292 V114 H297 H300 V116 H0 Z" fill="#cdb48e"/>
+        <g stroke="#b39a74" stroke-width="0.8"><path d="M0 121 H300"/><path d="M0 125 H300" stroke="#c09a6e"/></g>
+        <g fill="#c4a982"><rect x="30" y="104" width="14" height="26"/><rect x="128" y="108" width="12" height="22"/><rect x="250" y="104" width="14" height="26"/></g>
+        <g fill="#c4a982"><path d="M30 104 v-3 h4 v3 h3 v-3 h4 v3 h3 v-3"/><path d="M250 104 v-3 h4 v3 h3 v-3 h4 v3 h3 v-3"/></g>
+        <!-- море -->
+        <rect x="0" y="130" width="300" height="40" fill="url(#kpSea)"/>
+        <g stroke="#8fb6d4" stroke-width="1" fill="none" opacity=".8"><path d="M24 142 q6 -3 12 0 t12 0"/><path d="M210 150 q6 -3 12 0 t12 0"/><path d="M150 162 q6 -3 12 0 t12 0"/></g>
+        <!-- дромон с латинским парусом -->
+        <g>
+          <path d="M40 152 Q80 162 128 150 L124 156 Q82 166 46 157 Z" fill="#5a3a1e"/>
+          <path d="M128 150 l8 -3" stroke="#5a3a1e" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M84 153 V122" stroke="#4a2f18" stroke-width="2"/>
+          <path d="M64 146 L108 116" stroke="#4a2f18" stroke-width="1.4"/>
+          <path d="M66 145 L106 118 L102 148 Z" fill="#f4ead6"/>
+          <path d="M80 135 L104 133" stroke="#b0392a" stroke-width="2"/>
+          <g stroke="#6e4a28" stroke-width="1.2"><path d="M58 157 l-6 8M70 159 l-5 8M98 159 l5 8M112 156 l6 8"/></g>
+          <path d="M84 122 l7 2 l-7 2 Z" fill="#7a2b6e"/>
+        </g>
+      </svg>
+      <b>Константинополь</b>
+      <span class="small">Столица Византии, храм Святой Софии</span>
+    </button>
+  </div>
+  <div class="card">
+    <p id="tm-picked" class="fb">Нажми на картинку, чтобы выбрать.</p>
+    <div class="grid2">
+      <div><label for="tm-know">Что ты уже знаешь об этом месте?</label><input type="text" id="tm-know" data-save placeholder="Можно одно-два слова"></div>
+      <div><label for="tm-meet">Кого ты там встретишь?</label><input type="text" id="tm-meet" data-save placeholder="Кто там живёт, кто правит"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Немного о тебе</h3>
+    <div class="grid2">
+      <div><label for="me-rus">Что сейчас проходите по истории России?</label><input type="text" id="me-rus" data-save placeholder="тема или параграф"></div>
+      <div><label for="me-vse">А по всеобщей истории?</label><input type="text" id="me-vse" data-save placeholder="тема или параграф"></div>
+    </div>
+    <div><label for="me-like">Что в истории тебе нравится, а что даётся трудно?</label><input type="text" id="me-like" data-save></div>
+  </div>
+  <div class="card">
+    <h3>Наши правила</h3>
+    <p>1. Ошибаться можно: ошибка показывает, что нам повторить.</p>
+    <p>2. Спрашивать «почему?» можно всегда.</p>
+    <p>3. Свой ответ доказываем: «Я думаю так, потому что…»</p>
+  </div>
+  <a class="next" href="#razvedka">Дальше: Разведка →</a>
+</section>
+
+<!-- 2. РАЗВЕДКА (ДИАГНОСТИКА) -->
+<section class="view" id="razvedka" hidden>
+  <div>
+    <p class="kicker">Этап 2 · 13 минут</p>
+    <h1>Разведка</h1>
+  </div>
+  <p class="lead">Это не контрольная, оценок не будет. Здесь вопросы по всему 6 классу — и по Средним векам в Европе, и по Руси. Если тему ещё не проходили или не знаешь ответа, выбери «не знаю» или поставь «?» и иди дальше. В конце нажми «Готово».</p>
+  <form class="card" id="diag" autocomplete="off">
+    <div class="task">
+      <p class="q"><span class="num">1</span>Средние века — это примерно…</p>
+      <select id="d1" data-save aria-label="Ответ на задание 1"><option value="">—</option><option>с I по X век</option><option>с V по XV век</option><option>с X по XX век</option><option>с XV по XVIII век</option><option>не знаю</option></select>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">2</span>Соедини правителя и то, чем он известен.</p>
+      <p class="small">А) создал свод законов и построил храм Святой Софии в Константинополе<br>Б) пророк, проповедовавший новую религию — ислам<br>В) в 800 году провозглашён императором: на Западе снова появилась империя<br>Г) король франков, принял христианство вместе со своими воинами</p>
+      <div class="pairs">
+        <div><label for="d2a">1) Хлодвиг</label><select id="d2a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d2b">2) Юстиниан</label><select id="d2b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d2c">3) Мухаммад</label><select id="d2c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d2d">4) Карл Великий</label><select id="d2d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">3</span>Средневековые авторы делили общество на «тех, кто молится», «тех, кто сражается» и «тех, кто трудится». Куда отнести каждого?</p>
+      <div class="pairs">
+        <div><label for="d3a">а) монах</label><select id="d3a" data-save><option value="">—</option><option>молятся</option><option>сражаются</option><option>трудятся</option><option>не знаю</option></select></div>
+        <div><label for="d3b">б) рыцарь</label><select id="d3b" data-save><option value="">—</option><option>молятся</option><option>сражаются</option><option>трудятся</option><option>не знаю</option></select></div>
+        <div><label for="d3c">в) крестьянин</label><select id="d3c" data-save><option value="">—</option><option>молятся</option><option>сражаются</option><option>трудятся</option><option>не знаю</option></select></div>
+        <div><label for="d3d">г) епископ</label><select id="d3d" data-save><option value="">—</option><option>молятся</option><option>сражаются</option><option>трудятся</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">4</span>Соедини понятие и его значение.</p>
+      <p class="small">А) земля, которую сеньор давал за военную службу<br>Б) хозяйство, где почти всё нужное производят сами, а не покупают<br>В) феодал, который дал землю другому и стал его господином<br>Г) тот, кто получил землю и обязан служить господину</p>
+      <div class="pairs">
+        <div><label for="d4a">1) сеньор</label><select id="d4a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4b">2) вассал</label><select id="d4b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4c">3) феод</label><select id="d4c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d4d">4) натуральное хозяйство</label><select id="d4d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">5</span>Соедини правителя Руси и его дело.</p>
+      <p class="small">А) крестил Русь<br>Б) установила «уроки» и «погосты» — порядок сбора дани<br>В) объединил Новгород и Киев и сделал Киев своей столицей<br>Г) при нём записали первые законы Русской Правды и построили Софийский собор в Киеве</p>
+      <div class="pairs">
+        <div><label for="d5a">1) Олег</label><select id="d5a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5b">2) Ольга</label><select id="d5b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5c">3) Владимир Святославич</label><select id="d5c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d5d">4) Ярослав Мудрый</label><select id="d5d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">6</span>Соедини понятие и его значение.</p>
+      <p class="small">А) народное собрание в городах Руси<br>Б) объезд князем с дружиной подвластных земель для сбора дани<br>В) отряд воинов при князе<br>Г) рассказ о событиях, записанный по годам</p>
+      <div class="pairs">
+        <div><label for="d6a">1) полюдье</label><select id="d6a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6b">2) дружина</label><select id="d6b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6c">3) вече</label><select id="d6c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+        <div><label for="d6d">4) летопись</label><select id="d6d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">7</span>Найди лишний город и объясни, почему он лишний: Киев, Новгород, Константинополь, Чернигов.</p>
+      <select id="d7a" data-save aria-label="Лишнее в задании 7"><option value="">—</option><option>Киев</option><option>Новгород</option><option>Константинополь</option><option>Чернигов</option><option>не знаю</option></select>
+      <textarea id="d7b" data-save aria-label="Объяснение к заданию 7" placeholder="Лишний, потому что…"></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">8</span>Из какой страны Русь приняла христианство?</p>
+      <input type="text" id="d8" data-save aria-label="Ответ на задание 8">
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">9</span>Прочитай отрывок из летописи «Повесть временных лет». Летописец рассказывает о киевском князе Ярославе Мудром.</p>
+      <blockquote>«И любил Ярослав церковные уставы, попов любил немало, особенно же черноризцев, и книги любил, читая их часто и ночью и днем. И собрал писцов многих, и переводили они с греческого на славянский язык».<cite>Повесть временных лет, статья 6545 (1037) года. Перевод Д. С. Лихачёва (сокращено)</cite></blockquote>
+      <label for="d9a">а) Что делали писцы, которых собрал Ярослав?</label><input type="text" id="d9a" data-save>
+      <label for="d9b">б) Кто такие черноризцы? Подсказка: чёрная риза — это чёрная одежда.</label><input type="text" id="d9b" data-save>
+      <label for="d9c">в) Летописи обычно писали монахи. Почему летописец так хвалит Ярослава? Можно ли ему во всём верить?</label><textarea id="d9c" data-save></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">10</span>Восточные славяне чаще всего строили поселения и города на берегах рек. Почему? Назови две причины.</p>
+      <textarea id="d10" data-save aria-label="Ответ на задание 10"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn" type="submit">Готово</button>
+      <span class="small">Ответы сохранятся, даже если случайно закрыть страницу.</span>
+    </div>
+  </form>
+  <div class="card" id="diag-done" hidden>
+    <h3>Отлично, разведка закончена!</h3>
+    <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
+    <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
+    <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
+  </div>
+  <a class="next" href="#igra">Дальше: Русь, Византия или Европа? →</a>
+</section>
+
+<!-- 3. ИГРА -->
+<section class="view" id="igra" hidden>
+  <div>
+    <p class="kicker">Этап 3 · Разминка</p>
+    <h1>Русь, Византия или Европа?</h1>
+  </div>
+  <p class="lead">Средневековый мир был разным. Где это происходило: на Руси, в Византии или в Западной Европе?</p>
+  <div class="big-event" id="g1-event" aria-live="polite">…</div>
+  <div class="lr3">
+    <button class="btn" type="button" data-side="R">Русь</button>
+    <button class="btn" type="button" data-side="B">Византия</button>
+    <button class="btn" type="button" data-side="E">Западная Европа</button>
+  </div>
+  <p class="fb" id="g1-fb" aria-live="polite"></p>
+  <p class="small">Верно: <span class="score" id="g1-score">0</span> из <span class="score" id="g1-total">0</span></p>
+  <a class="next" href="#rasskaz">Дальше: Рассказ →</a>
+</section>
+
+<!-- 4. РАССКАЗ -->
+<section class="view" id="rasskaz" hidden>
+  <div>
+    <p class="kicker">Этап 4 · Слушаем и смотрим</p>
+    <h1>Письма из-под земли</h1>
+  </div>
+  <p class="lead">Летописи рассказывают о князьях, войнах и храмах. А как жили обычные люди: о чём писали друг другу, как учили детей, кому были должны? Долго об этом почти ничего не знали. Ответ лежал под ногами — в земле Великого Новгорода.</p>
+  <div class="split">
+    <figure class="card pic" style="margin:0">
+      <svg viewBox="0 0 400 420" role="img" aria-label="Схема: свиток бересты с процарапанными буквами и писало">
+        <rect width="400" height="420" fill="#fffdf7"/>
+        <g transform="translate(30 30)">
+          <path d="M0 20 Q0 0 20 0 H300 Q320 0 320 20 V170 Q320 190 300 190 H20 Q0 190 0 170 Z" fill="#efe2c6" stroke="#b9a37a" stroke-width="3"/>
+          <g stroke="#9c8660" stroke-width="2" opacity=".5"><path d="M40 30 h30 M150 52 h20 M240 34 h28 M90 150 h26 M210 160 h34 M270 120 h20"/></g>
+          <g font-family="Noto Serif, serif" font-size="25" fill="#4a3826">
+            <text x="22" y="62">ѿмикитикмаланіи</text>
+            <text x="22" y="98">поидизамьнеѧзъ</text>
+            <text x="22" y="134">тьбехоцюатꙑмене</text>
+            <text x="22" y="170">анатопослоухо…</text>
+          </g>
+        </g>
+        <g transform="translate(60 270) rotate(-12)">
+          <rect x="0" y="20" width="250" height="12" rx="6" fill="#d8cdb4" stroke="#8b7b5c" stroke-width="2"/>
+          <path d="M250 20 L290 26 L250 32 Z" fill="#8b7b5c"/>
+          <path d="M0 26 Q-34 4 -40 26 Q-34 48 0 26 Z" fill="#d8cdb4" stroke="#8b7b5c" stroke-width="2"/>
+          <circle cx="-26" cy="26" r="5" fill="#fffdf7" stroke="#8b7b5c" stroke-width="2"/>
+        </g>
+        <text x="30" y="372" font-family="Rubik, sans-serif" font-size="15" fill="#6b6056">Острый конец писала процарапывает бересту.</text>
+        <text x="30" y="394" font-family="Rubik, sans-serif" font-size="15" fill="#6b6056">Лопаточкой разглаживали воск на дощечках.</text>
+      </svg>
+      <figcaption class="small">Схема, а не фотография. На бересте — начало настоящей грамоты № 377: её прочитаешь ты.</figcaption>
+    </figure>
+    <div class="facts">
+      <div class="fact"><span class="y">Средние века</span><span>Новгородцы пишут на бересте — коре берёзы — письма, записки, списки долгов, учебные упражнения. Буквы не пишут чернилами, а процарапывают острой палочкой-<b>писалом</b>.</span></div>
+      <div class="fact"><span class="y">26 июля 1951</span><span>На раскопках в Новгороде, которыми руководит археолог Артемий Арциховский, участница экспедиции Нина Акулова замечает в земле свёрток бересты с буквами. Это первая найденная <b>берестяная грамота</b>.</span></div>
+      <div class="fact"><span class="y">1956</span><span>Там же находят грамоты новгородского мальчика Онфима: его упражнения и рисунки.</span></div>
+      <div class="fact"><span class="y">1988</span><span>Первую берестяную грамоту в Москве находят при раскопках на Красной площади.</span></div>
+      <div class="fact"><span class="y">Сейчас</span><span>Найдено больше 1300 грамот, из них больше 1200 — в Новгороде, и каждое лето археологи находят новые. В Новгороде 26 июля отмечают День берестяной грамоты.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Почему береста дожила до наших дней?</h3>
+    <p>Прочитанные записки рвали и выбрасывали. Под Новгородом лежит глина, она не пропускает воду, поэтому земля там всегда влажная и в ней почти нет воздуха. Без воздуха дерево, кожа и береста почти не гниют.</p>
+    <p>Улицы мостили брёвнами. Когда мостовая утопала в грязи, поверх клали новую. На одной улице археологи насчитали 28 мостовых, одна над другой, как этажи. По годичным кольцам брёвен учёные узнают, в каком году срубили дерево, а значит — примерно когда записка попала в землю.</p>
+  </div>
+  <div class="card">
+    <h3>Откуда на Руси буквы?</h3>
+    <p>Славянскую азбуку создали братья <b>Кирилл и Мефодий</b> из византийского города Салоники. На Руси писали <b>кириллицей</b>. Большинство учёных считают, что письменность пришла на Русь вместе с христианством: для церковной службы нужны были книги. При Ярославе Мудром в Киеве и Новгороде появились школы.</p>
+    <p>Летописи и книги писали монахи и книжники. А берестяные грамоты показывают, что в Новгороде писали и читали ещё и купцы, ремесленники, женщины и дети.</p>
+  </div>
+  <div class="card">
+    <h3>Сравни: Русь и Европа</h3>
+    <p>В Европе книги писали на <b>пергаменте</b> — тонко выделанной коже. Он прочный, но дорогой. Учились на дощечках, покрытых воском, как ещё в Древнем Риме. На Руси тоже были пергаментные книги и дощечки с воском: древнейшая известная книга Руси, Новгородская псалтырь, — это как раз такие дощечки. А для записок и писем брали дешёвую бересту: берёзы росли повсюду.</p>
+  </div>
+  <div class="card reveal" id="r1">
+    <h3>Подумай</h3>
+    <p>Почему для историка берестяная грамота бывает интереснее, чем ещё одна летопись?</p>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="r1">Показать ответ</button></div>
+    <p class="ans">Летопись писали для истории, о князьях и войнах. Грамоту писали для дела, не думая о потомках: в ней видна обычная жизнь, живая речь и люди, о которых летопись молчит.</p>
+  </div>
+  <a class="next" href="#detektiv">Дальше: Детектив →</a>
+</section>
+
+<!-- 5. ДЕТЕКТИВ -->
+<section class="view" id="detektiv" hidden>
+  <div>
+    <p class="kicker">Этап 5 · Работа с источником</p>
+    <h1>Прочитай грамоту № 377</h1>
+  </div>
+  <p class="lead">Её нашли в Новгороде, в слое конца XIII века. Конец оторван. Новгородцы писали слова подряд, без пробелов, — разбираться придётся тебе.</p>
+  <div class="card">
+    <h3>Шаг 1. Раздели текст на слова</h3>
+    <p>Нажми на букву, после которой кончается слово, — появится черта. Нажмёшь ещё раз — черта исчезнет. Подсказка: первое слово — <span class="old">ѿ</span> («от»).</p>
+    <div class="bark"><div class="chars" id="chars"></div></div>
+    <div class="row"><button class="btn" type="button" id="w-check">Проверить</button><button class="btn ghost" type="button" id="w-clear">Стереть</button><button class="btn ghost" type="button" id="w-show">Показать ответ</button></div>
+    <p class="fb" id="w-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Шаг 2. Переведи на современный русский</h3>
+    <p>Большинство букв знакомы. Вот незнакомые и непривычные:</p>
+    <div class="abc">
+      <div><span class="old">ѿ</span><span class="t"><b>от</b>«омега» с буквой т</span></div>
+      <div><span class="old">ѧ</span><span class="t"><b>я</b>«малый юс»</span></div>
+      <div><span class="old">ꙑ</span><span class="t"><b>ы</b>старое написание</span></div>
+      <div><span class="old">оу</span><span class="t"><b>у</b>две буквы — один звук</span></div>
+      <div><span class="old">і</span><span class="t"><b>и</b>«и десятеричное»</span></div>
+      <div><span class="old">ь</span><span class="t"><b>е</b>часто там, где мы пишем е</span></div>
+    </div>
+    <label for="tr">Твой перевод</label>
+    <textarea id="tr" data-save placeholder="От Микиты к …"></textarea>
+    <div class="reveal" id="tr-r"><div class="row"><button class="btn ghost" type="button" data-reveal="tr-r">Сравнить с переводом учёных</button></div>
+      <p class="ans">«От Микиты к Малании. Пойди за меня — я тебя хочу, а ты меня; а на то свидетель Игнат Моисеев…» <span class="small">(перевод по базе gramoty.ru)</span></p></div>
+  </div>
+  <div class="card">
+    <h3>Шаг 3. Разберись, что это за письмо</h3>
+    <div class="task reveal" id="q1">
+      <p class="q">Кто пишет, кому и что предлагает?</p>
+      <textarea id="dq1" data-save aria-label="Ответ: кто кому пишет"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q1">Проверить себя</button></div>
+      <p class="ans">Микита пишет Малании и предлагает ей выйти за него замуж. Это одно из древнейших известных брачных предложений на Руси.</p>
+    </div>
+    <div class="task reveal" id="q2">
+      <p class="q">Слово «послух» происходит от слова «слушать». Кто такой послух и зачем он нужен в письме?</p>
+      <textarea id="dq2" data-save aria-label="Ответ про послуха"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q2">Проверить себя</button></div>
+      <p class="ans">Послух — свидетель, который слышал договор и может его подтвердить. Это слово есть и в Русской Правде — первом своде законов Руси: послух мог подтвердить в суде, что человек говорит правду. Значит, письмо Микиты — почти официальный договор о свадьбе.</p>
+    </div>
+    <div class="task reveal" id="q3">
+      <p class="q">★ Найди слово, где вместо привычной буквы <b>ч</b> стоит <b>ц</b>. Почему так написано?</p>
+      <textarea id="dq3" data-save aria-label="Ответ про ц и ч"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q3">Проверить себя</button></div>
+      <p class="ans"><span class="old">хоцю</span> = «хочу». В древнем новгородском говоре не различали звуки ц и ч — это называют «цоканьем». Писали так, как говорили, поэтому грамоты сохранили живую речь.</p>
+    </div>
+  </div>
+  <p class="note">Как работает наука: в первых публикациях имя невесты читали как «Ульяница». Потом лингвисты заново изучили бересту и прочитали «Малания». Учёные могут уточнять даже прочтение букв, и это нормально.</p>
+  <a class="next" href="#onfim">Дальше: Онфим →</a>
+</section>
+
+<!-- 6. ОНФИМ -->
+<section class="view" id="onfim" hidden>
+  <div>
+    <p class="kicker">Этап 6 · Ученик из XIII века</p>
+    <h1>Тетрадки мальчика Онфима</h1>
+  </div>
+  <div class="split">
+    <figure class="card pic" style="margin:0">
+      <svg viewBox="0 0 400 300" role="img" aria-label="Схематичный детский рисунок: всадник с копьём, поверженный враг, буквы азбуки и подпись">
+        <rect width="400" height="300" rx="14" fill="#efe2c6"/>
+        <g font-family="Noto Serif, serif" font-size="24" fill="#4a3826"><text x="20" y="38">а б в г д е ж з и і к</text></g>
+        <g stroke="#4a3826" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="180" cy="168" rx="56" ry="20"/>
+          <path d="M226 158 L252 124 L274 132 L266 142 L248 140 L236 168"/>
+          <path d="M252 124 l-2 -12 l8 8"/>
+          <path d="M142 180 l-6 46 M160 186 l-2 40 M206 186 l4 40 M222 180 l8 46"/>
+          <path d="M124 162 q-22 8 -20 38"/>
+          <circle cx="182" cy="96" r="12"/>
+          <path d="M182 108 v40 M182 148 l-16 18 M182 148 l14 20 M182 122 l26 8 M182 122 l-18 12"/>
+          <path d="M200 128 L336 204"/>
+          <circle cx="372" cy="214" r="9"/>
+          <path d="M362 220 l-40 18 M346 228 l-6 16 M334 233 l8 14"/>
+        </g>
+        <g font-family="Noto Serif, serif" font-size="22" fill="#b0391f"><text x="62" y="100">онѳиме</text></g>
+        <text x="20" y="284" font-family="Rubik, sans-serif" font-size="14" fill="#6b6056">Схема по мотивам грамоты № 200, не копия</text>
+      </svg>
+      <figcaption class="small">Онфим нарисовал всадника с оружием и побеждённого врага, а рядом подписал своё имя. Многие учёные считают, что всадник — это он сам.</figcaption>
+    </figure>
+    <div class="card">
+      <p>Примерно в середине XIII века в Новгороде жил мальчик <b>Онфим</b>. Учёные считают, что ему было лет шесть-семь. В 1956 году археологи нашли в одном месте больше десяти его берестяных «тетрадок»: может быть, он их потерял.</p>
+      <p>На бересте Онфим учился: писал азбуку, потом склады — сочетания букв, потом строки из Псалтыри. А на полях рисовал: всадников, зверей, себя. На одном рисунке он изобразил зверя и подписал: «Я зверь». У нарисованных человечков на руках бывает то три пальца, то больше: считать он, видимо, ещё не умел.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Склады Онфима</h3>
+    <p>Так Онфим записал склады на одной из грамот. Пробелов, как всегда, нет.</p>
+    <p class="sklad">бевегедежезекелемене…</p>
+    <label for="sk">Какие три склада он напишет дальше? Пиши через пробел.</label>
+    <div class="row"><input type="text" id="sk" data-save style="max-width:260px"><button class="btn ghost" type="button" id="sk-check">Проверить</button></div>
+    <p class="fb" id="sk-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Сравни: школа на Руси и в Европе</h3>
+    <p>В Западной Европе детей учили читать в школах при монастырях и соборах — на латыни, и тоже часто по Псалтыри. Онфим тоже учился читать по Псалтыри, но по-церковнославянски — этот язык был понятнее латыни, близок к родному. А письма и записки новгородцы писали так, как говорили, — на своём новгородском наречии.</p>
+  </div>
+  <div class="card reveal" id="o1">
+    <h3>Что мы узнали о детях Новгорода?</h3>
+    <label for="do1">Напиши два вывода, которые можно сделать по грамотам Онфима.</label>
+    <textarea id="do1" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="o1">Проверить себя</button></div>
+    <p class="ans">Детей в Новгороде учили грамоте с раннего возраста. Учили по порядку: азбука, склады, потом тексты. Дети отвлекались, рисовали и воображали себя героями — совсем как сейчас.</p>
+  </div>
+  <div class="card">
+    <label for="do2">★ Через 800 лет археолог найдёт твою тетрадь по истории. Что он о тебе узнает?</label>
+    <textarea id="do2" data-save></textarea>
+  </div>
+  <a class="next" href="#gorod">Дальше: Город грамот →</a>
+</section>
+
+<!-- 7. ГОРОД ГРАМОТ -->
+<section class="view" id="gorod" hidden>
+  <div>
+    <p class="kicker">Этап 7 · Новгород</p>
+    <h1>Город грамот</h1>
+  </div>
+  <p class="lead">Почему больше всего грамот нашли в Новгороде? Дело не только во влажной земле. Новгород был богатым торговым городом, и с 1136 года новгородцы сами решали на вече, какого князя пригласить. Чтобы торговать, договариваться, судиться и выбирать, нужно было писать.</p>
+  <div class="card">
+    <h3>Кто управлял Новгородом?</h3>
+    <p class="small">А) высшее выборное должностное лицо: созывал вече, вершил суд, заключал договор с князем<br>Б) глава новгородской церкви: хранил казну и архив, при нём вели летопись<br>В) собрание новгородцев: приглашало князя и выбирало должностных лиц<br>Г) представлял интересы купцов и ремесленников, судил по торговым делам</p>
+    <div class="pairs">
+      <div><label for="n1a">1) вече</label><select id="n1a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option></select></div>
+      <div><label for="n1b">2) посадник</label><select id="n1b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option></select></div>
+      <div><label for="n1c">3) тысяцкий</label><select id="n1c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option></select></div>
+      <div><label for="n1d">4) архиепископ (владыка)</label><select id="n1d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="n1-check">Проверить</button></div>
+    <p class="fb" id="n1-fb" aria-live="polite"></p>
+  </div>
+  <div class="card reveal" id="nv">
+    <h3>Берестяные «бюллетени»</h3>
+    <p>Археологи нашли в Новгороде маленькие кусочки бересты, на каждом нацарапано одно имя. Учёные предполагают — точно это не известно, — что так могли голосовать на вече, выбирая, например, должностное лицо.</p>
+    <label for="dnv">Если это правда, что это говорит о новгородцах?</label>
+    <textarea id="dnv" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="nv">Проверить себя</button></div>
+    <p class="ans">Многие участники вече умели хотя бы написать или прочитать имя. Выборы были важным делом, и их старались провести по правилам.</p>
+  </div>
+  <div class="card reveal" id="ne">
+    <h3>Сравни с Европой</h3>
+    <label for="dne">В Западной Европе многие города тоже добивались права управлять собой сами. Чем Новгород похож на них?</label>
+    <textarea id="dne" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="ne">Проверить себя</button></div>
+    <p class="ans">Богатые купцы и ремесленники, торговля с другими странами, свои выборные власти и собрания горожан. Новгород и сам торговал с немецкими купцами из городов Ганзы.</p>
+  </div>
+  <div class="card">
+    <h3>Что было раньше?</h3>
+    <p class="small">а) Онфим учится писать на бересте; б) Крещение Руси; в) новгородцы изгоняют князя и начинают сами приглашать князей; г) Кирилл и Мефодий создают славянскую азбуку</p>
+    <div class="pairs">
+      <div><label for="o1s">Первое</label><select id="o1s" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="o2s">Второе</label><select id="o2s" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="o3s">Третье</label><select id="o3s" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+      <div><label for="o4s">Четвёртое</label><select id="o4s" data-save><option value="">—</option><option>а</option><option>б</option><option>в</option><option>г</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="ord-check">Проверить</button></div>
+    <p class="fb" id="ord-fb" aria-live="polite"></p>
+  </div>
+  <a class="next" href="#mif">Дальше: Миф или правда →</a>
+</section>
+
+<!-- 8. МИФ -->
+<section class="view" id="mif" hidden>
+  <div>
+    <p class="kicker">Этап 8 · Закрепление</p>
+    <h1>Миф или правда?</h1>
+  </div>
+  <p class="lead">Реши, а потом объясни учителю, почему ты так думаешь.</p>
+  <div class="grid2" id="myths"></div>
+  <a class="next" href="#itog">Дальше: Итог →</a>
+</section>
+
+<!-- 9. ИТОГ -->
+<section class="view" id="itog" hidden>
+  <div>
+    <p class="kicker">Этап 9 · Итог</p>
+    <h1>Расскажи и подведём итог</h1>
+  </div>
+  <div class="card">
+    <h3>Расскажи учителю по плану</h3>
+    <p>1. Что такое берестяная грамота, чем на ней писали и почему она сохранилась?</p>
+    <p>2. Откуда на Руси взялась письменность?</p>
+    <p>3. Что мы узнали о жителях Новгорода из письма Микиты и тетрадок Онфима?</p>
+    <p>4. Как управлялся Новгород и почему там так много писали?</p>
+  </div>
+  <div class="card">
+    <div class="grid2">
+      <div><p>Насколько сегодня было интересно?</p><div class="rate" data-rate="interest"></div></div>
+      <div><p>Насколько было понятно?</p><div class="rate" data-rate="clear"></div></div>
+    </div>
+    <div class="grid2">
+      <div><label for="it-best">Что было самым интересным?</label><input type="text" id="it-best" data-save></div>
+      <div><label for="it-hard">Что было трудным?</label><input type="text" id="it-hard" data-save></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="all-copy">Скопировать все ответы для учителя</button></div>
+    <div class="copybox" id="all-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="all-text"></textarea></div>
+  </div>
+  <div class="card">
+    <h3>Только для учителя: очистить тетрадь</h3>
+    <p class="small">Стирает все ответы во всех разделах тетради — от «Знакомства» до «Домашки» — и открывает её с начала. Нужен код учителя.</p>
+    <div class="row" id="reset-row">
+      <input type="password" id="reset-pin" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Код учителя" aria-label="Код учителя" style="max-width:170px">
+      <button class="btn ghost" type="button" id="reset-btn">Стереть все ответы</button>
+      <span id="reset-ask" hidden><span class="fb wrong">Точно стереть все ответы во всей тетради?</span>
+        <button class="btn" type="button" id="reset-yes">Да, стереть</button>
+        <button class="btn ghost" type="button" id="reset-no">Отмена</button></span>
+    </div>
+    <p class="fb" id="reset-fb" aria-live="polite"></p>
+  </div>
+  <a class="next" href="#dz">Дальше: Домашнее задание →</a>
+</section>
+
+<!-- 10. ДЗ -->
+<section class="view" id="dz" hidden>
+  <div>
+    <p class="kicker">Этап 10 · 15–20 минут дома</p>
+    <h1>Домашнее задание</h1>
+  </div>
+  <div class="card">
+    <h3>1. Твоя берестяная грамота</h3>
+    <p>Напиши записку кому-нибудь из семьи, как новгородец. Начни так, как начинались грамоты: «Поклон от … к …». Дальше 2–3 предложения по делу: что купить, что сделать, о чём договориться. Можно писать слова без пробелов и поставить одну-две старые буквы из таблицы. Рядом нарисуй себя, как Онфим. Сфотографируй и пришли учителю.</p>
+  </div>
+  <div class="card">
+    <h3>2. Проверь себя</h3>
+    <div class="pairs">
+      <div><label for="h1">Чем новгородцы процарапывали буквы на бересте?</label><select id="h1" data-save><option value="">—</option><option>пером</option><option>писалом</option><option>кистью</option></select></div>
+      <div><label for="h2">Кто создал славянскую азбуку?</label><select id="h2" data-save><option value="">—</option><option>Кирилл и Мефодий</option><option>Ярослав Мудрый</option><option>Нестор-летописец</option></select></div>
+      <div><label for="h3">Кто в Новгороде представлял интересы купцов и ремесленников?</label><select id="h3" data-save><option value="">—</option><option>князь</option><option>тысяцкий</option><option>архиепископ</option></select></div>
+      <div><label for="h4">Кто такой послух?</label><select id="h4" data-save><option value="">—</option><option>гонец с письмом</option><option>свидетель</option><option>сборщик дани</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="h-check">Проверить</button></div>
+    <p class="fb" id="h-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>3. Фото учебников</h3>
+    <p>Сфотографируй оглавление обоих учебников истории — России и всеобщей — и отметь параграфы, которые вы проходите сейчас. Напиши одну тему с начала года, которая была самой непонятной. Пришли учителю.</p>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>Тетрадь к вводному занятию по истории, 6 класс. Ответы хранятся только в этом браузере; чтобы учитель их увидел, используй кнопки «Скопировать».</p>
+</footer>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+/* ---------- хранение ---------- */
+const KEY="bereste6-v2";
+let D={};
+try{D=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){D={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+$$("[data-save]").forEach(el=>{
+  if(D[el.id]!==undefined) el.value=D[el.id];
+  el.addEventListener("input",()=>{D[el.id]=el.value;save()});
+  el.addEventListener("change",()=>{D[el.id]=el.value;save()});
+});
+
+/* ---------- навигация ---------- */
+const views=$$("section.view");
+function show(){
+  const id=(location.hash||"").slice(1);
+  const v=views.find(x=>x.id===id)||views[0];
+  views.forEach(x=>x.hidden=(x!==v));
+  $$("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
+show();
+
+/* ---------- утилиты ---------- */
+function fb(el,text,good){el.textContent=text;el.className="fb "+(good===true?"good":good===false?"wrong":"")}
+function toRoman(n){const m=[[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];let r="";for(const [v,s] of m){while(n>=v){r+=s;n-=v}}return r}
+function cent(s){
+  s=(s||"").toUpperCase().replace(/Х/g,"X").replace(/І/g,"I").replace(/[^0-9IVXLCDM]/g,"");
+  if(/^\d+$/.test(s)) s=toRoman(parseInt(s,10));
+  return s;
+}
+async function copy(text,box,ta,btn){
+  ta.value=text;
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  catch(e){box.classList.add("show");ta.focus();ta.select()}
+}
+$$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{$("#"+b.dataset.reveal).classList.toggle("open")}));
+const val=id=>($("#"+id)||{}).value||"";
+
+/* ---------- 1. Машина времени ---------- */
+const tms=$$("#tm-cards .tm");
+function setTm(choice){
+  tms.forEach(b=>b.setAttribute("aria-pressed",b.dataset.choice===choice?"true":"false"));
+  fb($("#tm-picked"),choice?"Ты отправляешься: "+choice+".":"Нажми на картинку, чтобы выбрать.",choice?true:undefined);
+}
+tms.forEach(b=>b.addEventListener("click",()=>{D.tm=b.dataset.choice;save();setTm(D.tm)}));
+setTm(D.tm||"");
+
+/* ---------- 2. Разведка ---------- */
+function pairsScore(list){const c=list.filter(([id,a])=>val(id)===a).length;return c===4?2:c>=2?1:0}
+function diagScore(){
+  let s=0;
+  if(val("d1")==="с V по XV век") s+=1;
+  s+=pairsScore([["d2a","Г"],["d2b","А"],["d2c","Б"],["d2d","В"]]);
+  s+=pairsScore([["d3a","молятся"],["d3b","сражаются"],["d3c","трудятся"],["d3d","молятся"]]);
+  s+=pairsScore([["d4a","В"],["d4b","Г"],["d4c","А"],["d4d","Б"]]);
+  s+=pairsScore([["d5a","В"],["d5b","Б"],["d5c","А"],["d5d","Г"]]);
+  s+=pairsScore([["d6a","Б"],["d6b","В"],["d6c","А"],["d6d","Г"]]);
+  if(val("d7a")==="Константинополь") s+=1;
+  if(/визант|грек|греч|констант|царьград/i.test(val("d8"))) s+=1;
+  return s;
+}
+function diagText(){
+  const L=[];
+  L.push("РАЗВЕДКА (диагностика)");
+  L.push("1) Средние века: "+val("d1"));
+  L.push("2) Хлодвиг "+val("d2a")+", Юстиниан "+val("d2b")+", Мухаммад "+val("d2c")+", Карл Великий "+val("d2d"));
+  L.push("3) монах "+val("d3a")+"; рыцарь "+val("d3b")+"; крестьянин "+val("d3c")+"; епископ "+val("d3d"));
+  L.push("4) сеньор "+val("d4a")+", вассал "+val("d4b")+", феод "+val("d4c")+", натуральное хозяйство "+val("d4d"));
+  L.push("5) Олег "+val("d5a")+", Ольга "+val("d5b")+", Владимир "+val("d5c")+", Ярослав "+val("d5d"));
+  L.push("6) полюдье "+val("d6a")+", дружина "+val("d6b")+", вече "+val("d6c")+", летопись "+val("d6d"));
+  L.push("7) лишнее: "+val("d7a")+"; почему: "+val("d7b"));
+  L.push("8) "+val("d8"));
+  L.push("9а) "+val("d9a"));
+  L.push("9б) "+val("d9b"));
+  L.push("9в) "+val("d9c"));
+  L.push("10) "+val("d10"));
+  L.push("Автопроверка заданий 1–8: "+diagScore()+" из 13. Объяснение в 7, задания 9–10 (до 6 баллов) проверяет учитель.");
+  return L.join("\n");
+}
+$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-text").value=diagText();$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
+$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
+
+/* ---------- 3. Игра ---------- */
+const NAMES={R:"Русь",B:"Византия",E:"Западная Европа"};
+const events=[
+  ["Император Юстиниан строит храм Святой Софии в Константинополе","B",""],
+  ["Карла Великого провозглашают императором","E",""],
+  ["Князь Владимир крестит киевлян","R",""],
+  ["Ярослав Мудрый строит Софийский собор в Киеве","R","Соборы Святой Софии строили и на Руси — в Киеве, Новгороде и Полоцке. Их назвали в честь главного храма Константинополя."],
+  ["Рыцари сражаются на турнире у стен замка","E",""],
+  ["Новгородцы собираются на вече","R",""],
+  ["Флот отражает врагов «греческим огнём»","B",""],
+  ["Монахи переписывают книги на латыни","E","В Византии книги писали по-гречески, на Руси — по-славянски."],
+  ["Мальчик Онфим пишет склады на бересте","R",""],
+  ["Король франков Хлодвиг принимает христианство","E",""]
+];
+let gi=0,gs=0,gt=0,locked=false;
+function g1(){ $("#g1-event").textContent=events[gi%events.length][0]; }
+$$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
+  if(locked)return; locked=true;
+  const ev=events[gi%events.length];const right=ev[1]===b.dataset.side; gt++; if(right)gs++;
+  $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
+  fb($("#g1-fb"),(right?"Верно!":"Не совсем: это "+NAMES[ev[1]]+".")+(ev[2]?" "+ev[2]:""),right);
+  setTimeout(()=>{gi++;g1();locked=false},ev[2]?2600:1100);
+}));
+g1();
+
+/* ---------- 5. Детектив: деление на слова ---------- */
+const WORDS=["ѿ","микити","к","маланіи","поиди","за","мьне","ѧзъ","тьбе","хоцю","а","тꙑ","мене","а","на","то","послоухо","игнато"];
+const RAW=Array.from(WORDS.join(""));
+const RIGHT=new Set();{let p=0;WORDS.forEach((w,i)=>{p+=Array.from(w).length;if(i<WORDS.length-1)RIGHT.add(p-1)})}
+let BR=new Set(Array.isArray(D.br)?D.br:[]);
+const charsEl=$("#chars");
+RAW.forEach((c,i)=>{
+  const b=document.createElement("button");b.type="button";b.className="ch";b.textContent=c;b.dataset.i=i;
+  b.setAttribute("aria-label","Буква "+(i+1)+": "+c+". Нажми, чтобы поставить или убрать границу слова");
+  if(i===RAW.length-1){b.disabled=true;b.style.cursor="default"}
+  b.addEventListener("click",()=>{if(BR.has(i))BR.delete(i);else BR.add(i);D.br=[...BR];save();paint()});
+  charsEl.appendChild(b);
+});
+const tail=document.createElement("span");tail.className="tail";tail.textContent=" мо… (дальше оторвано)";charsEl.appendChild(tail);
+function paint(marks){
+  $$("#chars .ch").forEach(b=>{const i=+b.dataset.i;b.classList.toggle("brk",BR.has(i));b.classList.remove("ok","bad","miss");
+    if(marks){if(BR.has(i))b.classList.add(RIGHT.has(i)?"ok":"bad");else if(RIGHT.has(i))b.classList.add("miss")}});
+}
+paint();
+function wordsDone(){let ok=0,bad=0;BR.forEach(i=>RIGHT.has(i)?ok++:bad++);return {ok,bad,miss:RIGHT.size-ok}}
+$("#w-check").addEventListener("click",()=>{
+  const r=wordsDone();paint(true);
+  if(!r.bad&&!r.miss) fb($("#w-fb"),"Все 18 слов найдены! Теперь читать гораздо легче.",true);
+  else fb($("#w-fb"),"Верных границ: "+r.ok+" из "+RIGHT.size+"."+(r.bad?" Лишних черт: "+r.bad+" (отмечены красным).":"")+(r.miss?" Ещё не найдено: "+r.miss+".":""),false);
+});
+$("#w-clear").addEventListener("click",()=>{BR=new Set();D.br=[];save();paint();fb($("#w-fb"),"")});
+$("#w-show").addEventListener("click",()=>{BR=new Set(RIGHT);D.br=[...BR];D.brShown=true;save();paint(true);fb($("#w-fb"),"Вот как делят текст учёные: "+WORDS.join(" ")+" …",true)});
+
+/* ---------- 6. Онфим ---------- */
+$("#sk-check").addEventListener("click",()=>{
+  const s=(val("sk")||"").toUpperCase().replace(/[^А-ЯЁ]+/g," ").trim();
+  if(s==="ПЕ РЕ СЕ") fb($("#sk-fb"),"Верно! Онфим шёл по азбуке: б, в, г, д… и к каждой букве прибавлял е.",true);
+  else if(s.replace(/ /g,"")==="ПЕРЕСЕ") fb($("#sk-fb"),"Буквы верные! Раздели их пробелами: ПЕ РЕ СЕ.",true);
+  else fb($("#sk-fb"),"Подсказка: раздели запись по две буквы — бе, ве, ге… Какие буквы азбуки идут после Н?",false);
+});
+
+/* ---------- 7. Город грамот ---------- */
+$("#n1-check").addEventListener("click",()=>{
+  const k=[["n1a","В"],["n1b","А"],["n1c","Г"],["n1d","Б"]];let n=0;
+  k.forEach(([id,a])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(e.value===a){e.classList.add("ok");n++}else e.classList.add("bad")});
+  D.n1=n;save();
+  fb($("#n1-fb"),n===4?"Всё верно! Новгородом управляли выборные люди, а князя приглашали по договору.":"Верно "+n+" из 4. Подсказка: «тысяча» — так называлось городское ополчение, а тысяцкий был связан с купцами и ремесленниками.",n===4);
+});
+$("#ord-check").addEventListener("click",()=>{
+  const got=[val("o1s"),val("o2s"),val("o3s"),val("o4s")].join("");D.ord=got;save();
+  if(got==="гбва") fb($("#ord-fb"),"Верно! Азбука Кирилла и Мефодия — IX век, Крещение Руси — 988 год, Новгород сам приглашает князей — с 1136 года, Онфим — середина XIII века.",true);
+  else fb($("#ord-fb"),"Пока не так. Подумай: без азбуки нельзя писать, а писать на Руси широко стали после принятия христианства.",false);
+});
+
+/* ---------- 8. Миф ---------- */
+const MY=[
+  ["На Руси читать и писать умели только монахи и князья.",false,"Миф. Грамоты писали купцы, ремесленники, женщины и даже дети, как Онфим. Но сколько людей всего были грамотными, учёные точно сказать не могут: об этом спорят."],
+  ["Берестяные грамоты писали чернилами.",false,"Миф. Почти все грамоты процарапаны писалом. Чернилами написаны лишь единицы — например, большая грамота, найденная в Московском Кремле в 2007 году."],
+  ["Новгородом, как и Киевом, правил князь, который сам передавал власть сыну.",false,"Миф. С 1136 года новгородцы на вече сами приглашали князя и заключали с ним договор. Без согласия новгородцев он не мог принимать важных решений."],
+  ["В Москве берестяных грамот никогда не находили.",false,"Миф. Первую нашли в 1988 году на Красной площади, потом ещё несколько, в том числе в Кремле. Но их гораздо меньше, чем в Новгороде."],
+  ["Грамоты сохранились, потому что их бережно хранили в сундуках.",false,"Миф. Прочитанные записки рвали и выбрасывали. Сохранила их влажная земля, в которой почти нет воздуха."]
+];
+$("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="st">'+(i+1)+'. '+m[0]+'</span><div class="row"><button class="btn ghost" type="button" data-m="'+i+'" data-a="0">Миф</button><button class="btn ghost" type="button" data-m="'+i+'" data-a="1">Правда</button></div><p class="ex fb"></p></div>').join("");
+$$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
+  const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
+  $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
+}));
+
+/* ---------- 9. Итог ---------- */
+$$(".rate").forEach(r=>{const k=r.dataset.rate;for(let n=1;n<=5;n++){const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-label",n+" из 5");b.setAttribute("aria-pressed",String(D[k]==n));b.addEventListener("click",()=>{D[k]=n;save();$$("button",r).forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});r.appendChild(b)}});
+function allText(){
+  const L=[];
+  L.push("ЗНАКОМСТВО: машина времени — "+(D.tm||"не выбрано")+"; знаю об этом месте: "+val("tm-know")+"; встречу там: "+val("tm-meet"));
+  L.push("О СЕБЕ: история России — "+val("me-rus")+"; всеобщая — "+val("me-vse")+"; нравится/трудно — "+val("me-like"));
+  L.push("");L.push(diagText());L.push("");
+  L.push("РУСЬ, ВИЗАНТИЯ ИЛИ ЕВРОПА: "+(D.game||"не играл(а)"));
+  const r=wordsDone();
+  L.push("ДЕТЕКТИВ: границы слов верно "+r.ok+" из "+RIGHT.size+", лишних "+r.bad+(D.brShown?" (открывал ответ)":""));
+  L.push("Перевод: "+val("tr"));
+  L.push("Кто кому: "+val("dq1"));L.push("Послух: "+val("dq2"));L.push("Ц и Ч: "+val("dq3"));
+  L.push("ОНФИМ: склады — "+val("sk")+"; выводы — "+val("do1")+"; моя тетрадь — "+val("do2"));
+  L.push("ГОРОД ГРАМОТ: управление Новгородом "+val("n1a")+val("n1b")+val("n1c")+val("n1d")+" (верно: ВАГБ); бюллетени — "+val("dnv")+"; сравнение с Европой — "+val("dne")+"; порядок событий "+[val("o1s"),val("o2s"),val("o3s"),val("o4s")].join("")+" (верно: гбва)");
+  L.push("МИФ ИЛИ ПРАВДА (первый ответ): "+MY.map((m,i)=>(i+1)+" "+(D["myth"+i]||"—")).join(", "));
+  L.push("ИТОГ: интересно "+(D.interest||"—")+"/5, понятно "+(D.clear||"—")+"/5; интересное: "+val("it-best")+"; трудное: "+val("it-hard"));
+  return L.join("\n");
+}
+$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
+
+/* ---------- 10. ДЗ ---------- */
+$("#h-check").addEventListener("click",()=>{
+  const r=[[val("h1")==="писалом","1"],[val("h2")==="Кирилл и Мефодий","2"],[val("h3")==="тысяцкий","3"],[val("h4")==="свидетель","4"]];
+  const n=r.filter(x=>x[0]).length;
+  fb($("#h-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+});
+/* ---------- Сброс ---------- */
+const PIN_H=2504610021;
+function fnv(str){let h=0x811c9dc5;const b=new TextEncoder().encode(str);for(const c of b){h^=c;h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+let pinWait=false;
+$("#reset-btn").addEventListener("click",()=>{
+  if(pinWait)return;
+  const pin=($("#reset-pin").value||"").trim();
+  if(fnv("bereste6:"+pin)===PIN_H){fb($("#reset-fb"),"");$("#reset-pin").hidden=true;$("#reset-ask").hidden=false;$("#reset-btn").hidden=true;return}
+  $("#reset-pin").value="";pinWait=true;
+  fb($("#reset-fb"),"Неверный код. Эта кнопка только для учителя.",false);
+  setTimeout(()=>{pinWait=false},3000);
+});
+$("#reset-pin").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#reset-btn").click()}});
+$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#reset-btn").hidden=false;$("#reset-pin").hidden=false;$("#reset-pin").value=""});
+$("#reset-yes").addEventListener("click",()=>{
+  try{localStorage.removeItem(KEY);localStorage.removeItem("bereste6-v1")}catch(e){}
+  D={};
+  $$("[data-save]").forEach(e=>{e.value="";e.classList.remove("ok","bad")});
+  try{BR=new Set();paint();}catch(e){}
+  try{setTm("");}catch(e){}
+  $$(".rate button").forEach(x=>x.setAttribute("aria-pressed","false"));
+  $$(".myth").forEach(m=>{m.classList.remove("done");$$("button",m).forEach(x=>x.classList.remove("ok","bad"))});
+  $$(".reveal").forEach(r=>r.classList.remove("open"));
+  $$(".fb").forEach(f=>{if(f.id&&f.id!=="tm-picked"){f.textContent="";f.className="fb"}});
+  $$(".copybox").forEach(c=>c.classList.remove("show"));
+  $("#diag-done").hidden=true;$("#reset-ask").hidden=true;$("#reset-btn").hidden=false;$("#reset-pin").hidden=false;$("#reset-pin").value="";
+  gi=0;gs=0;gt=0;$("#g1-score").textContent="0";$("#g1-total").textContent="0";g1();
+  try{history.replaceState(null,"","#znakomstvo")}catch(e){location.hash="znakomstvo"}
+  location.reload();
+});
+})();
+</script>
+</body>
+</html>
