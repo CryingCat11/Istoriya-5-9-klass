@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тетрадь «Кадры одного века»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&family=Ruslan+Display&display=swap" rel="stylesheet">
+<style>
+/* Фотобумага и проявочная: тёплая бумага, сепия-чернила, красный свет лаборатории как акцент, синий для кнопок.
+   Макет как в тетрадях 5–8 класса: липкая навигация по этапам, один этап на экране — удобно в демонстрации экрана. */
+:root{
+  --paper:#efe9de;
+  --sheet:#fffdf8;
+  --ink:#241d18;
+  --muted:#675c52;
+  --cin:#a1301f;
+  --cin-soft:#f5ddd5;
+  --indigo:#2b4c6f;
+  --indigo-soft:#dfe7f0;
+  --ok:#2b7a50;
+  --ok-soft:#d9efe2;
+  --bad:#a8461f;
+  --bad-soft:#f8e1d3;
+  --line:#d9cfbf;
+  --display:"Unbounded","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+a{color:var(--indigo)}
+:focus-visible{outline:3px solid var(--cin);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--sheet);
+  background-image:repeating-linear-gradient(90deg,transparent 0 52px,rgba(255,255,255,.05) 52px 56px,transparent 56px 112px)}
+.top-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f1d3a8}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #54483f;white-space:nowrap}
+nav a b{color:#ef9a85;font-weight:700;margin-right:4px}
+nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
+nav a[aria-current="page"] b{color:#fff}
+main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
+section.view{display:grid;gap:20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h2{font-size:22px;font-weight:600}
+h3{font-size:18px;font-weight:600}
+.lead{font-size:20px;max-width:65ch;margin:0}
+.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.card p{margin:0;max-width:68ch}
+.note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
+.oge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--indigo);background:var(--indigo-soft);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+label{font-weight:500}
+input[type=text],input[type=password],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn.ghost{background:transparent;color:var(--indigo)}
+.btn:hover{filter:brightness(1.08)}
+.next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
+.ok{background:var(--ok-soft)!important;border-color:var(--ok)!important;color:var(--ink)!important}
+.bad{background:var(--bad-soft)!important;border-color:var(--bad)!important;color:var(--ink)!important}
+.fb{font-weight:500;min-height:1.5em;margin:0}
+.fb.good{color:var(--ok)}.fb.wrong{color:var(--bad)}
+.task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0;padding-top:0}
+.task .q{margin:0;font-weight:500}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.pairs>div{display:grid;gap:4px}
+.list{margin:0;padding-left:22px}
+.list li{margin:2px 0}
+.small{font-size:15px;color:var(--muted)}
+blockquote{margin:0;padding:12px 16px;background:#f5eee2;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
+figure{margin:0}
+.fig svg{width:100%;height:auto;display:block;border-radius:10px}
+.photo{background:#fff;padding:8px 8px 6px;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 6px 18px rgba(60,40,20,.10)}
+/* Машина времени */
+.tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.tm svg{width:100%;height:auto;border-radius:10px;display:block}
+.tm[aria-pressed="true"]{border-color:var(--indigo);box-shadow:0 0 0 4px var(--indigo-soft)}
+.tm b{font-size:18px}
+/* Игра */
+.big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:120px;display:grid;place-items:center}
+.big-event small{display:block;font-family:var(--body);font-size:16px;font-weight:500;color:var(--muted);margin-top:6px}
+.lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
+@media (max-width:520px){.lr{grid-template-columns:1fr}}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+/* Рассказ */
+.split{display:grid;grid-template-columns:minmax(260px,440px) 1fr;gap:20px;align-items:start}
+@media (max-width:780px){.split{grid-template-columns:1fr}}
+.facts{display:grid;gap:10px}
+.fact{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.fact .y{font-family:var(--display);font-weight:800;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.fact{grid-template-columns:1fr}}
+.reveal{display:grid;gap:8px}
+.reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
+.reveal.open .ans{display:block}
+/* Сравнение */
+.cmpwrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;width:100%;font-size:16px;min-width:520px}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.cmp thead th{background:#efe6d6;font-weight:500}
+table.cmp tbody th{background:#f7f1e6;font-weight:500;white-space:nowrap}
+/* Три стекла */
+.lab{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start}
+@media (max-width:620px){.lab{grid-template-columns:1fr}.lab>div:first-child{max-width:170px;margin:0 auto}}
+.plate{background:#1f1b18;border-radius:6px;padding:6px;display:grid;gap:4px;box-shadow:inset 0 0 0 2px #3b332d}
+.plate svg{width:100%;height:auto;display:block}
+.plate-cap{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+.screen{position:relative;width:100%;aspect-ratio:3/2;background:#0d0b0a;border-radius:10px;overflow:hidden;isolation:isolate;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.screen .layer{position:absolute;inset:0;mix-blend-mode:screen;transition:opacity .35s}
+.screen .layer svg{width:100%;height:100%;display:block}
+.screen .off{opacity:0}
+.screen-hint{position:absolute;inset:0;display:grid;place-items:center;color:#9d9086;font-size:16px;text-align:center;padding:20px;pointer-events:none}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.fbtn{font:inherit;font-weight:500;font-size:16px;cursor:pointer;border-radius:999px;padding:8px 14px;border:2px solid var(--line);background:#fff;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.fbtn i{width:16px;height:16px;border-radius:50%;display:inline-block}
+.fbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 3px var(--indigo-soft)}
+/* Фентон */
+.ab{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:620px){.ab{grid-template-columns:1fr}}
+/* Датировка */
+.dtable{display:grid;gap:8px}
+.drow{display:grid;grid-template-columns:1fr 210px;gap:10px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+@media (max-width:560px){.drow{grid-template-columns:1fr}}
+/* Миф */
+.myth{display:grid;gap:8px;background:var(--sheet);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.myth .st{font-weight:500;font-size:18px}
+.myth .ex{display:none;font-size:16px}
+.myth.done .ex{display:block}
+/* Итог */
+.rate{display:flex;gap:6px}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
+.copybox{display:none;gap:8px}
+.copybox.show{display:grid}
+.copybox textarea{min-height:180px;font-size:14px;font-family:ui-monospace,Menlo,Consolas,monospace}
+@media (max-width:640px){header.top{position:static}nav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 40px;font-size:14px;color:var(--muted)}
+footer p{margin:0}
+#reset-ask{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+#reset-ask[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.btn,.tm,nav a,.fbtn{transition:background .15s,border-color .15s,box-shadow .15s}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Кадры одного века</div>
+    <nav aria-label="Этапы урока">
+      <a href="#znakomstvo"><b>1</b>Знакомство</a>
+      <a href="#razvedka"><b>2</b>Разведка</a>
+      <a href="#igra"><b>3</b>Могла или нет?</a>
+      <a href="#rasskaz"><b>4</b>Век перемен</a>
+      <a href="#detektiv"><b>5</b>Крымская война</a>
+      <a href="#verit"><b>6</b>Парижский мир</a>
+      <a href="#data"><b>7</b>Старый кадр</a>
+      <a href="#mif"><b>8</b>Миф или правда</a>
+      <a href="#itog"><b>9</b>Итог</a>
+      <a href="#dz"><b>10</b>Домашка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. ЗНАКОМСТВО -->
+<section class="view" id="znakomstvo">
+  <div>
+    <p class="kicker">Этап 1 · Знакомство</p>
+    <h1>Машина времени</h1>
+  </div>
+  <p class="lead">В 9 классе мы пройдём почти целый век — от Николая I до Первой мировой войны. У тебя билет на одну поездку в этот век. Выбери, куда отправишься, и ответь на два вопроса — коротко, своими словами.</p>
+  <div class="grid3" id="tm-cards">
+    <button class="tm" type="button" data-choice="Париж, 1838 год" aria-pressed="false">
+      <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Париж, 1838 год: вид из окна мастерской на бульвар с деревьями и домами под серыми крышами; на подоконнике деревянная фотокамера, внизу на бульваре человек остановился у чистильщика обуви">
+  <defs>
+    <linearGradient id="t1Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0ea"/><stop offset="1" stop-color="#f3efe4"/></linearGradient>
+    <linearGradient id="t1Road" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9c8a6"/><stop offset="1" stop-color="#c9b38a"/></linearGradient>
+    <linearGradient id="t1Wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a5230"/><stop offset="1" stop-color="#5e3d22"/></linearGradient>
+    <clipPath id="t1Win"><rect x="0" y="0" width="300" height="170"/></clipPath>
+  </defs>
+  <rect width="300" height="170" fill="url(#t1Sky)"/>
+  <!-- облака -->
+  <g fill="#fff" opacity=".8"><ellipse cx="200" cy="22" rx="26" ry="6"/><ellipse cx="218" cy="18" rx="16" ry="6"/><ellipse cx="262" cy="34" rx="18" ry="4.5"/></g>
+  <!-- дальние дома -->
+  <g>
+    <rect x="64" y="50" width="34" height="46" fill="#e8d8bb"/>
+    <path d="M61 52 L68 39 L94 39 L101 52 Z" fill="#6f7d8c"/>
+    <rect x="80" y="31" width="4" height="9" fill="#9a6a4a"/>
+    <g fill="#5d6772"><rect x="74" y="58" width="6" height="9"/><rect x="85" y="58" width="6" height="9"/><rect x="74" y="73" width="6" height="9"/><rect x="85" y="73" width="6" height="9"/></g>
+    <rect x="96" y="44" width="40" height="52" fill="#efe3cc"/>
+    <path d="M93 46 L100 32 L132 32 L139 46 Z" fill="#7c8a99"/>
+    <rect x="136" y="38" width="46" height="58" fill="#e8d8bb"/>
+    <path d="M133 40 L141 26 L177 26 L185 40 Z" fill="#6f7d8c"/>
+    <rect x="182" y="46" width="38" height="50" fill="#f1e6d0"/>
+    <path d="M179 48 L186 35 L216 35 L223 48 Z" fill="#7c8a99"/>
+    <rect x="220" y="40" width="44" height="56" fill="#e6d4b4"/>
+    <path d="M217 42 L225 28 L259 28 L267 42 Z" fill="#6f7d8c"/>
+    <rect x="264" y="48" width="40" height="48" fill="#efe3cc"/>
+    <path d="M261 50 L268 37 L300 37 L300 50 Z" fill="#7c8a99"/>
+    <!-- трубы -->
+    <g fill="#9a6a4a"><rect x="108" y="25" width="4" height="9"/><rect x="160" y="18" width="4" height="10"/><rect x="200" y="28" width="4" height="9"/><rect x="240" y="20" width="4" height="10"/><rect x="282" y="30" width="4" height="9"/></g>
+    <!-- слуховые окна -->
+    <g fill="#e9ddc4"><rect x="112" y="37" width="6" height="6"/><rect x="152" y="31" width="6" height="6"/><rect x="166" y="31" width="6" height="6"/><rect x="198" y="40" width="6" height="6"/><rect x="236" y="33" width="6" height="6"/><rect x="250" y="33" width="6" height="6"/></g>
+    <!-- окна этажей -->
+    <g fill="#5d6772">
+      <rect x="102" y="52" width="6" height="9"/><rect x="113" y="52" width="6" height="9"/><rect x="124" y="52" width="6" height="9"/>
+      <rect x="102" y="68" width="6" height="9"/><rect x="113" y="68" width="6" height="9"/><rect x="124" y="68" width="6" height="9"/>
+      <rect x="142" y="47" width="6" height="9"/><rect x="153" y="47" width="6" height="9"/><rect x="164" y="47" width="6" height="9"/><rect x="175" y="47" width="5" height="9"/>
+      <rect x="142" y="63" width="6" height="9"/><rect x="153" y="63" width="6" height="9"/><rect x="164" y="63" width="6" height="9"/><rect x="175" y="63" width="5" height="9"/>
+      <rect x="188" y="54" width="6" height="9"/><rect x="199" y="54" width="6" height="9"/><rect x="210" y="54" width="6" height="9"/>
+      <rect x="188" y="70" width="6" height="9"/><rect x="199" y="70" width="6" height="9"/><rect x="210" y="70" width="6" height="9"/>
+      <rect x="226" y="49" width="6" height="9"/><rect x="237" y="49" width="6" height="9"/><rect x="248" y="49" width="6" height="9"/>
+      <rect x="226" y="65" width="6" height="9"/><rect x="237" y="65" width="6" height="9"/><rect x="248" y="65" width="6" height="9"/>
+      <rect x="270" y="56" width="6" height="9"/><rect x="281" y="56" width="6" height="9"/><rect x="292" y="56" width="6" height="9"/>
+    </g>
+    <!-- витрины первых этажей -->
+    <g fill="#8a5a3a"><rect x="100" y="84" width="10" height="12"/><rect x="146" y="84" width="10" height="12"/><rect x="192" y="84" width="10" height="12"/><rect x="230" y="84" width="10" height="12"/><rect x="274" y="84" width="10" height="12"/></g>
+    <g fill="#b0392a" opacity=".85"><path d="M114 84 h18 l-2 -4 h-14 Z"/><path d="M160 84 h18 l-2 -4 h-14 Z"/><path d="M244 84 h18 l-2 -4 h-14 Z"/></g>
+  </g>
+  <!-- бульвар -->
+  <path d="M60 96 H300 V170 H60 Z" fill="url(#t1Road)"/>
+  <path d="M60 96 H300 V100 H60 Z" fill="#b9a27a"/>
+  <!-- деревья бульвара -->
+  <g>
+    <g fill="#6d5a3f"><rect x="111" y="100" width="3" height="22"/><rect x="161" y="100" width="3" height="22"/><rect x="211" y="100" width="3" height="22"/><rect x="261" y="100" width="3" height="22"/></g>
+    <g fill="#7f9a62"><circle cx="112" cy="94" r="14"/><circle cx="162" cy="92" r="15"/><circle cx="212" cy="94" r="14"/><circle cx="262" cy="92" r="15"/></g>
+    <g fill="#6a8650"><circle cx="106" cy="98" r="8"/><circle cx="168" cy="97" r="9"/><circle cx="206" cy="99" r="8"/><circle cx="268" cy="97" r="9"/></g>
+  </g>
+  <!-- фонари -->
+  <g stroke="#3d3a36" stroke-width="1.2"><path d="M137 122 V104 M237 122 V104"/></g>
+  <g fill="#3d3a36"><path d="M134 104 h6 l-1 -5 h-4 Z M234 104 h6 l-1 -5 h-4 Z"/></g>
+  <!-- человек у чистильщика обуви -->
+  <g transform="translate(0 -16)">
+    <circle cx="190" cy="129" r="2.6" fill="#e2bf9c"/>
+    <path d="M187 126.4 h6 v-4.4 h-6 Z" fill="#2b2420"/><path d="M185.2 126.6 h9.6" stroke="#2b2420" stroke-width="1.2"/>
+    <path d="M187 132 h6 l1 10 h-8 Z" fill="#3d4a5c"/>
+    <path d="M188.5 142 l-0.5 8 M191.5 142 l4 5" stroke="#2b2420" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="200" cy="142" r="2.3" fill="#e2bf9c"/>
+    <path d="M197 145 h6 l1 5 h-8 Z" fill="#8a5a3a"/>
+    <rect x="194" y="147" width="4" height="3" fill="#5e3d22"/>
+  </g>
+  <!-- рама окна -->
+  <path d="M0 0 H70 V170 H0 Z" fill="#3f2e22"/>
+  <path d="M0 0 H300 V8 H0 Z" fill="#3f2e22"/>
+  <rect x="62" y="0" width="8" height="170" fill="#5a4230"/>
+  <rect x="0" y="146" width="300" height="24" fill="#4a3628"/>
+  <rect x="0" y="142" width="300" height="5" fill="#6e5038"/>
+  <!-- занавеска -->
+  <path d="M8 8 C26 50 14 100 30 142 L0 142 L0 8 Z" fill="#8c3b2c"/>
+  <path d="M8 8 C26 50 14 100 30 142" fill="none" stroke="#a24a38" stroke-width="2"/>
+  <path d="M0 40 C10 70 4 110 14 142" fill="none" stroke="#7a3226" stroke-width="2"/>
+  <!-- камера на подоконнике -->
+  <g>
+    <rect x="44" y="137" width="2.5" height="6" fill="#2b2420"/><rect x="66" y="137" width="2.5" height="6" fill="#2b2420"/>
+    <rect x="38" y="112" width="40" height="26" rx="1.5" fill="url(#t1Wood)"/>
+    <rect x="38" y="112" width="40" height="3" fill="#8d6340"/>
+    <rect x="74" y="116" width="10" height="18" fill="#6a4628"/>
+    <rect x="84" y="119" width="8" height="12" rx="1" fill="#b38b3a"/>
+    <rect x="92" y="120.5" width="3" height="9" rx="1" fill="#2b2420"/>
+    <circle cx="88" cy="125" r="3" fill="#2b2420" opacity=".5"/>
+    <path d="M42 116 h26" stroke="#4a3018" stroke-width="1"/>
+    <rect x="44" y="120" width="22" height="12" fill="#4a3018" opacity=".35"/>
+  </g>
+</svg>
+      <b>Париж, 1838 год</b>
+      <span class="small">Европа после наполеоновских войн</span>
+    </button>
+    <button class="tm" type="button" data-choice="Под Севастополем, 1855 год" aria-pressed="false">
+      <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Под Севастополем, 1855 год: сухие холмы, вдали белые палатки лагеря; на дороге закрытый фургон-лаборатория фотографа с лошадью, рядом камера на треноге">
+  <defs>
+    <linearGradient id="t2Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd3e3"/><stop offset="1" stop-color="#f1ead9"/></linearGradient>
+    <linearGradient id="t2Van" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a6a48"/><stop offset="1" stop-color="#6d5137"/></linearGradient>
+  </defs>
+  <rect width="300" height="170" fill="url(#t2Sky)"/>
+  <circle cx="54" cy="30" r="12" fill="#f4d37e"/>
+  <!-- дальние холмы и море -->
+  <path d="M0 86 Q40 70 86 78 Q130 64 180 74 Q236 62 300 76 V130 H0 Z" fill="#b9b08f"/>
+  <path d="M204 72 Q236 63 300 74 V82 Q250 76 204 80 Z" fill="#8fb0c4"/>
+  <!-- лагерь -->
+  <g>
+    <g fill="#f7f2e6" stroke="#c9bfa8" stroke-width=".6">
+      <path d="M30 86 l7 -11 l7 11 Z"/><path d="M46 85 l6 -10 l6 10 Z"/><path d="M60 87 l7 -11 l7 11 Z"/>
+      <path d="M150 80 l6 -9 l6 9 Z"/><path d="M164 81 l6 -9 l6 9 Z"/><path d="M178 80 l6 -9 l6 9 Z"/>
+    </g>
+    <g stroke="#7a6a52" stroke-width=".6"><path d="M37 75 v-3 M52 75 v-3 M67 76 v-3 M156 71 v-3 M170 72 v-3 M184 71 v-3"/></g>
+  </g>
+  <!-- ближние холмы -->
+  <path d="M0 104 Q60 84 120 96 Q180 84 240 92 Q272 88 300 94 V170 H0 Z" fill="#d1bc8c"/>
+  <path d="M0 122 Q70 108 150 116 Q230 106 300 114 V170 H0 Z" fill="#c4ab78"/>
+  <!-- дорога -->
+  <path d="M0 156 Q80 142 150 140 Q210 136 250 112 Q262 106 300 100 V108 Q272 112 262 120 Q226 148 160 154 Q90 160 40 170 H0 Z" fill="#e3d2a8"/>
+  <!-- кусты -->
+  <g fill="#8d9a62"><ellipse cx="40" cy="132" rx="12" ry="5"/><ellipse cx="268" cy="126" rx="10" ry="4"/><ellipse cx="96" cy="150" rx="9" ry="3.5"/></g>
+  <!-- фургон-лаборатория -->
+  <g>
+    <rect x="60" y="96" width="62" height="38" rx="2" fill="url(#t2Van)"/>
+    <path d="M57 97 Q91 86 125 97 Z" fill="#5a4230"/>
+    <rect x="60" y="98" width="62" height="2" fill="#4a3628"/>
+    <rect x="70" y="106" width="12" height="9" fill="#2e2620"/>
+    <rect x="71.5" y="107.5" width="9" height="6" fill="#a85a3a" opacity=".7"/>
+    <rect x="94" y="104" width="20" height="24" fill="#5e4430"/>
+    <path d="M104 104 v24" stroke="#4a3628" stroke-width="1"/>
+    <circle cx="101.5" cy="117" r="1" fill="#d6b45a"/><circle cx="106.5" cy="117" r="1" fill="#d6b45a"/>
+    <path d="M62 128 h58" stroke="#4a3628" stroke-width="1.5"/>
+    <!-- колёса -->
+    <g fill="none" stroke="#3a2c20" stroke-width="2.2"><circle cx="74" cy="138" r="9"/><circle cx="110" cy="138" r="9"/></g>
+    <g stroke="#3a2c20" stroke-width="1"><path d="M74 129 v18 M65 138 h18 M67.6 131.6 l12.8 12.8 M80.4 131.6 l-12.8 12.8"/><path d="M110 129 v18 M101 138 h18 M103.6 131.6 l12.8 12.8 M116.4 131.6 l-12.8 12.8"/></g>
+    <circle cx="74" cy="138" r="2" fill="#3a2c20"/><circle cx="110" cy="138" r="2" fill="#3a2c20"/>
+    <!-- оглобли -->
+    <path d="M122 126 L152 122" stroke="#5a4230" stroke-width="2"/>
+  </g>
+  <!-- лошадь -->
+  <g fill="#6a4a32">
+    <path d="M144 112 q-7 5 -5 16" stroke="#3f2b1d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <rect x="148" y="121" width="3.4" height="19" rx="1"/><rect x="154" y="122" width="3.4" height="18" rx="1"/><rect x="165" y="122" width="3.4" height="18" rx="1"/><rect x="171" y="121" width="3.4" height="19" rx="1"/>
+    <ellipse cx="160" cy="115" rx="17" ry="8.5"/>
+    <path d="M170 110 L177 95 L185 97 L180 117 Z"/>
+    <g transform="translate(181 96) rotate(38)"><rect x="-2" y="-4" width="16" height="8" rx="3.5"/></g>
+    <path d="M177 94 l1 -6 l3 5 Z"/>
+  </g>
+  <path d="M170.5 109 L176.5 95" stroke="#3a2618" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="183.5" cy="98" r="1" fill="#1f1c19"/>
+  <g fill="#3f2b1d"><rect x="147.6" y="138" width="4.2" height="2.4"/><rect x="153.6" y="138" width="4.2" height="2.4"/><rect x="164.6" y="138" width="4.2" height="2.4"/><rect x="170.6" y="138" width="4.2" height="2.4"/></g>
+  <!-- камера на треноге -->
+  <g>
+    <path d="M226 118 L218 148 M228 118 L230 149 M230 118 L240 147" stroke="#4a3628" stroke-width="1.6"/>
+    <rect x="217" y="104" width="20" height="14" fill="#6a4628"/>
+    <rect x="237" y="107" width="8" height="8" fill="#b38b3a"/>
+    <rect x="245" y="108" width="3" height="6" fill="#2b2420"/>
+    <path d="M214 104 h10 v-6 q-6 -2 -10 2 Z" fill="#2b2420"/>
+  </g>
+  <!-- фотограф -->
+  <g>
+    <circle cx="205" cy="112" r="3.2" fill="#e2bf9c"/>
+    <path d="M201.5 110 h7 l-1 -4.5 h-5 Z" fill="#3a3027"/>
+    <path d="M201 116 h8 l2 16 h-12 Z" fill="#45505e"/>
+    <path d="M209 119 l8 -6" stroke="#45505e" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M202.5 132 l-1 15 M207.5 132 l1 15" stroke="#2b2420" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>
+      <b>Под Севастополем, 1855 год</b>
+      <span class="small">Идёт Крымская война</span>
+    </button>
+    <button class="tm" type="button" data-choice="Российская империя, 1909 год" aria-pressed="false">
+      <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Российская империя, 1909 год: на берегу реки стоит синий железнодорожный вагон-лаборатория; за рекой деревянная церковь с главками и берёзы; на берегу камера на треноге">
+  <defs>
+    <linearGradient id="t3Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9c9e2"/><stop offset="1" stop-color="#eef3ef"/></linearGradient>
+    <linearGradient id="t3Water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa8c6"/><stop offset="1" stop-color="#5d88aa"/></linearGradient>
+    <linearGradient id="t3Car" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#36597e"/><stop offset="1" stop-color="#284766"/></linearGradient>
+  </defs>
+  <rect width="300" height="170" fill="url(#t3Sky)"/>
+  <g fill="#fff" opacity=".85"><ellipse cx="70" cy="24" rx="22" ry="5"/><ellipse cx="86" cy="20" rx="14" ry="5"/><ellipse cx="236" cy="30" rx="20" ry="4.5"/></g>
+  <!-- дальний лес -->
+  <path d="M0 74 Q10 66 20 72 Q30 64 42 71 Q54 63 66 70 Q78 64 90 70 L90 82 L0 82 Z" fill="#7d9a74"/>
+  <path d="M170 72 Q182 64 194 70 Q206 62 220 69 Q234 62 248 69 Q262 63 276 69 Q288 64 300 68 L300 82 L170 82 Z" fill="#7d9a74"/>
+  <!-- дальний берег -->
+  <path d="M0 80 H300 V90 H0 Z" fill="#9db37f"/>
+  <!-- деревянная церковь -->
+  <g>
+    <rect x="104" y="58" width="30" height="26" fill="#a8774a"/>
+    <g stroke="#8a5d36" stroke-width=".8"><path d="M104 62 H134 M104 66 H134 M104 70 H134 M104 74 H134 M104 78 H134 M104 82 H134"/></g>
+    <path d="M100 59 L119 46 L138 59 Z" fill="#6b4a2c"/>
+    <rect x="134" y="66" width="20" height="18" fill="#a8774a"/>
+    <g stroke="#8a5d36" stroke-width=".8"><path d="M134 70 H154 M134 74 H154 M134 78 H154 M134 82 H154"/></g>
+    <path d="M131 67 L144 58 L157 67 Z" fill="#6b4a2c"/>
+    <!-- шатёр-колокольня -->
+    <rect x="84" y="50" width="16" height="34" fill="#9c6c42"/>
+    <g stroke="#7f5530" stroke-width=".8"><path d="M84 56 H100 M84 62 H100 M84 68 H100 M84 74 H100 M84 80 H100"/></g>
+    <rect x="86" y="44" width="12" height="7" fill="#9c6c42"/><rect x="88.5" y="45.5" width="7" height="4.5" fill="#3d2b1c"/>
+    <path d="M84 44 L92 22 L100 44 Z" fill="#6f7f86"/>
+    <path d="M92 22 V16 M90 18 H94" stroke="#c49a34" stroke-width="1.2"/>
+    <!-- главка -->
+    <rect x="116" y="38" width="6" height="9" fill="#9c6c42"/>
+    <path d="M114 39 Q114 31 119 27 Q124 31 124 39 Z" fill="#6f7f86"/>
+    <path d="M119 27 V21 M117 23 H121" stroke="#c49a34" stroke-width="1.2"/>
+    <g fill="#3d2b1c"><rect x="110" y="66" width="4" height="7"/><rect x="124" y="66" width="4" height="7"/><rect x="141" y="72" width="4" height="6"/></g>
+  </g>
+  <!-- берёзы -->
+  <g>
+    <g stroke="#f4f1ea" stroke-width="2.4"><path d="M168 86 V54 M180 86 V58 M60 86 V56"/></g>
+    <g stroke="#2b2420" stroke-width="2.4" stroke-dasharray="1.2 5"><path d="M168 84 V56 M180 84 V60 M60 84 V58"/></g>
+    <g fill="#9bb86a"><ellipse cx="168" cy="54" rx="9" ry="13"/><ellipse cx="180" cy="58" rx="8" ry="12"/><ellipse cx="60" cy="56" rx="9" ry="13"/></g>
+    <g fill="#86a55a"><ellipse cx="171" cy="60" rx="6" ry="8"/><ellipse cx="57" cy="62" rx="6" ry="8"/></g>
+  </g>
+  <!-- река -->
+  <rect x="0" y="88" width="300" height="30" fill="url(#t3Water)"/>
+  <g fill="#a8774a" opacity=".22"><rect x="84" y="90" width="16" height="9"/><rect x="104" y="90" width="30" height="6"/><rect x="134" y="90" width="20" height="5"/></g><g stroke="#7fa8c6" stroke-width="1.4"><path d="M82 93 H156 M82 96.5 H156"/></g>
+  <g stroke="#cfe0ec" stroke-width="1" fill="none" opacity=".9"><path d="M20 100 q6 -2 12 0 t12 0"/><path d="M200 96 q6 -2 12 0 t12 0"/><path d="M240 110 q6 -2 12 0 t12 0"/><path d="M140 108 q6 -2 12 0 t12 0"/></g>
+  <!-- ближний берег -->
+  <path d="M0 116 Q60 112 120 116 Q200 120 300 114 V170 H0 Z" fill="#8fac69"/>
+  <!-- насыпь и рельсы -->
+  <path d="M0 150 H300 V170 H0 Z" fill="#a39177"/>
+  <g fill="#6e5a44"><rect x="6" y="151" width="10" height="3"/><rect x="26" y="151" width="10" height="3"/><rect x="46" y="151" width="10" height="3"/><rect x="66" y="151" width="10" height="3"/><rect x="86" y="151" width="10" height="3"/><rect x="106" y="151" width="10" height="3"/><rect x="126" y="151" width="10" height="3"/><rect x="146" y="151" width="10" height="3"/><rect x="166" y="151" width="10" height="3"/><rect x="186" y="151" width="10" height="3"/><rect x="206" y="151" width="10" height="3"/><rect x="226" y="151" width="10" height="3"/><rect x="246" y="151" width="10" height="3"/><rect x="266" y="151" width="10" height="3"/><rect x="286" y="151" width="10" height="3"/></g>
+  <path d="M0 150.5 H300" stroke="#4a4642" stroke-width="1.6"/>
+  <!-- вагон -->
+  <g>
+    <rect x="18" y="108" width="172" height="34" rx="3" fill="url(#t3Car)"/>
+    <rect x="44" y="98" width="120" height="6" rx="2" fill="#3b4147"/>
+    <g fill="#9fb0bb"><rect x="56" y="99.5" width="6" height="3"/><rect x="74" y="99.5" width="6" height="3"/><rect x="92" y="99.5" width="6" height="3"/><rect x="110" y="99.5" width="6" height="3"/><rect x="128" y="99.5" width="6" height="3"/><rect x="146" y="99.5" width="6" height="3"/></g>
+    <path d="M15 110 Q16 104 28 103 H180 Q192 104 193 110 Z" fill="#2f3337"/>
+    <path d="M18 113 H190" stroke="#c9a54a" stroke-width="1"/>
+    <path d="M18 136 H190" stroke="#c9a54a" stroke-width="1"/>
+    <g fill="#e9e2c8"><rect x="30" y="116" width="12" height="12" rx="1.5"/><rect x="50" y="116" width="12" height="12" rx="1.5"/><rect x="70" y="116" width="12" height="12" rx="1.5"/><rect x="132" y="116" width="12" height="12" rx="1.5"/><rect x="152" y="116" width="12" height="12" rx="1.5"/></g>
+    <!-- затемнённое окно лаборатории -->
+    <rect x="96" y="116" width="26" height="12" rx="1.5" fill="#8e2f24"/>
+    <rect x="98" y="118" width="22" height="8" fill="#b4473a"/>
+    <rect x="172" y="114" width="12" height="22" fill="#1f344a"/>
+    <!-- тележки и колёса -->
+    <rect x="18" y="142" width="172" height="3" fill="#2b2b2b"/>
+    <g fill="#2b2b2b"><circle cx="40" cy="147" r="5"/><circle cx="56" cy="147" r="5"/><circle cx="152" cy="147" r="5"/><circle cx="168" cy="147" r="5"/></g>
+    <g fill="#8a8a8a"><circle cx="40" cy="147" r="1.6"/><circle cx="56" cy="147" r="1.6"/><circle cx="152" cy="147" r="1.6"/><circle cx="168" cy="147" r="1.6"/></g>
+    <path d="M190 120 h6 v16 h-6" fill="none" stroke="#2b2b2b" stroke-width="1.6"/>
+  </g>
+  <!-- камера на треноге и ящик с пластинками -->
+  <g>
+    <path d="M242 118 L232 146 M245 118 L246 147 M248 118 L258 145" stroke="#4a3628" stroke-width="1.6"/>
+    <rect x="232" y="102" width="24" height="16" fill="#6a4628"/>
+    <rect x="232" y="102" width="24" height="2.5" fill="#8d6340"/>
+    <rect x="256" y="105" width="8" height="10" fill="#b38b3a"/>
+    <rect x="264" y="106.5" width="3" height="7" fill="#2b2420"/>
+    <rect x="210" y="132" width="16" height="12" fill="#7a5a3a"/>
+    <path d="M210 135 H226" stroke="#5e4430" stroke-width="1"/>
+  </g>
+</svg>
+      <b>Российская империя, 1909 год</b>
+      <span class="small">Между первой революцией и Первой мировой войной</span>
+    </button>
+  </div>
+  <div class="card">
+    <p id="tm-picked" class="fb">Нажми на картинку, чтобы выбрать.</p>
+    <div class="grid2">
+      <div><label for="tm-know">Что ты уже знаешь об этом времени?</label><input type="text" id="tm-know" data-save placeholder="Можно одно-два слова"></div>
+      <div><label for="tm-meet">Кто тогда правил в России?</label><input type="text" id="tm-meet" data-save placeholder="Если не знаешь — напиши «не знаю»"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Немного о тебе</h3>
+    <div class="grid2">
+      <div><label for="me-rus">Что сейчас проходите по истории России?</label><input type="text" id="me-rus" data-save placeholder="тема или параграф"></div>
+      <div><label for="me-vse">А по всеобщей истории?</label><input type="text" id="me-vse" data-save placeholder="тема или параграф"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="me-oge">Сдаёшь ОГЭ по истории?</label><select id="me-oge" data-save><option value="">—</option><option>да</option><option>нет</option><option>ещё не решил(а)</option></select></div>
+      <div><label for="me-goal">Какой результат нужен: балл на ОГЭ, оценка в году?</label><input type="text" id="me-goal" data-save></div>
+    </div>
+    <div class="grid2">
+      <div><label for="me-next">Куда после 9 класса: в 10 класс, в колледж, пока не знаешь?</label><input type="text" id="me-next" data-save></div>
+      <div><label for="me-like">Что в истории нравится, а что даётся трудно?</label><input type="text" id="me-like" data-save></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Наши правила</h3>
+    <p>1. Ошибаться можно: ошибка показывает, что нам повторить.</p>
+    <p>2. Спрашивать «почему?» можно всегда.</p>
+    <p>3. Свой ответ доказываем: «Я думаю так, потому что…»</p>
+  </div>
+  <a class="next" href="#razvedka">Дальше: Разведка →</a>
+</section>
+
+<!-- 2. РАЗВЕДКА -->
+<section class="view" id="razvedka" hidden>
+  <div>
+    <p class="kicker">Этап 2 · 20 минут</p>
+    <h1>Разведка</h1>
+  </div>
+  <p class="lead">Это не контрольная, оценок не будет. Задания похожи на задания ОГЭ: по 8 классу и по началу 9 класса. Если тему ещё не проходили или не знаешь ответа, выбери «не знаю» или поставь «?» и иди дальше. В конце нажми «Готово».</p>
+  <form class="card" id="diag" autocomplete="off">
+    <div class="task">
+      <p class="q"><span class="num">1</span>Установи соответствие между событиями и годами.<span class="oge">как ОГЭ № 1</span></p>
+      <p class="small">1) 1700 г. &nbsp; 2) 1709 г. &nbsp; 3) 1762 г. &nbsp; 4) 1812 г. &nbsp; 5) 1825 г.</p>
+      <div class="pairs">
+        <div><label for="d1a">А) Полтавская битва</label><select id="d1a" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>не знаю</option></select></div>
+        <div><label for="d1b">Б) Манифест о вольности дворянства</label><select id="d1b" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>не знаю</option></select></div>
+        <div><label for="d1c">В) Бородинское сражение</label><select id="d1c" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">2</span>Расположи события в хронологической последовательности. Запиши цифры подряд, без пробелов.<span class="oge">как ОГЭ № 2</span></p>
+      <p class="small">1) восстание декабристов; 2) Отечественная война против Наполеона; 3) восстание под предводительством Е. И. Пугачёва; 4) основание Санкт-Петербурга</p>
+      <input type="text" id="d2" data-save inputmode="numeric" maxlength="8" style="max-width:200px" aria-label="Ответ на задание 2">
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">3</span>Запиши пропущенное слово.<span class="oge">как ОГЭ № 3</span></p>
+      <p>Высший орган государственного управления, учреждённый Петром I в 1711 году вместо Боярской думы, назывался Правительствующий ________.</p>
+      <input type="text" id="d3" data-save style="max-width:300px" aria-label="Ответ на задание 3">
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">4</span>Кто из перечисленных полководцев участвовал в Отечественной войне 1812 года? Найди двоих и запиши их цифры.<span class="oge">как ОГЭ № 4</span></p>
+      <p class="small">1) М. И. Кутузов; 2) П. И. Багратион; 3) А. В. Суворов; 4) Г. А. Потёмкин; 5) А. Д. Меншиков</p>
+      <input type="text" id="d4" data-save inputmode="numeric" maxlength="6" style="max-width:200px" aria-label="Ответ на задание 4">
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">5</span>Все понятия, кроме одного, относятся к преобразованиям Петра I. Найди «лишнее».<span class="oge">как ОГЭ № 5</span></p>
+      <p class="small">1) коллегии; 2) Синод; 3) рекрутские наборы; 4) опричнина; 5) подушная подать</p>
+      <select id="d5" data-save style="max-width:200px" aria-label="Ответ на задание 5"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>не знаю</option></select>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">6</span>Всеобщая история. Прочитай перечень и ответь на вопросы.<span class="oge">как ОГЭ № 15–17</span></p>
+      <p class="small">1) Великая французская революция; 2) промышленный переворот в Англии; 3) Война за независимость в Северной Америке; 4) Реформация</p>
+      <div class="pairs">
+        <div><label for="d6a">а) С чем связано принятие Декларации прав человека и гражданина?</label><select id="d6a" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>не знаю</option></select></div>
+        <div><label for="d6b">б) С чем связано изобретение паровой машины Джеймса Уатта?</label><select id="d6b" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>не знаю</option></select></div>
+        <div><label for="d6c">в) С чем связано принятие Декларации независимости в 1776 году?</label><select id="d6c" data-save><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">7</span>Рассмотри схему и ответь на вопросы.<span class="oge">как ОГЭ № 8–10</span></p>
+      <figure class="fig photo"><svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема военных действий: красные стрелки наступления армии от реки Неман через Вильно, Витебск и Смоленск (цифра 1) к селу у Москвы (цифра 2) и к Москве; синяя стрелка движения русской армии от Москвы к цифре 3; чёрная пунктирная стрелка отступления через Малоярославец и Смоленск к реке, обозначенной цифрой 4, и обратно к Неману">
+  <defs>
+    <pattern id="mpGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 H0 V20" fill="none" stroke="#e4dccb" stroke-width=".6"/></pattern>
+    <marker id="mpR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b3261e"/></marker>
+    <marker id="mpK" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2b2420"/></marker>
+    <marker id="mpB" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2a5a9a"/></marker>
+  </defs>
+  <rect width="400" height="260" fill="#f8f3e8"/>
+  <rect width="400" height="200" fill="url(#mpGrid)"/>
+  <!-- реки -->
+  <g fill="none" stroke="#7aa6c8" stroke-width="2.4" stroke-linecap="round">
+    <path d="M44 20 Q30 50 40 80 Q48 104 34 128 Q24 150 36 190"/>
+    <path d="M128 36 Q140 70 134 100 Q130 126 142 150 Q150 170 146 196"/>
+    <path d="M190 120 Q214 128 236 118 Q254 112 262 128 Q270 150 252 196"/>
+  </g>
+  <g font-family="Rubik, Arial, sans-serif" font-size="9.5" font-style="italic" fill="#3f6f95">
+    <text x="48" y="182">Неман</text>
+    <text x="232" y="162">Днепр</text>
+  </g>
+  <!-- наступление -->
+  <path d="M40 108 C56 112 62 118 72 120 C110 116 150 96 178 90 C196 94 206 104 218 113 C246 104 274 82 300 72 C314 66 324 62 334 59" fill="none" stroke="#b3261e" stroke-width="3.2" marker-end="url(#mpR)"/>
+  <!-- движение русской армии -->
+  <path d="M338 62 C350 72 350 84 338 90" fill="none" stroke="#2a5a9a" stroke-width="2.8" marker-end="url(#mpB)"/>
+  <!-- отступление -->
+  <path d="M336 64 C330 82 324 92 318 100 C306 98 300 90 292 84 C268 96 244 112 222 118 C196 128 166 138 142 144 C116 140 92 130 74 124 C62 118 54 114 44 112" fill="none" stroke="#2b2420" stroke-width="2.4" stroke-dasharray="7 4" marker-end="url(#mpK)"/>
+  <!-- города -->
+  <g fill="#2b2420">
+    <circle cx="72" cy="120" r="3.2"/><circle cx="178" cy="90" r="3.2"/><circle cx="219" cy="115" r="3.6"/>
+    <circle cx="301" cy="71" r="3.2"/><circle cx="341" cy="57" r="5"/><circle cx="317" cy="101" r="3"/>
+  </g>
+  <g font-family="Rubik, Arial, sans-serif" font-size="11" fill="#2b2420">
+    <text x="62" y="140">Вильно</text>
+    <text x="160" y="80">Витебск</text>
+    <text x="300" y="120" font-size="10">Малоярославец</text>
+    <text x="350" y="54" font-weight="700" font-size="12">Москва</text>
+  </g>
+  <!-- сражения: скрещённые сабли -->
+  <g stroke="#2b2420" stroke-width="1.6" stroke-linecap="round">
+    <path d="M296 62 l10 -10 M306 62 l-10 -10"/>
+    <path d="M312 92 l10 -10 M322 92 l-10 -10"/>
+    <path d="M214 106 l10 -10 M224 106 l-10 -10"/>
+    <path d="M128 132 l10 -10 M138 132 l-10 -10"/>
+  </g>
+  <!-- номера -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+    <circle cx="204" cy="142" r="9" fill="#fff" stroke="#2b2420" stroke-width="1.4"/><text x="204" y="146.2">1</text>
+    <circle cx="284" cy="54" r="9" fill="#fff" stroke="#2b2420" stroke-width="1.4"/><text x="284" y="58.2">2</text>
+    <circle cx="362" cy="94" r="9" fill="#fff" stroke="#2b2420" stroke-width="1.4"/><text x="362" y="98.2">3</text>
+    <path d="M146 168 L158 176" stroke="#2b2420" stroke-width="1"/><circle cx="166" cy="180" r="9" fill="#fff" stroke="#2b2420" stroke-width="1.4"/><text x="166" y="184.2">4</text>
+  </g>
+  <!-- легенда -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="10" fill="#2b2420">
+    <rect x="0" y="200" width="400" height="60" fill="#fffdf8"/>
+    <path d="M0 200 H400" stroke="#d8cfc0"/>
+    <path d="M12 216 H40" stroke="#b3261e" stroke-width="3" marker-end="url(#mpR)"/><text x="48" y="219.5">наступление армии противника</text>
+    <path d="M12 234 H40" stroke="#2b2420" stroke-width="2.4" stroke-dasharray="7 4" marker-end="url(#mpK)"/><text x="48" y="237.5">отступление армии противника</text>
+    <path d="M216 216 H244" stroke="#2a5a9a" stroke-width="2.8" marker-end="url(#mpB)"/><text x="252" y="219.5">движение русской армии</text>
+    <g stroke="#2b2420" stroke-width="1.4" stroke-linecap="round"><path d="M222 239 l9 -9 M231 239 l-9 -9"/></g><text x="252" y="237.5">сражения</text>
+    <text x="12" y="254" fill="#6b6056" font-size="9">Схема, а не точная карта: расстояния и изгибы рек упрощены.</text>
+  </g>
+</svg></figure>
+      <div class="pairs">
+        <div><label for="d7a">а) В каком году произошли события на схеме?</label><input type="text" id="d7a" data-save inputmode="numeric"></div>
+        <div><label for="d7b">б) Как называется село, обозначенное цифрой 2?</label><input type="text" id="d7b" data-save></div>
+        <div><label for="d7c">в) Кто командовал русской армией в сражении у этого села?</label><input type="text" id="d7c" data-save></div>
+        <div><label for="d7d">г) Как называется река, обозначенная цифрой 4?</label><input type="text" id="d7d" data-save></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">8</span>Прочитай отрывок из указа и ответь на вопросы.<span class="oge">как ОГЭ № 18–20</span></p>
+      <blockquote>«Действительный тайный советник граф Сергей Румянцев, изъявив желание некоторым из крепостных его крестьян при увольнении их утвердить в собственность продажею или на других добровольных условиях участки из принадлежащих ему земель, испрашивал, чтоб условия таковые, добровольно заключаемые, имели то же законное действие и силу, какое прочим крепостным обязательствам присвоено, и чтоб крестьяне, таким образом уволенные, могли оставаться в состоянии свободных земледельцев, не обязываясь входить в другой род жизни».<cite>Из указа, данного Правительствующему сенату. Текст по изданию: Российское законодательство X–XX веков. Т. 6. М., 1988.</cite></blockquote>
+      <p class="small">«Увольнение» здесь — освобождение крестьян от крепостной зависимости. «Испрашивал» — просил.</p>
+      <div class="pairs">
+        <div><label for="d8y">а) В каком году издан этот указ?</label><input type="text" id="d8y" data-save inputmode="numeric"></div>
+        <div><label for="d8e">Какой император его издал?</label><input type="text" id="d8e" data-save></div>
+      </div>
+      <label for="d8b">б) О чём просил граф Румянцев? Используя текст, укажи два его условия.</label><textarea id="d8b" data-save></textarea>
+      <label for="d8c">в) Назови любые два других преобразования этого императора.</label><textarea id="d8c" data-save></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">9</span>В тексте две фактические ошибки. Найди их и исправь.<span class="oge">как ОГЭ № 21</span></p>
+      <p>Во второй половине XVIII века Россия при Екатерине II вела успешные войны с Османской империей. Русской армией командовали П. А. Румянцев и А. В. Суворов, а Черноморским флотом — адмирал Ф. Ф. Ушаков. В 1783 году к России был присоединён Крым. На берегу удобной бухты основали Севастополь, ставший главной базой Балтийского флота. Суворов прославился взятием турецкой крепости Измаил, а по Ясскому миру Россия получила выход к Тихому океану.</p>
+      <div class="pairs">
+        <div><label for="d9a">Ошибка 1 → как правильно</label><textarea id="d9a" data-save></textarea></div>
+        <div><label for="d9b">Ошибка 2 → как правильно</label><textarea id="d9b" data-save></textarea></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">10</span>Существует точка зрения, что в деятельности Петра I и Александра I было много общего. Приведи одну общую черту.<span class="oge">как ОГЭ № 22</span></p>
+      <textarea id="d10" data-save aria-label="Ответ на задание 10"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn" type="submit">Готово</button>
+      <span class="small">Ответы сохранятся, даже если случайно закрыть страницу.</span>
+    </div>
+  </form>
+  <div class="card" id="diag-done" hidden>
+    <h3>Отлично, разведка закончена!</h3>
+    <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
+    <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
+    <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
+  </div>
+  <a class="next" href="#igra">Дальше: Могла или не могла? →</a>
+</section>
+
+<!-- 3. ИГРА -->
+<section class="view" id="igra" hidden>
+  <div>
+    <p class="kicker">Этап 3 · Разминка</p>
+    <h1>Могла или не могла?</h1>
+  </div>
+  <p class="lead">Первые фотографии появились в 1839 году. Могла ли остаться фотография этого события? Заодно вспомним, кто тогда правил.</p>
+  <div class="big-event" id="g1-event" aria-live="polite">…</div>
+  <div class="lr">
+    <button class="btn" type="button" data-side="N">Не могла</button>
+    <button class="btn" type="button" data-side="Y">Могла</button>
+  </div>
+  <p class="fb" id="g1-fb" aria-live="polite"></p>
+  <p class="small">Верно: <span class="score" id="g1-score">0</span> из <span class="score" id="g1-total">0</span></p>
+  <a class="next" href="#rasskaz">Дальше: Век перемен →</a>
+</section>
+
+<!-- 4. ВЕК ПЕРЕМЕН -->
+<section class="view" id="rasskaz" hidden>
+  <div>
+    <p class="kicker">Этап 4 · Обзор курса</p>
+    <h1>Век перемен: 1825–1914</h1>
+  </div>
+  <p class="lead">В 9 классе по истории России — почти сто лет: четыре императора, большие реформы, войны и первая революция. Сначала посмотрим на весь век сразу, как на один кадр.</p>
+  <figure class="fig photo"><svg viewBox="0 0 610 228" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Лента времени 1820–1920: правления Николая I (1825–1855), Александра II (1855–1881), Александра III (1881–1894) и Николая II (1894–1917); под лентой отмечены 1837 — первая железная дорога, 1853–1856 — Крымская война, 1861 — отмена крепостного права, 1877–1878 — война с Турцией, 1891 — начало Транссиба, 1905 — революция, 1914 — Первая мировая война">
+  <rect width="610" height="228" fill="#fffdf8"/>
+  <!-- имена -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="13" font-weight="700" fill="#241d18" text-anchor="middle">
+    <text x="138" y="46">Николай I</text>
+    <text x="289" y="46">Александр II</text>
+    <text x="394.5" y="30">Александр III</text>
+    <path d="M394.5 34 V54" stroke="#9b8f82" stroke-width="1"/>
+    <text x="491.7" y="46">Николай II</text>
+  </g>
+  <!-- полосы правлений -->
+  <g>
+    <rect x="57" y="56" width="162" height="30" fill="#2b4c6f"/>
+    <rect x="219" y="56" width="140.4" height="30" fill="#a1301f"/>
+    <rect x="359.4" y="56" width="70.2" height="30" fill="#6b5a3e"/>
+    <rect x="429.6" y="56" width="124.2" height="30" fill="#2b7a50"/>
+    <g fill="#fffdf8" font-family="Rubik, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle">
+      <text x="138" y="75">1825–1855</text><text x="289" y="75">1855–1881</text><text x="394.5" y="75">1881–1894</text><text x="491.7" y="75">1894–1917</text>
+    </g>
+  </g>
+  <!-- ось -->
+  <path d="M30 92 H580" stroke="#241d18" stroke-width="1.4"/>
+  <g stroke="#241d18" stroke-width="1"><path d="M30 92 v6 M84 92 v6 M138 92 v6 M192 92 v6 M246 92 v6 M300 92 v6 M354 92 v6 M408 92 v6 M462 92 v6 M516 92 v6 M570 92 v6"/></g>
+  <g font-family="Rubik, Arial, sans-serif" font-size="10" fill="#675c52" text-anchor="middle">
+    <text x="30" y="113">1820</text><text x="138" y="113">1840</text><text x="246" y="113">1860</text><text x="354" y="113">1880</text><text x="462" y="113">1900</text><text x="570" y="113">1920</text>
+  </g>
+  <!-- фотография: едва заметная метка -->
+  <g opacity=".75">
+    <rect x="128" y="12" width="12" height="8" rx="1.5" fill="#9b8f82"/><rect x="132" y="10" width="4" height="2" fill="#9b8f82"/><circle cx="134" cy="16" r="2.4" fill="#fffdf8"/>
+    <path d="M132.6 22 V54" stroke="#9b8f82" stroke-width="1" stroke-dasharray="2 2"/>
+    <text x="144" y="20" font-family="Rubik, Arial, sans-serif" font-size="10" fill="#9b8f82">1839 — первые фотографии</text>
+  </g>
+  <!-- события -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">
+    <circle cx="121.8" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="121.8" y="95.8" fill="#fff">1</text>
+    <circle cx="216.3" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="216.3" y="95.8" fill="#fff">2</text>
+    <circle cx="251.4" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="251.4" y="95.8" fill="#fff">3</text>
+    <circle cx="340.5" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="340.5" y="95.8" fill="#fff">4</text>
+    <circle cx="413.4" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="413.4" y="95.8" fill="#fff">5</text>
+    <circle cx="489" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="489" y="95.8" fill="#fff">6</text>
+    <circle cx="537.6" cy="92" r="8.5" fill="#a1301f" stroke="#fffdf8" stroke-width="1.5"/><text x="537.6" y="95.8" fill="#fff">7</text>
+  </g>
+  <g font-family="Rubik, Arial, sans-serif" font-size="12" fill="#241d18">
+    <circle cx="38" cy="132" r="8" fill="#a1301f"/><text x="38" y="135.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">1</text><text x="52" y="136"><tspan font-weight='700'>1837</tspan> — первая железная дорога</text>
+    <circle cx="38" cy="154" r="8" fill="#a1301f"/><text x="38" y="157.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">2</text><text x="52" y="158"><tspan font-weight='700'>1853–1856</tspan> — Крымская война</text>
+    <circle cx="38" cy="176" r="8" fill="#a1301f"/><text x="38" y="179.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">3</text><text x="52" y="180"><tspan font-weight='700'>1861</tspan> — отмена крепостного права</text>
+    <circle cx="38" cy="198" r="8" fill="#a1301f"/><text x="38" y="201.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">4</text><text x="52" y="202"><tspan font-weight='700'>1877–1878</tspan> — русско-турецкая война</text>
+    <circle cx="326" cy="132" r="8" fill="#a1301f"/><text x="326" y="135.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">5</text><text x="340" y="136"><tspan font-weight='700'>1891</tspan> — начало строительства Транссиба</text>
+    <circle cx="326" cy="154" r="8" fill="#a1301f"/><text x="326" y="157.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">6</text><text x="340" y="158"><tspan font-weight='700'>1905–1907</tspan> — Первая российская революция</text>
+    <circle cx="326" cy="176" r="8" fill="#a1301f"/><text x="326" y="179.8" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">7</text><text x="340" y="180"><tspan font-weight='700'>1914</tspan> — начало Первой мировой войны</text>
+  </g>
+</svg></figure>
+  <div class="card">
+    <h3>Чьё это решение?</h3>
+    <p>Попробуй сам, а потом проверь себя по карточкам ниже.</p>
+    <div class="dtable" id="rul"></div>
+    <div class="row"><button class="btn" type="button" id="rul-check">Проверить</button></div>
+    <p class="fb" id="rul-fb" aria-live="polite"></p>
+  </div>
+  <div class="card reveal" id="r-cards">
+    <div class="row"><button class="btn ghost" type="button" data-reveal="r-cards">Показать карточки императоров</button></div>
+    <div class="ans">
+      <div class="grid2" style="gap:12px">
+        <div><b>Николай I (1825–1855).</b> Начал правление с подавления восстания декабристов. Учредил III Отделение — политическую полицию. При нём составили Свод законов (руководил М. М. Сперанский), провели реформу государственных крестьян П. Д. Киселёва, построили первые железные дороги. Умер во время Крымской войны.</div>
+        <div><b>Александр II (1855–1881).</b> Закончил Крымскую войну Парижским миром. Отменил крепостное право (1861), провёл земскую и судебную (1864), военные (1864–1874) и другие реформы. Русско-турецкая война 1877–1878 гг. Убит народовольцами 1 марта 1881 года.</div>
+        <div><b>Александр III (1881–1894).</b> Манифест «О незыблемости самодержавия» (1881). Ввёл земских участковых начальников (1889). Начал строительство Транссибирской магистрали (1891). Сближение с Францией.</div>
+        <div><b>Николай II (1894–1917).</b> Первая всеобщая перепись и денежная реформа С. Ю. Витте (1897). Русско-японская война (1904–1905), Первая российская революция (1905–1907), Манифест 17 октября и Государственная дума. Аграрная реформа П. А. Столыпина. Первая мировая война.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Что изменилось за век</h3>
+    <div class="cmpwrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>Около 1825 года</th><th>Около 1914 года</th></tr></thead>
+        <tbody>
+          <tr><th>Крестьяне</th><td>Большинство крестьян — крепостные</td><td>Крепостное право отменено в 1861 году</td></tr>
+          <tr><th>Власть</th><td>Самодержавие, выборного представительства нет</td><td>Самодержавие сохраняется, но с 1906 года работает Государственная дума: без её одобрения закон не может вступить в силу</td></tr>
+          <tr><th>Армия</th><td>Рекрутские наборы из податных сословий</td><td>Всесословная воинская повинность (с 1874 года)</td></tr>
+          <tr><th>Дороги</th><td>Железных дорог ещё нет (первая — 1837)</td><td>Железные дороги по всей стране, по Транссибу можно доехать до Владивостока</td></tr>
+          <tr><th>Хозяйство</th><td>Почти всё население живёт сельским хозяйством</td><td>Промышленный подъём, растут города и заводы, но Россия остаётся преимущественно аграрной страной</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card reveal" id="r1">
+    <h3>Подумай</h3>
+    <label for="dr1">Какое событие ты бы назвал главным поворотом этого века? Почему?</label>
+    <textarea id="dr1" data-save placeholder="Я думаю, что…, потому что…"></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="r1">Показать, как рассуждать</button></div>
+    <p class="ans">Единственного верного ответа нет — важно доказательство. Многие историки называют отмену крепостного права: она изменила положение миллионов людей и потянула за собой другие реформы. Другие называют революцию 1905–1907 годов: впервые появилась выборная Государственная дума. Можно выбрать и Крымскую войну — поражение показало отставание страны и подтолкнуло реформы.</p>
+  </div>
+  <a class="next" href="#detektiv">Дальше: Крымская война →</a>
+</section>
+
+<!-- 5. КРЫМСКАЯ ВОЙНА -->
+<section class="view" id="detektiv" hidden>
+  <div>
+    <p class="kicker">Этап 5 · Работа со схемой</p>
+    <h1>Крымская война</h1>
+  </div>
+  <div class="card">
+    <h3>Почему началась война</h3>
+    <p><b>Повод</b> — спор о «святых местах» в Палестине, которая тогда входила в Османскую империю. Под давлением Франции султан передал католикам ключи от храма в Вифлееме, который почитают и православные. Россия считала себя защитницей православных подданных султана.</p>
+    <p><b>Причины</b> глубже. Великие державы спорили, кто будет влиять на ослабевающую Османскую империю и черноморские проливы. Этот круг проблем называют <b>восточным вопросом</b>. Против России воевали Османская империя, Великобритания, Франция, а с 1855 года — Сардинское королевство.</p>
+  </div>
+  <div class="card">
+    <h3>Рассмотри схему и ответь на вопросы<span class="oge">как ОГЭ № 8–10</span></h3>
+    <figure class="fig photo"><svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема Крымской войны: Чёрное и Азовское моря, Крым. Синяя стрелка — русский флот идёт из Севастополя к городу на южном берегу моря (цифра 1). Красная стрелка — союзники плывут от Варны и высаживаются в Крыму у Евпатории, затем идут к Севастополю (цифра 2). Синяя стрелка на Кавказе — русские войска идут к крепости (цифра 3)">
+  <defs>
+    <marker id="crR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b3261e"/></marker>
+    <marker id="crB" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2a5a9a"/></marker>
+    <pattern id="crGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 H0 V20" fill="none" stroke="#e0d6bf" stroke-width=".6"/></pattern>
+  </defs>
+  <rect width="560" height="330" fill="#efe7d3"/>
+  <rect width="560" height="330" fill="url(#crGrid)"/>
+  <!-- моря -->
+  <path d="M97.4 260.9 L84.8 250.8 L68.0 245.4 L61.0 229.2 L59.6 214.8 L65.2 198.6 L69.4 182.4 L83.4 169.8 L86.2 153.6 L90.4 139.2 L107.2 130.2 L115.6 119.4 L117.0 103.2 L129.6 92.4 L143.6 72.6 L157.6 67.2 L171.6 69.0 L182.8 72.6 L196.8 87.0 L217.8 84.5 L226.2 87.0 L208.0 90.6 L199.6 94.2 L194.0 108.6 L202.4 112.2 L216.4 117.6 L223.4 126.6 L222.0 139.2 L226.2 145.7 L236.0 145.7 L247.2 141.0 L262.6 132.0 L275.2 124.8 L286.4 123.0 L303.2 121.2 L308.8 115.8 L310.2 123.0 L322.8 126.6 L334.0 133.8 L348.0 144.6 L367.6 151.8 L390.0 169.8 L404.0 182.4 L420.8 195.0 L434.8 207.6 L447.4 225.6 L448.8 245.4 L437.6 256.2 L415.2 268.8 L395.6 268.8 L364.8 270.6 L336.8 265.2 L314.4 258.0 L294.8 245.4 L269.6 231.0 L247.2 234.6 L219.2 232.8 L196.8 238.2 L168.8 256.2 L140.8 261.6 L121.2 262.7 Z" fill="#bcd5e6" stroke="#7fa6c4" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M310.2 112.2 L300.4 108.6 L278.0 114.0 L268.2 108.6 L264.0 97.8 L272.4 87.0 L286.4 74.4 L308.8 63.6 L334.0 51.0 L356.4 47.4 L381.6 43.8 L364.8 56.4 L353.6 65.4 L345.2 83.4 L339.6 94.2 L334.0 106.8 L320.0 112.2 Z" fill="#bcd5e6" stroke="#7fa6c4" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Керченский пролив, Босфор и Дунай -->
+  <path d="M306 111 L307 121" stroke="#bcd5e6" stroke-width="4"/>
+  <path d="M97.4 260.9 L92 274 L86 286" stroke="#7fa6c4" stroke-width="2.4" fill="none"/>
+  <path d="M12 146.4 C30 150 46 158 56.8 159 C64 152 66 146 68 139.2 C70 128 72 118 75 112.2 C84 113 90 115 96 115.8 C104 117 110 117.5 114.2 117.6" stroke="#7fa6c4" stroke-width="2.2" fill="none"/>
+  <!-- подписи морей и земель -->
+  <g font-family="Rubik, Arial, sans-serif" font-style="italic" fill="#3f6f95">
+    <text x="160" y="226" font-size="15" text-anchor="middle">Чёрное море</text>
+    <text x="318" y="82" font-size="10" text-anchor="middle">Азовское</text><text x="318" y="93" font-size="10" text-anchor="middle">море</text>
+    <text x="30" y="140" font-size="10.5">Дунай</text>
+  </g>
+  <g font-family="Rubik, Arial, sans-serif" fill="#8a7a5c" font-size="11" letter-spacing="1.5" font-weight="500">
+    <text x="200" y="30">РОССИЙСКАЯ ИМПЕРИЯ</text>
+    <text x="175" y="306">ОСМАНСКАЯ ИМПЕРИЯ</text>
+    <text x="456" y="176">КАВКАЗ</text>
+    <text x="221" y="104" letter-spacing="1">КРЫМ</text>
+  </g>
+  <!-- союзники: из Варны в Крым -->
+  <path d="M70 186 C110 170 160 130 210 118" fill="none" stroke="#b3261e" stroke-width="2.8" marker-end="url(#crR)"/>
+  <!-- русский флот: к Синопу -->
+  <path d="M228 146 C246 176 258 202 265 224" fill="none" stroke="#2a5a9a" stroke-width="2.8" marker-end="url(#crB)"/>
+  <!-- русские войска на Кавказе: к Карсу -->
+  <path d="M530 240 C520 256 508 268 497 278" fill="none" stroke="#2a5a9a" stroke-width="2.8" marker-end="url(#crB)"/>
+  <!-- города -->
+  <g fill="#241d18">
+    <circle cx="222.6" cy="138.5" r="4.2"/><circle cx="268.2" cy="232.1" r="3.6"/><circle cx="490.8" cy="283.2" r="3.6"/>
+    <circle cx="95.4" cy="267.7" r="3.6"/><circle cx="144.4" cy="71.5" r="3"/><circle cx="218.4" cy="117.6" r="2.8"/><circle cx="65.8" cy="189.2" r="3"/><circle cx="538.4" cy="243.6" r="3"/>
+  </g>
+  <g font-family="Rubik, Arial, sans-serif" font-size="11" fill="#241d18">
+    <text x="104" y="284">Константинополь</text>
+    <text x="138" y="62" text-anchor="end">Одесса</text>
+    <text x="60" y="194" text-anchor="end">Варна</text>
+    <text x="212" y="111" text-anchor="end">Евпатория</text>
+    <text x="548" y="232" text-anchor="end">Тифлис</text>
+  </g>
+  <!-- сражения -->
+  <g stroke="#241d18" stroke-width="1.6" stroke-linecap="round">
+    <path d="M272 248 l9 -9 M281 248 l-9 -9"/>
+    <path d="M201 151 l8 -8 M209 151 l-8 -8"/>
+    <path d="M474 300 l9 -9 M483 300 l-9 -9"/>
+  </g>
+  <!-- номера -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+    <circle cx="298" cy="246" r="9.5" fill="#fff" stroke="#241d18" stroke-width="1.4"/><text x="298" y="250.3">1</text>
+    <circle cx="246" cy="126" r="9.5" fill="#fff" stroke="#241d18" stroke-width="1.4"/><text x="246" y="130.3">2</text>
+    <circle cx="508" cy="298" r="9.5" fill="#fff" stroke="#241d18" stroke-width="1.4"/><text x="508" y="302.3">3</text>
+  </g>
+  <!-- легенда -->
+  <g font-family="Rubik, Arial, sans-serif" font-size="11" fill="#241d18">
+    <rect x="0" y="330" width="560" height="70" fill="#fffdf8"/>
+    <path d="M0 330 H560" stroke="#d8cfc0"/>
+    <path d="M14 348 H44" stroke="#2a5a9a" stroke-width="2.8" marker-end="url(#crB)"/><text x="52" y="352">действия русских армии и флота</text>
+    <path d="M14 368 H44" stroke="#b3261e" stroke-width="2.8" marker-end="url(#crR)"/><text x="52" y="372">действия союзников</text>
+    <g stroke="#241d18" stroke-width="1.5" stroke-linecap="round"><path d="M290 353 l9 -9 M299 353 l-9 -9"/></g><text x="312" y="352">сражения и осады</text>
+    <circle cx="295" cy="368" r="3.4" fill="#241d18"/><text x="312" y="372">города</text>
+    <text x="14" y="392" fill="#675c52" font-size="10">Схема, а не точная карта: берега и расстояния упрощены.</text>
+  </g>
+</svg></figure>
+    <div class="pairs">
+      <div><label for="k1">а) Какой император правил в России, когда началась эта война?</label><input type="text" id="k1" data-save></div>
+      <div><label for="k2">б) У города № 1 в ноябре 1853 года русская эскадра разгромила турецкий флот. Как называется город?</label><input type="text" id="k2" data-save></div>
+      <div><label for="k3">в) Кто командовал русской эскадрой в этом сражении?</label><input type="text" id="k3" data-save></div>
+      <div><label for="k4">г) Город № 2 обороняли 349 дней. Как он называется?</label><input type="text" id="k4" data-save></div>
+      <div><label for="k5">д) Крепость № 3 сдалась русским войскам в ноябре 1855 года. Как она называется?</label><input type="text" id="k5" data-save></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="k-check">Проверить</button></div>
+    <p class="fb" id="k-fb" aria-live="polite"></p>
+  </div>
+  <div class="card reveal" id="q1">
+    <h3>Подумай</h3>
+    <label for="dq1">Почему союзники высадились именно в Крыму и главной целью сделали Севастополь?</label>
+    <textarea id="dq1" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="q1">Проверить себя</button></div>
+    <p class="ans">Севастополь — главная база Черноморского флота. Взять его значило уничтожить русский флот и лишить Россию силы на Чёрном море. Оборону возглавили адмиралы В. А. Корнилов и П. С. Нахимов, укрепления строил инженер Э. И. Тотлебен. Корнилов и Нахимов погибли во время обороны.</p>
+  </div>
+  <p class="note">Крымская война — одна из первых войн, которую снимали фотографы: они работали и под Севастополем. А через полвека художник Франц Рубо написал огромную панораму «Оборона Севастополя» — её и сейчас можно увидеть в Севастополе.</p>
+  <a class="next" href="#verit">Дальше: Парижский мир →</a>
+</section>
+
+<!-- 6. ПАРИЖСКИЙ МИР -->
+<section class="view" id="verit" hidden>
+  <div>
+    <p class="kicker">Этап 6 · Работа с источником</p>
+    <h1>Мир, купленный дорогой ценой</h1>
+  </div>
+  <p class="lead">Прочитай два источника. Первый — статьи мирного договора, которым закончилась Крымская война. Второй — запись в дневнике русского офицера о том, как в Петербурге встретили известие о мире.</p>
+  <div class="card">
+    <h3>Источник 1. Из мирного договора<span class="oge">как ОГЭ № 18–20</span></h3>
+    <blockquote>«Статья XI. Черное море объявляется нейтральным: открытый для торгового мореплавания всех народов вход в порты и воды оного формально и навсегда воспрещается военным судам, как прибрежных, так и всех прочих держав… Статья XIII. …е.в. император всероссийский и е.и.в. султан обязуются не заводить и не оставлять на сих берегах никакого военноморского арсенала».<cite>Трактат, подписанный в Париже 18 (30) марта. Текст по электронной библиотеке исторического факультета МГУ (сокращено).</cite></blockquote>
+    <p class="small">Е. в. — «его величество». Арсенал здесь — военно-морская база со складами оружия.</p>
+    <div class="pairs">
+      <div><label for="p1">а) В каком году подписан договор?</label><input type="text" id="p1" data-save inputmode="numeric"></div>
+      <div><label for="p2">Какой император правил тогда в России?</label><input type="text" id="p2" data-save></div>
+    </div>
+    <div class="row"><button class="btn ghost" type="button" id="p-check">Проверить</button></div>
+    <p class="fb" id="p-fb" aria-live="polite"></p>
+    <div class="task reveal" id="v1">
+      <p class="q">б) Что, по статьям XI и XIII, запрещалось России на Чёрном море? Укажи два запрета.</p>
+      <textarea id="dv1" data-save aria-label="Ответ б"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v1">Проверить себя</button></div>
+      <p class="ans">1) Держать военные суда в Чёрном море (небольшое число лёгких судов для охраны берега разрешала особая конвенция). 2) Иметь на берегах военно-морские арсеналы, то есть базы. Это называют <b>нейтрализацией Чёрного моря</b>.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Источник 2. Из дневника Д. А. Милютина, будущего военного министра</h3>
+    <blockquote>«У нас известие о заключении мира хотя и было… возвещено городу пушечными выстрелами с Петропавловской крепости и сопровождалось благодарственными молебствованиями, не могло, конечно, считаться событием радостным. Бедствиям войны был положен конец, — но мир куплен дорогой ценой. Русское национальное чувство было оскорблено».<cite>Цит. по учебнику «История России. 9 класс» (2025), § 6–7.</cite></blockquote>
+    <div class="task reveal" id="v2">
+      <p class="q">в) Почему Милютин пишет, что мир «куплен дорогой ценой»? Используй текст договора и знания по истории.</p>
+      <textarea id="dv2" data-save aria-label="Ответ в"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v2">Проверить себя</button></div>
+      <p class="ans">Россия лишилась военного флота и баз на Чёрном море — южные границы стали беззащитными. Она уступила южную часть Бессарабии с устьем Дуная, вернула туркам Карс в обмен на Севастополь и другие крымские города, потеряла покровительство над Дунайскими княжествами. Великая держава проиграла войну — это задело национальную гордость.</p>
+    </div>
+    <div class="task reveal" id="v3">
+      <p class="q">г) Назови две причины поражения России в Крымской войне.<span class="oge">как ОГЭ № 22–23</span></p>
+      <textarea id="dv3" data-save aria-label="Ответ г"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v3">Проверить себя</button></div>
+      <p class="ans">Техническое отставание: у союзников был паровой флот и нарезные ружья, у России — в основном парусный флот и гладкоствольные ружья. Не было железной дороги на юг, войска и припасы шли месяцами. Россия оказалась одна против коалиции держав. Были и ошибки командования и дипломатии.</p>
+    </div>
+    <div class="task reveal" id="v4">
+      <p class="q">д) ★ Через 14 лет Россия отказалась соблюдать эти статьи. Кто и как этого добился?</p>
+      <textarea id="dv4" data-save aria-label="Ответ д"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="v4">Проверить себя</button></div>
+      <p class="ans">В 1870 году министр иностранных дел А. М. Горчаков разослал циркуляр: Россия больше не считает себя связанной запретом. Европа была занята франко-прусской войной, и в 1871 году Лондонская конвенция отменила статьи о нейтрализации. Об этом — в теме о внешней политике Александра II.</p>
+    </div>
+  </div>
+  <p class="note">Как работает историк: два источника о Парижском мире говорят разное. Договор — сухие условия. Дневник — чувства современника. Вместе они объясняют, почему поражение подтолкнуло Александра II к реформам.</p>
+  <a class="next" href="#data">Дальше: Старый кадр →</a>
+</section>
+
+<!-- 7. СТАРЫЙ КАДР -->
+<section class="view" id="data" hidden>
+  <div>
+    <p class="kicker">Этап 7 · Конец XIX века</p>
+    <h1>Старый кадр: Москва меняется</h1>
+  </div>
+  <p class="lead">К концу XIX века города России быстро менялись. Перед тобой рисунок московской улицы — как старый снимок без подписи. Определи по деталям, когда он мог быть сделан, а потом объясни, откуда взялись эти перемены.</p>
+  <figure class="fig photo"><svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Улица Москвы на старой фотографии: двух- и трёхэтажные дома с вывесками «ЧАЙ · САХАРЪ» и «АПТЕКА», столб с множеством проводов, над улицей натянут провод, по рельсам едет вагон трамвая с токоприёмником, рядом извозчик с лошадью и прохожие">
+  <defs>
+    <linearGradient id="stSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d7e3ea"/><stop offset="1" stop-color="#f3efe6"/></linearGradient>
+    <pattern id="stCob" width="10" height="6" patternUnits="userSpaceOnUse"><rect width="10" height="6" fill="#b5a68b"/><path d="M0 5.6 H10 M5 0 V2.8 M0 2.8 H10 M0 2.8 V5.6" stroke="#9d8f74" stroke-width=".6" fill="none"/></pattern>
+  </defs>
+  <rect width="400" height="240" fill="url(#stSky)"/>
+  <!-- дома -->
+  <g>
+    <!-- жёлтый трёхэтажный -->
+    <rect x="0" y="52" width="150" height="120" fill="#e9cf8a"/>
+    <rect x="0" y="46" width="150" height="8" fill="#d7b86c"/>
+    <g fill="#5d6a74"><rect x="14" y="64" width="14" height="22" rx="1"/><rect x="44" y="64" width="14" height="22" rx="1"/><rect x="74" y="64" width="14" height="22" rx="1"/><rect x="104" y="64" width="14" height="22" rx="1"/><rect x="128" y="64" width="12" height="22" rx="1"/>
+    <rect x="14" y="98" width="14" height="22" rx="1"/><rect x="44" y="98" width="14" height="22" rx="1"/><rect x="74" y="98" width="14" height="22" rx="1"/><rect x="104" y="98" width="14" height="22" rx="1"/><rect x="128" y="98" width="12" height="22" rx="1"/></g>
+    <g fill="#fffaf0"><rect x="12" y="62" width="18" height="3"/><rect x="42" y="62" width="18" height="3"/><rect x="72" y="62" width="18" height="3"/><rect x="102" y="62" width="18" height="3"/><rect x="126" y="62" width="16" height="3"/></g>
+    <rect x="0" y="126" width="150" height="4" fill="#d7b86c"/>
+    <rect x="6" y="132" width="104" height="14" fill="#2e4f3a"/>
+    <text x="58" y="143" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" font-weight="700" fill="#f3d27a" letter-spacing="1">ЧАЙ · САХАРЪ</text>
+    <rect x="12" y="150" width="30" height="22" fill="#6b5640"/><rect x="50" y="150" width="30" height="22" fill="#9fb5c2"/><rect x="88" y="150" width="20" height="22" fill="#6b5640"/>
+    <rect x="118" y="146" width="24" height="26" fill="#4a3a2c"/>
+    <!-- розовый двухэтажный -->
+    <rect x="150" y="80" width="120" height="92" fill="#e3b3a6"/>
+    <path d="M146 82 L210 64 L274 82 Z" fill="#8a9aa6"/>
+    <g fill="#5d6a74"><rect x="164" y="94" width="14" height="22" rx="7"/><rect x="194" y="94" width="14" height="22" rx="7"/><rect x="224" y="94" width="14" height="22" rx="7"/><rect x="250" y="94" width="12" height="22" rx="6"/></g>
+    <rect x="160" y="126" width="64" height="14" fill="#fffaf0" stroke="#7a3b2a" stroke-width="1"/>
+    <text x="192" y="137" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="10" font-weight="700" fill="#7a3b2a" letter-spacing="1.5">АПТЕКА</text>
+    <rect x="164" y="144" width="22" height="28" fill="#9fb5c2"/><rect x="196" y="144" width="22" height="28" fill="#9fb5c2"/><rect x="236" y="142" width="22" height="30" fill="#5a4230"/>
+    <!-- серый дом справа -->
+    <rect x="270" y="60" width="130" height="112" fill="#cfcac0"/>
+    <rect x="270" y="54" width="130" height="8" fill="#b9b3a7"/>
+    <g fill="#5d6a74"><rect x="284" y="72" width="13" height="20"/><rect x="312" y="72" width="13" height="20"/><rect x="340" y="72" width="13" height="20"/><rect x="368" y="72" width="13" height="20"/>
+    <rect x="284" y="104" width="13" height="20"/><rect x="312" y="104" width="13" height="20"/><rect x="340" y="104" width="13" height="20"/><rect x="368" y="104" width="13" height="20"/></g>
+    <rect x="284" y="140" width="40" height="32" fill="#6b5640"/><rect x="340" y="140" width="40" height="32" fill="#9fb5c2"/>
+  </g>
+  <!-- тротуар и мостовая -->
+  <rect x="0" y="172" width="400" height="8" fill="#a59c8c"/>
+  <rect x="0" y="180" width="400" height="60" fill="url(#stCob)"/>
+  <g stroke="#6e6a64" stroke-width="2.2"><path d="M0 195.5 H400 M0 207 H400"/></g>
+  <!-- столб с проводами -->
+  <g>
+    <rect x="378.0" y="20" width="5" height="160" fill="#6e5038"/>
+    <rect x="364.0" y="28" width="34" height="3" fill="#6e5038"/><rect x="364.0" y="40" width="34" height="3" fill="#6e5038"/><rect x="364.0" y="52" width="34" height="3" fill="#6e5038"/>
+    <g fill="#e9e5dc"><circle cx="393.0" cy="27" r="1.6"/><circle cx="401.0" cy="27" r="1.6"/><circle cx="413.0" cy="27" r="1.6"/><circle cx="421.0" cy="27" r="1.6"/><circle cx="393.0" cy="39" r="1.6"/><circle cx="401.0" cy="39" r="1.6"/><circle cx="413.0" cy="39" r="1.6"/><circle cx="421.0" cy="39" r="1.6"/><circle cx="393.0" cy="51" r="1.6"/><circle cx="421.0" cy="51" r="1.6"/></g>
+    <g stroke="#2b2420" stroke-width=".7" fill="none">
+      <path d="M367 26 Q200 40 0 22"/><path d="M375 26 Q200 44 0 28"/>
+      <path d="M367 38 Q200 54 0 40"/><path d="M375 38 Q200 58 0 46"/>
+      <path d="M367 50 Q200 66 0 56"/>
+    </g>
+  </g>
+  <!-- контактный провод трамвая -->
+  <path d="M0 76 H400" stroke="#2b2420" stroke-width="1.1"/>
+  <g stroke="#2b2420" stroke-width=".8"><path d="M60 76 L56 52 M300 76 L304 58"/></g>
+  <!-- трамвай -->
+  <g>
+    <path d="M136 186 L138 176 L236 176 L238 186 Z" fill="#3a3530"/>
+    <rect x="128" y="120" width="118" height="58" rx="5" fill="#b8392b"/>
+    <rect x="128" y="160" width="118" height="18" fill="#f1e2c0"/>
+    <path d="M124 122 Q187 108 250 122 Z" fill="#4a4540"/>
+    <rect x="148" y="112" width="78" height="6" rx="2" fill="#4a4540"/>
+    <g fill="#d9e6ec"><rect x="140" y="128" width="16" height="22" rx="2"/><rect x="162" y="128" width="16" height="22" rx="2"/><rect x="184" y="128" width="16" height="22" rx="2"/><rect x="206" y="128" width="16" height="22" rx="2"/><rect x="228" y="128" width="12" height="22" rx="2"/></g>
+    <path d="M128 156 H246" stroke="#e9c46a" stroke-width="1.4"/>
+    <text x="187" y="172" text-anchor="middle" font-family="Rubik, Arial, sans-serif" font-size="9" font-weight="700" fill="#7a2b20">№ 7</text>
+    <!-- токоприёмник -->
+    <path d="M176 112 L210 77" stroke="#2b2420" stroke-width="2"/>
+    <circle cx="210" cy="77" r="2" fill="#2b2420"/>
+    <g fill="#2b2420"><circle cx="152" cy="188" r="7"/><circle cx="222" cy="188" r="7"/></g>
+    <g fill="#8a8a8a"><circle cx="152" cy="188" r="2.2"/><circle cx="222" cy="188" r="2.2"/></g>
+  </g>
+  <!-- извозчик -->
+  <g transform="translate(34 0)">
+    <!-- лошадь -->
+    <g fill="#5a3e2a">
+      <path d="M268 172 q-6 4 -4 14" stroke="#3f2b1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <rect x="272" y="178" width="3" height="18" rx="1"/><rect x="278" y="179" width="3" height="17" rx="1"/><rect x="290" y="179" width="3" height="17" rx="1"/><rect x="296" y="178" width="3" height="18" rx="1"/>
+      <ellipse cx="285" cy="174" rx="16" ry="8"/>
+      <path d="M294 170 L301 156 L309 158 L304 176 Z"/>
+      <g transform="translate(305 157) rotate(38)"><rect x="-2" y="-4" width="15" height="7.5" rx="3.4"/></g>
+      <path d="M301 155 l1 -5 l3 4 Z"/>
+    </g>
+    <path d="M294.5 169 L300.5 156" stroke="#2f1f14" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- пролётка -->
+    <path d="M232 170 Q232 160 244 158 L262 158 L262 176 L234 176 Z" fill="#2b2a2a"/>
+    <path d="M262 168 L272 172" stroke="#3a2c20" stroke-width="2"/>
+    <g fill="none" stroke="#2b2420" stroke-width="2"><circle cx="242" cy="186" r="10"/><circle cx="262" cy="190" r="6"/></g>
+    <g stroke="#2b2420" stroke-width=".8"><path d="M242 176 V196 M232 186 H252 M235 179 L249 193 M249 179 L235 193"/></g>
+    <!-- кучер -->
+    <circle cx="256" cy="140" r="3.6" fill="#e2bf9c"/>
+    <path d="M251.5 138 h9 v-5 h-9 Z" fill="#2b2420"/>
+    <path d="M249 144 h14 l2 16 h-18 Z" fill="#2f3f5a"/>
+    <path d="M262 150 L276 160" stroke="#2b2420" stroke-width=".8"/>
+  </g>
+  <!-- прохожие -->
+  <g>
+    <circle cx="40" cy="152" r="3.4" fill="#e2bf9c"/><path d="M36 150 h8 l-1 -4 h-6 Z" fill="#2b2420"/>
+    <path d="M35.5 156 h9 l1.5 16 h-12 Z" fill="#4a5568"/>
+    <circle cx="96" cy="152" r="3.4" fill="#e2bf9c"/><path d="M92 150 q4 -6 8 0 Z" fill="#8a3b2c"/>
+    <path d="M91 156 h10 l4 16 h-18 Z" fill="#6b4a6e"/>
+  </g>
+  <!-- фонарь -->
+  <g>
+    <rect x="120" y="128" width="3" height="46" fill="#3a3530"/>
+    <path d="M115 128 h13 l-2 -9 h-9 Z" fill="#3a3530"/>
+    <rect x="117.5" y="120" width="8" height="6" fill="#f3e2a0"/>
+  </g>
+</svg></figure>
+  <div class="card">
+    <h3>Шаг 1. С какого года это могло быть в Москве?</h3>
+    <div class="dtable">
+      <div class="drow"><label for="t1">Телефонные провода на столбе</label><select id="t1" data-save><option value="">—</option><option>1851</option><option>1872</option><option>1882</option><option>1899</option><option>1918</option></select></div>
+      <div class="drow"><label for="t2">Трамвай и провод над улицей</label><select id="t2" data-save><option value="">—</option><option>1851</option><option>1872</option><option>1882</option><option>1899</option><option>1918</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="t-check">Проверить</button></div>
+    <p class="fb" id="t-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Шаг 2. А до какого года?</h3>
+    <p>Посмотри на вывеску «ЧАЙ · САХАРЪ». Твёрдый знак на конце слова после согласной писали до реформы орфографии 1917–1918 годов.</p>
+    <div class="pairs">
+      <div><label for="t4">Снимок сделан не раньше … года</label><input type="text" id="t4" data-save inputmode="numeric"></div>
+      <div><label for="t5">и, скорее всего, не позже … года</label><input type="text" id="t5" data-save inputmode="numeric"></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="t2-check">Проверить</button></div>
+    <p class="fb" id="t2-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>Шаг 3. Откуда перемены?</h3>
+    <p>В 1890-е годы в России начался бурный промышленный подъём. Им руководил министр финансов, который занимал этот пост в 1892–1903 годах.</p>
+    <div class="pairs">
+      <div><label for="t6">Кто это?</label><select id="t6" data-save style="max-width:320px"><option value="">—</option><option>М. М. Сперанский</option><option>А. М. Горчаков</option><option>С. Ю. Витте</option><option>П. А. Столыпин</option></select></div>
+    </div>
+    <div class="row"><button class="btn ghost" type="button" id="t6-check">Проверить</button></div>
+    <p class="fb" id="t6-fb" aria-live="polite"></p>
+    <div class="task reveal" id="d1">
+      <p class="q">Назови две меры, которые помогли промышленному подъёму 1890-х годов.</p>
+      <textarea id="dd1" data-save aria-label="Ответ про меры"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="d1">Проверить себя</button></div>
+      <p class="ans">Широкое строительство железных дорог (Транссибирская магистраль — с 1891 года): нужны были металл, уголь, паровозы. Привлечение иностранных инвестиций. Денежная реформа 1897 года — золотой рубль сделал российскую валюту устойчивой. При этом Россия оставалась преимущественно сельскохозяйственной страной.</p>
+    </div>
+  </div>
+  <a class="next" href="#mif">Дальше: Миф или правда →</a>
+</section>
+
+<!-- 8. МИФ -->
+<section class="view" id="mif" hidden>
+  <div>
+    <p class="kicker">Этап 8 · Закрепление</p>
+    <h1>Миф или правда?</h1>
+  </div>
+  <p class="lead">Сначала скажи учителю: «Это миф, потому что…» или «Это правда, потому что…», а потом нажми кнопку.</p>
+  <div class="grid2" id="myths"></div>
+  <a class="next" href="#itog">Дальше: Итог →</a>
+</section>
+
+<!-- 9. ИТОГ -->
+<section class="view" id="itog" hidden>
+  <div>
+    <p class="kicker">Этап 9 · Итог</p>
+    <h1>Расскажи и подведём итог</h1>
+  </div>
+  <div class="card">
+    <h3>Расскажи учителю по плану</h3>
+    <p>1. Какие четыре императора правили с 1825 по 1914 год? Чем запомнилось правление каждого?</p>
+    <p>2. Из-за чего началась Крымская война и чем она закончилась?</p>
+    <p>3. Что такое нейтрализация Чёрного моря и почему в России её считали тяжёлым условием?</p>
+    <p>4. Как изменились города России к концу XIX века и почему?</p>
+  </div>
+  <div class="card">
+    <div class="grid2">
+      <div><p>Насколько сегодня было интересно?</p><div class="rate" data-rate="interest"></div></div>
+      <div><p>Насколько было понятно?</p><div class="rate" data-rate="clear"></div></div>
+    </div>
+    <div class="grid2">
+      <div><label for="it-best">Что было самым интересным?</label><input type="text" id="it-best" data-save></div>
+      <div><label for="it-hard">Что было трудным?</label><input type="text" id="it-hard" data-save></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="all-copy">Скопировать все ответы для учителя</button></div>
+    <div class="copybox" id="all-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="all-text"></textarea></div>
+  </div>
+  <div class="card">
+    <h3>Только для учителя: очистить тетрадь</h3>
+    <p class="small">Стирает все ответы во всех разделах тетради — от «Знакомства» до «Домашки» — и открывает её с начала. Сначала скопируйте ответы ученика. Нужен код учителя.</p>
+    <div class="row" id="reset-row">
+      <input type="password" id="reset-pin" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Код учителя" aria-label="Код учителя" style="max-width:170px">
+      <button class="btn ghost" type="button" id="reset-btn">Стереть все ответы</button>
+      <span id="reset-ask" hidden><span class="fb wrong">Точно стереть все ответы во всей тетради?</span>
+        <button class="btn" type="button" id="reset-yes">Да, стереть</button>
+        <button class="btn ghost" type="button" id="reset-no">Отмена</button></span>
+    </div>
+    <p class="fb" id="reset-fb" aria-live="polite"></p>
+  </div>
+  <a class="next" href="#dz">Дальше: Домашнее задание →</a>
+</section>
+
+<!-- 10. ДЗ -->
+<section class="view" id="dz" hidden>
+  <div>
+    <p class="kicker">Этап 10 · 25–30 минут дома</p>
+    <h1>Домашнее задание</h1>
+  </div>
+  <div class="card">
+    <h3>1. Лента века</h3>
+    <p>Начерти в тетради ленту времени от 1825 до 1917 года. Отметь на ней правления четырёх императоров и в каждом — по два важных события. События бери из учебника: в конце учебника истории России есть список «Основные события». Сфотографируй и пришли учителю.</p>
+  </div>
+  <div class="card">
+    <h3>2. Проверь себя</h3>
+    <div class="pairs">
+      <div><label for="h1">Кто командовал русской эскадрой в Синопском сражении?</label><select id="h1" data-save><option value="">—</option><option>М. И. Кутузов</option><option>П. С. Нахимов</option><option>А. С. Меншиков</option></select></div>
+      <div><label for="h2">В каком году подписан Парижский мир?</label><select id="h2" data-save><option value="">—</option><option>1853</option><option>1856</option><option>1861</option></select></div>
+      <div><label for="h3">Кто правил, когда отменили крепостное право?</label><select id="h3" data-save><option value="">—</option><option>Николай I</option><option>Александр II</option><option>Александр III</option></select></div>
+      <div><label for="h4">Кто был министром финансов в 1892–1903 годах?</label><select id="h4" data-save><option value="">—</option><option>С. Ю. Витте</option><option>П. А. Столыпин</option><option>А. М. Горчаков</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="h-check">Проверить</button></div>
+    <p class="fb" id="h-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>3. Фото учебников</h3>
+    <p>Сфотографируй оглавление обоих учебников истории — России и всеобщей — и отметь параграфы, которые вы проходите сейчас. Напиши одну тему с начала года, которая была самой непонятной. Если сдаёшь ОГЭ и уже писал(а) пробник, пришли и его результат.</p>
+  </div>
+  <div class="card">
+    <h3>★ По желанию: семейный кадр</h3>
+    <p>Найди дома старую фотографию и попробуй определить по деталям, когда она сделана, — как мы сегодня датировали московскую улицу. Напиши 2–3 предложения.</p>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>Тетрадь к вводному занятию по истории, 9 класс. Ответы хранятся только в этом браузере; чтобы учитель их увидел, используй кнопки «Скопировать».</p>
+</footer>
+
+
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+/* ---------- хранение ---------- */
+const KEY="foto9-v1";
+let D={};
+try{D=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){D={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+$$("[data-save]").forEach(el=>{
+  if(D[el.id]!==undefined) el.value=D[el.id];
+  el.addEventListener("input",()=>{D[el.id]=el.value;save()});
+  el.addEventListener("change",()=>{D[el.id]=el.value;save()});
+});
+
+/* ---------- навигация ---------- */
+const views=$$("section.view");
+function show(){
+  const id=(location.hash||"").slice(1);
+  const v=views.find(x=>x.id===id)||views[0];
+  views.forEach(x=>x.hidden=(x!==v));
+  $$("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
+show();
+
+/* ---------- утилиты ---------- */
+function fb(el,text,good){el.textContent=text;el.className="fb "+(good===true?"good":good===false?"wrong":"")}
+const val=id=>($("#"+id)||{}).value||"";
+const digits=s=>String(s||"").replace(/\D/g,"");
+const low=s=>String(s||"").toLowerCase().replace(/ё/g,"е").trim();
+async function copy(text,box,ta,btn){
+  ta.value=text;
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  catch(e){box.classList.add("show");ta.focus();ta.select()}
+}
+$$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
+function mark(id,ok){const e=$("#"+id);if(!e)return;e.classList.remove("ok","bad");if(!e.value)return;e.classList.add(ok?"ok":"bad")}
+
+/* ---------- 1. Машина времени ---------- */
+const tms=$$("#tm-cards .tm");
+function setTm(choice){
+  tms.forEach(b=>b.setAttribute("aria-pressed",b.dataset.choice===choice?"true":"false"));
+  fb($("#tm-picked"),choice?"Ты отправляешься: "+choice+".":"Нажми на картинку, чтобы выбрать.",choice?true:undefined);
+}
+tms.forEach(b=>b.addEventListener("click",()=>{D.tm=b.dataset.choice;save();setTm(D.tm)}));
+setTm(D.tm||"");
+
+/* ---------- 2. Разведка ---------- */
+function diagParts(){
+  const p={};
+  const m1=[val("d1a")==="2",val("d1b")==="3",val("d1c")==="4"].filter(Boolean).length;
+  p.t1=m1===3?2:m1===2?1:0;
+  p.t2=digits(val("d2"))==="4321"?1:0;
+  p.t3=/^(правительствующий\s+)?сенат$/.test(low(val("d3")))?1:0;
+  const d4=[...new Set(digits(val("d4")).split(""))];
+  const c4=d4.filter(c=>c==="1"||c==="2").length, w4=d4.length-c4;
+  p.t4=(c4===2&&w4===0)?2:((c4===2&&w4===1)||(c4===1&&w4<=1))?1:0;
+  p.t5=val("d5")==="4"?1:0;
+  p.t6=(val("d6a")==="1"?1:0)+(val("d6b")==="2"?1:0)+(val("d6c")==="3"?1:0);
+  p.t7=(digits(val("d7a"))==="1812"?1:0)+(/бородин/.test(low(val("d7b")))?1:0)+(/кутузов/.test(low(val("d7c")))?1:0)+(/березин/.test(low(val("d7d")))?1:0);
+  p.t8=(digits(val("d8y"))==="1803"?1:0)+(/александр\s*(i\b|1|перв)/i.test(low(val("d8e")))?1:0);
+  return p;
+}
+function diagScore(){const p=diagParts();return Object.values(p).reduce((a,b)=>a+b,0)}
+function diagText(){
+  const p=diagParts();
+  const L=[];
+  L.push("РАЗВЕДКА (диагностика в формате ОГЭ)");
+  L.push("1) Полтава "+val("d1a")+", вольность дворянства "+val("d1b")+", Бородино "+val("d1c")+" (верно: 234) — "+p.t1+"/2");
+  L.push("2) "+val("d2")+" (верно: 4321) — "+p.t2+"/1");
+  L.push("3) "+val("d3")+" (верно: Сенат) — "+p.t3+"/1");
+  L.push("4) "+val("d4")+" (верно: 12) — "+p.t4+"/2");
+  L.push("5) "+val("d5")+" (верно: 4) — "+p.t5+"/1");
+  L.push("6) "+val("d6a")+", "+val("d6b")+", "+val("d6c")+" (верно: 1, 2, 3) — "+p.t6+"/3");
+  L.push("7) год "+val("d7a")+"; №2 "+val("d7b")+"; полководец "+val("d7c")+"; река №4 "+val("d7d")+" (верно: 1812, Бородино, Кутузов, Березина) — "+p.t7+"/4");
+  L.push("8а) "+val("d8y")+", "+val("d8e")+" (верно: 1803, Александр I) — "+p.t8+"/2");
+  L.push("8б) "+val("d8b"));
+  L.push("8в) "+val("d8c"));
+  L.push("9) ошибка 1: "+val("d9a")+" | ошибка 2: "+val("d9b"));
+  L.push("10) "+val("d10"));
+  L.push("Автопроверка: "+diagScore()+" из 16. Задания 8б, 8в, 9, 10 (до 9 баллов) проверяет учитель.");
+  return L.join("\n");
+}
+$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-text").value=diagText();$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
+$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
+
+/* ---------- 3. Игра ---------- */
+const events=[
+  ["Восстание декабристов на Сенатской площади","1825","N","Не могла. Это самые первые дни правления Николая I. Портреты декабристов в учебнике — рисунки."],
+  ["Открытие железной дороги Петербург — Москва","1851","Y","Могла. Правление Николая I. Позже дорогу назвали Николаевской."],
+  ["Бородинское сражение","1812","N","Не могла. Это Отечественная война 1812 года, правление Александра I — 8 класс."],
+  ["Оборона Севастополя в Крымской войне","1854–1855","Y","Могла. Оборона длилась 349 дней — сначала при Николае I, потом при Александре II."],
+  ["Кодификация законов под руководством М. М. Сперанского","1830-е","N","Не могла. Свод законов Российской империи подготовили при Николае I к 1832 году."],
+  ["Подписание Манифеста об отмене крепостного права","1861","Y","Могла. Александр II, главная реформа его правления."],
+  ["Открытие Царскосельской железной дороги — первой в России","1837","N","Не могла: до первых фотографий ещё два года. Правление Николая I."],
+  ["Начало строительства Транссибирской магистрали","1891","Y","Могла. Правление Александра III. Магистраль строили до 1916 года."],
+  ["Восстание под предводительством Е. И. Пугачёва","1773–1775","N","Не могла. Это XVIII век, правление Екатерины II."],
+  ["Открытие I Государственной думы","1906","Y","Могла. Николай II. Дума появилась после Манифеста 17 октября 1905 года."]
+];
+let gi=0,gs=0,gt=0,locked=false;
+function g1(){const ev=events[gi%events.length];$("#g1-event").innerHTML=ev[0]+"<small>"+ev[1]+"</small>"}
+$$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
+  if(locked)return; locked=true;
+  const ev=events[gi%events.length];const right=ev[2]===b.dataset.side; gt++; if(right)gs++;
+  $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
+  fb($("#g1-fb"),(right?"Верно! ":"Не совсем. ")+ev[3],right);
+  setTimeout(()=>{gi++;g1();locked=false},2800);
+}));
+g1();
+
+/* ---------- 4. Век перемен ---------- */
+const RUL=["Николай I","Александр II","Александр III","Николай II"];
+const ACTS=[
+  ["ra","Учреждение III Отделения — политической полиции","Николай I"],
+  ["rb","Манифест об отмене крепостного права","Александр II"],
+  ["rc","Манифест «О незыблемости самодержавия»","Александр III"],
+  ["rd","Денежная реформа: введение золотого рубля","Николай II"],
+  ["re","Земская и судебная реформы","Александр II"],
+  ["rf","Реформа государственных крестьян П. Д. Киселёва","Николай I"],
+  ["rg","Положение о земских участковых начальниках","Александр III"],
+  ["rh","Манифест 17 октября и учреждение Государственной думы","Николай II"]
+];
+$("#rul").innerHTML=ACTS.map(a=>'<div class="drow"><label for="'+a[0]+'">'+a[1]+'</label><select id="'+a[0]+'" data-save><option value="">—</option>'+RUL.map(r=>'<option>'+r+'</option>').join("")+'</select></div>').join("");
+$$("#rul select").forEach(el=>{if(D[el.id]!==undefined)el.value=D[el.id];el.addEventListener("change",()=>{D[el.id]=el.value;save()})});
+$("#rul-check").addEventListener("click",()=>{
+  let n=0;ACTS.forEach(a=>{const ok=val(a[0])===a[2];mark(a[0],ok);if(ok)n++});
+  D.rul=n;save();
+  fb($("#rul-fb"),n===8?"Всё верно! Ты хорошо ориентируешься в веке.":"Верно "+n+" из 8. Открой карточки императоров ниже и проверь себя.",n===8);
+});
+
+/* ---------- 5. Крымская война ---------- */
+function crimeaParts(){
+  return [/никола[йя]\s*(i\b|1|перв)/.test(low(val("k1"))),/синоп/.test(low(val("k2"))),/нахимов/.test(low(val("k3"))),/севастопол/.test(low(val("k4"))),/карс/.test(low(val("k5")))];
+}
+$("#k-check").addEventListener("click",()=>{
+  const r=crimeaParts();["k1","k2","k3","k4","k5"].forEach((id,i)=>mark(id,r[i]));
+  const n=r.filter(Boolean).length;D.crimea=n;save();
+  fb($("#k-fb"),n===5?"Всё верно! Николай I, Синоп, П. С. Нахимов, Севастополь, Карс.":"Верно "+n+" из 5. Подсказки: война началась в 1853 году; адмирал, который командовал при Синопе, потом возглавил оборону Севастополя.",n===5);
+});
+
+/* ---------- 6. Парижский мир ---------- */
+function parisParts(){return [digits(val("p1"))==="1856",/александр\s*(ii\b|2|втор)/i.test(low(val("p2")))]}
+$("#p-check").addEventListener("click",()=>{
+  const r=parisParts();mark("p1",r[0]);mark("p2",r[1]);
+  const n=r.filter(Boolean).length;D.paris=n;save();
+  if(n===2) fb($("#p-fb"),"Верно: 1856 год, Александр II. Войну начинал Николай I, но он умер в 1855 году.",true);
+  else if(!r[0]) fb($("#p-fb"),"Год не тот. Война шла в 1853–1856 годах, а мир заключили после её окончания.",false);
+  else fb($("#p-fb"),"Год верный, а император — нет. Ловушка: войну начинал Николай I, но в 1855 году он умер.",false);
+});
+
+/* ---------- 7. Старый кадр ---------- */
+$("#t-check").addEventListener("click",()=>{
+  const k=[["t1","1882"],["t2","1899"]];let n=0;
+  k.forEach(([id,a])=>{const ok=val(id)===a;mark(id,ok);if(ok)n++});
+  D.tcheck=n;save();
+  fb($("#t-fb"),n===2?"Всё верно! Телефон — 1882, электрический трамвай — 1899. Не путай трамвай с конкой.":"Верно "+n+" из 2. Подсказки: конка (вагон, который тянули лошади) появилась в 1872 году, первая телефонная станция в Москве — в 1882 году, первая линия электрического трамвая — в 1899 году.",n===2);
+});
+$("#t2-check").addEventListener("click",()=>{
+  const a=digits(val("t4"))==="1899",b=digits(val("t5"))==="1918"||digits(val("t5"))==="1917";
+  mark("t4",a);mark("t5",b);
+  if(a&&b) fb($("#t2-fb"),"Верно! Примерно между 1899 и 1918 годами — это правление Николая II. Нижнюю границу задаёт самая «молодая» деталь — трамвай.",true);
+  else if(!a) fb($("#t2-fb"),"Нижняя граница — год появления самой «молодой» детали на снимке. Какая из них появилась позже всех?",false);
+  else fb($("#t2-fb"),"Нижняя граница верна! А верхняя — год реформы орфографии.",false);
+});
+$("#t6-check").addEventListener("click",()=>{
+  const ok=val("t6")==="С. Ю. Витте";mark("t6",ok);D.witte=ok?"верно":"ошибка";save();
+  fb($("#t6-fb"),ok?"Верно! Сергей Юльевич Витте был министром финансов при Александре III и Николае II.":"Не совсем. Сперанский — начало XIX века, Горчаков — министр иностранных дел при Александре II, Столыпин — премьер-министр после 1906 года.",ok);
+});
+
+/* ---------- 8. Миф ---------- */
+const MY=[
+  ["Крымская война закончилась тем, что Россия потеряла Крым.",false,"Миф. Крым остался российским: Севастополь и другие крымские города вернули России в обмен на Карс. Россия потеряла другое — право держать флот на Чёрном море, южную часть Бессарабии с устьем Дуная."],
+  ["После 1861 года крестьяне сразу и бесплатно получили землю в собственность.",false,"Миф. Крестьяне получили личную свободу, но землю должны были выкупать. До выкупа они оставались «временнообязанными» — отбывали барщину или платили оброк."],
+  ["Первая железная дорога в России появилась при Николае I.",true,"Правда. Царскосельская дорога — 1837 год, дорога Петербург — Москва — 1851 год."],
+  ["Государственная дума — первый российский парламент — начала работу в 1906 году.",true,"Правда. Её созыв обещал Манифест 17 октября 1905 года, первая Дума открылась в апреле 1906 года."],
+  ["Цветных фотографий Российской империи не существует: все цветные старые снимки раскрашены.",false,"Миф. В 1909–1915 годах С. М. Прокудин-Горский при поддержке Николая II снимал империю в настоящем цвете: каждый кадр снимали трижды через красный, зелёный и синий светофильтры."]
+];
+$("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="st">'+(i+1)+'. '+m[0]+'</span><div class="row"><button class="btn ghost" type="button" data-m="'+i+'" data-a="0">Миф</button><button class="btn ghost" type="button" data-m="'+i+'" data-a="1">Правда</button></div><p class="ex fb"></p></div>').join("");
+$$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
+  const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
+  $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
+}));
+
+/* ---------- 9. Итог ---------- */
+$$(".rate").forEach(r=>{const k=r.dataset.rate;for(let n=1;n<=5;n++){const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-label",n+" из 5");b.setAttribute("aria-pressed",String(D[k]==n));b.addEventListener("click",()=>{D[k]=n;save();$$("button",r).forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});r.appendChild(b)}});
+function opened(id){return D["open_"+id]?" (открывал ответ)":""}
+function allText(){
+  const L=[];
+  L.push("ЗНАКОМСТВО: машина времени — "+(D.tm||"не выбрано")+"; знаю: "+val("tm-know")+"; кто правил, что происходило: "+val("tm-meet"));
+  L.push("О СЕБЕ: история России — "+val("me-rus")+"; всеобщая — "+val("me-vse")+"; ОГЭ — "+val("me-oge")+"; цель — "+val("me-goal")+"; после 9 класса — "+val("me-next")+"; нравится/трудно — "+val("me-like"));
+  L.push("");L.push(diagText());L.push("");
+  L.push("МОГЛА ИЛИ НЕ МОГЛА: "+(D.game||"не играл(а)"));
+  L.push("ЧЬЁ РЕШЕНИЕ: "+ACTS.map(a=>a[1]+" — "+(val(a[0])||"—")).join("; ")+" (верно "+(D.rul!==undefined?D.rul:"—")+" из 8)"+opened("r-cards"));
+  L.push("ГЛАВНЫЙ ПОВОРОТ ВЕКА: "+val("dr1"));
+  L.push("КРЫМСКАЯ ВОЙНА (схема): "+["k1","k2","k3","k4","k5"].map(val).join("; ")+" (верно: Николай I; Синоп; Нахимов; Севастополь; Карс) — "+crimeaParts().filter(Boolean).length+"/5");
+  L.push("Почему Крым: "+val("dq1")+opened("q1"));
+  L.push("ПАРИЖСКИЙ МИР: "+val("p1")+", "+val("p2")+" (верно: 1856, Александр II) — "+parisParts().filter(Boolean).length+"/2; запреты — "+val("dv1")+opened("v1")+"; «дорогая цена» — "+val("dv2")+opened("v2")+"; причины поражения — "+val("dv3")+opened("v3")+"; отмена статей — "+val("dv4")+opened("v4"));
+  L.push("СТАРЫЙ КАДР: телефон "+val("t1")+", трамвай "+val("t2")+" (верно: 1882, 1899); границы "+val("t4")+"–"+val("t5")+" (верно: 1899–1918); министр — "+val("t6")+"; меры — "+val("dd1")+opened("d1"));
+  L.push("МИФ ИЛИ ПРАВДА (первый ответ): "+MY.map((m,i)=>(i+1)+" "+(D["myth"+i]||"—")).join(", "));
+  L.push("ИТОГ: интересно "+(D.interest||"—")+"/5, понятно "+(D.clear||"—")+"/5; интересное: "+val("it-best")+"; трудное: "+val("it-hard"));
+  return L.join("\n");
+}
+$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
+
+/* ---------- 10. ДЗ ---------- */
+$("#h-check").addEventListener("click",()=>{
+  const r=[[val("h1")==="П. С. Нахимов","1"],[val("h2")==="1856","2"],[val("h3")==="Александр II","3"],[val("h4")==="С. Ю. Витте","4"]];
+  const n=r.filter(x=>x[0]).length;
+  fb($("#h-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+});
+
+/* ---------- Сброс ---------- */
+const PIN_H=1042908564;
+function fnv(str){let h=0x811c9dc5;const b=new TextEncoder().encode(str);for(const c of b){h^=c;h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+let pinWait=false;
+$("#reset-btn").addEventListener("click",()=>{
+  if(pinWait)return;
+  const pin=($("#reset-pin").value||"").trim();
+  if(fnv("foto9:"+pin)===PIN_H){fb($("#reset-fb"),"");$("#reset-pin").hidden=true;$("#reset-ask").hidden=false;$("#reset-btn").hidden=true;return}
+  $("#reset-pin").value="";pinWait=true;
+  fb($("#reset-fb"),"Неверный код. Эта кнопка только для учителя.",false);
+  setTimeout(()=>{pinWait=false},3000);
+});
+$("#reset-pin").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#reset-btn").click()}});
+$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#reset-btn").hidden=false;$("#reset-pin").hidden=false;$("#reset-pin").value=""});
+$("#reset-yes").addEventListener("click",()=>{
+  try{localStorage.removeItem(KEY)}catch(e){}
+  try{history.replaceState(null,"","#znakomstvo")}catch(e){}
+  location.reload();
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тетради по истории</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#efe9de;--sheet:#fffdf8;--ink:#241d18;--muted:#675c52;--cin:#a1301f;--line:#d9cfbf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Rubik",system-ui,sans-serif;font-size:18px;line-height:1.5}
+header{background:var(--ink);color:var(--sheet);background-image:repeating-linear-gradient(90deg,transparent 0 52px,rgba(255,255,255,.05) 52px 56px,transparent 56px 112px)}
+header div{max-width:860px;margin:0 auto;padding:22px 16px}
+h1{font-family:"Unbounded","Rubik",sans-serif;font-weight:800;font-size:clamp(24px,4vw,34px);margin:0}
+main{max-width:860px;margin:0 auto;padding:24px 16px 48px;display:grid;gap:14px}
+a.card{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:inherit;text-decoration:none}
+a.card:hover{border-color:var(--cin);box-shadow:0 0 0 3px #f5ddd5}
+.num{font-family:"Unbounded","Rubik",sans-serif;font-weight:800;font-size:30px;color:var(--cin);text-align:center}
+.t{font-weight:700;font-size:19px}
+.s{font-size:15px;color:var(--muted)}
+p.note{font-size:15px;color:var(--muted);margin:8px 0 0}
+</style>
+</head>
+<body>
+<header><div><h1>Тетради по истории</h1></div></header>
+<main>
+  <a class="card" href="5-klass.html"><span class="num">5</span><span><span class="t">«Тайна иероглифов»</span><br><span class="s">Вводное занятие, 5 класс</span></span></a>
+  <a class="card" href="8-klass.html"><span class="num">8</span><span><span class="t">«Который год?»</span><br><span class="s">Вводное занятие, 8 класс</span></span></a>
+  <a class="card" href="9-klass.html"><span class="num">9</span><span><span class="t">«Кадры одного века»</span><br><span class="s">Вводное занятие, 9 класс</span></span></a>
+  <p class="note">Ответы сохраняются только в браузере ученика. В конце занятия нажми «Скопировать все ответы для учителя» и отправь их учителю.</p>
+</main>
+</body>
+</html>

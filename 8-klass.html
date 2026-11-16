@@ -1,0 +1,853 @@
+<untrusted-document-e7aa81724b12><!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тетрадь «Который год?»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&family=Noto+Serif:wght@500;700&family=Ruslan+Display&display=swap" rel="stylesheet">
+<style>
+/* Петровская эпоха: светлая бумага указа, тёмно-синие чернила, зелень Преображенского полка, золото фейерверка.
+   Макет как в тетрадях 5–7 класса: липкая навигация по этапам, один этап на экране — удобно в демонстрации экрана. */
+:root{
+  --paper:#eef0ea;
+  --sheet:#fffdf8;
+  --ink:#1c2431;
+  --muted:#5d6370;
+  --cin:#1f6a4a;
+  --cin-soft:#d8ece2;
+  --gold:#c99a2e;
+  --indigo:#25416f;
+  --indigo-soft:#dfe6f2;
+  --ok:#2b7a50;
+  --ok-soft:#d9efe2;
+  --bad:#a8461f;
+  --bad-soft:#f8e1d3;
+  --line:#d3d6cc;
+  --display:"Unbounded","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --old:"Noto Serif","Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+a{color:var(--indigo)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--sheet);
+  background-image:repeating-linear-gradient(90deg,transparent 0 52px,rgba(255,255,255,.05) 52px 56px,transparent 56px 112px)}
+.top-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f0d38a}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #4b5466;white-space:nowrap}
+nav a b{color:#f0d38a;font-weight:700;margin-right:4px}
+nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
+nav a[aria-current="page"] b{color:#fff}
+main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
+section.view{display:grid;gap:20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h2{font-size:22px;font-weight:600}
+h3{font-size:18px;font-weight:600}
+.lead{font-size:20px;max-width:65ch;margin:0}
+.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.card p{margin:0;max-width:68ch}
+.note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
+.warn{background:#fbf1d8;border-left:5px solid var(--gold);border-radius:8px;padding:12px 16px;font-size:16px;margin:0;display:grid;gap:6px}
+.warn p{margin:0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+label{font-weight:500}
+input[type=text],input[type=password],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn.ghost{background:transparent;color:var(--indigo)}
+.btn:hover{filter:brightness(1.08)}
+.next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
+.ok{background:var(--ok-soft)!important;border-color:var(--ok)!important;color:var(--ink)!important}
+.bad{background:var(--bad-soft)!important;border-color:var(--bad)!important;color:var(--ink)!important}
+.fb{font-weight:500;min-height:1.5em;margin:0}
+.fb.good{color:var(--ok)}.fb.wrong{color:var(--bad)}
+.task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0;padding-top:0}
+.task .q{margin:0;font-weight:500}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.pairs>div{display:grid;gap:4px}
+.small{font-size:15px;color:var(--muted)}
+blockquote{margin:0;padding:12px 16px;background:#f3f1e6;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote p{margin:0 0 8px}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
+/* Машина времени */
+.tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.tm svg{width:100%;height:auto;border-radius:10px;display:block}
+.tm[aria-pressed="true"]{border-color:var(--indigo);box-shadow:0 0 0 4px var(--indigo-soft)}
+.tm b{font-size:18px}
+/* Игра */
+.big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
+.lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+/* Рассказ */
+.split{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.pic svg{width:100%;height:auto;display:block}
+.facts{display:grid;gap:10px}
+.fact{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.fact .y{font-family:var(--display);font-weight:800;font-size:17px;color:var(--cin);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.fact{grid-template-columns:1fr}}
+.reveal{display:grid;gap:8px}
+.reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
+.reveal.open .ans{display:block}
+table.cmp{border-collapse:collapse;width:100%;font-size:16px}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.cmp th{background:#e8eadf;font-weight:500}
+table.cmp td.n{font-family:var(--display);font-weight:800;color:var(--cin);text-align:center;font-variant-numeric:tabular-nums}
+.decree{font-family:var(--old);font-style:normal;font-size:18px;line-height:1.55}
+/* Сортировка и мифы */
+.sorti,.myth{display:grid;gap:8px;background:var(--sheet);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.sorti .st,.myth .st{font-weight:500;font-size:18px}
+.myth .ex{display:none;font-size:16px}
+.myth.done .ex{display:block}
+/* Итог */
+.rate{display:flex;gap:6px}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
+.copybox{display:none;gap:8px}
+.copybox.show{display:grid}
+.copybox textarea{min-height:180px;font-size:14px;font-family:ui-monospace,Menlo,Consolas,monospace}
+@media (max-width:640px){header.top{position:static}nav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 40px;font-size:14px;color:var(--muted)}
+footer p{margin:0}
+#reset-ask{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+#reset-ask[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.btn,.tm,nav a{transition:background .15s,border-color .15s,box-shadow .15s}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Который год?</div>
+    <nav aria-label="Этапы урока">
+      <a href="#znakomstvo"><b>1</b>Знакомство</a>
+      <a href="#razvedka"><b>2</b>Разведка</a>
+      <a href="#igra"><b>3</b>Раньше или позже?</a>
+      <a href="#rasskaz"><b>4</b>Рассказ</a>
+      <a href="#detektiv"><b>5</b>Детектив</a>
+      <a href="#poltava"><b>6</b>Три даты</a>
+      <a href="#sravni"><b>7</b>Кто менял календарь</a>
+      <a href="#mif"><b>8</b>Миф или правда</a>
+      <a href="#itog"><b>9</b>Итог</a>
+      <a href="#dz"><b>10</b>Домашка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. ЗНАКОМСТВО -->
+<section class="view" id="znakomstvo">
+  <div>
+    <p class="kicker">Этап 1 · Знакомство</p>
+    <h1>Машина времени</h1>
+  </div>
+  <p class="lead">У тебя билет на одну поездку в XVIII век. Все три места встретятся нам сегодня на занятии. Выбери, куда отправишься, и ответь на два вопроса — коротко, своими словами.</p>
+  <div class="grid3" id="tm-cards">
+    <button class="tm" type="button" data-choice="Москва, Красная площадь, 1 января 1700" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Зимняя ночь в Москве 1 января 1700 года: кремлёвская стена и башня с часами, над ними фейерверк, на переднем плане ворота дома, украшенные еловыми ветками"><defs><linearGradient id="mSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141c38"/><stop offset="1" stop-color="#2a3866"/></linearGradient></defs><rect width="300" height="170" fill="url(#mSky)"/><g fill="#fff" opacity=".75"><circle cx="18" cy="16" r="1.1"/><circle cx="112" cy="12" r="1"/><circle cx="282" cy="72" r="1"/><circle cx="20" cy="70" r="1"/><circle cx="196" cy="14" r="1"/></g><path d="M68.0 36.0 L79.0 36.0" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="81.5" cy="36.0" r="1.3" fill="#f0d38a"/><path d="M67.2 39.0 L76.7 44.5" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="78.9" cy="45.8" r="1.3" fill="#f0d38a"/><path d="M65.0 41.2 L70.5 50.7" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="71.8" cy="52.9" r="1.3" fill="#f0d38a"/><path d="M62.0 42.0 L62.0 53.0" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="62.0" cy="55.5" r="1.3" fill="#f0d38a"/><path d="M59.0 41.2 L53.5 50.7" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="52.2" cy="52.9" r="1.3" fill="#f0d38a"/><path d="M56.8 39.0 L47.3 44.5" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="45.1" cy="45.8" r="1.3" fill="#f0d38a"/><path d="M56.0 36.0 L45.0 36.0" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="42.5" cy="36.0" r="1.3" fill="#f0d38a"/><path d="M56.8 33.0 L47.3 27.5" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="45.1" cy="26.3" r="1.3" fill="#f0d38a"/><path d="M59.0 30.8 L53.5 21.3" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="52.2" cy="19.1" r="1.3" fill="#f0d38a"/><path d="M62.0 30.1 L62.0 19.0" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="62.0" cy="16.5" r="1.3" fill="#f0d38a"/><path d="M65.0 30.8 L70.5 21.3" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="71.8" cy="19.1" r="1.3" fill="#f0d38a"/><path d="M67.2 33.0 L76.7 27.5" stroke="#f0d38a" stroke-width="1.8" stroke-linecap="round"/><circle cx="78.9" cy="26.2" r="1.3" fill="#f0d38a"/><path d="M243.2 30.0 L253.0 30.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="255.5" cy="30.0" r="1.3" fill="#f3927a"/><path d="M242.5 32.6 L251.0 37.5" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="253.2" cy="38.8" r="1.3" fill="#f3927a"/><path d="M240.6 34.5 L245.5 43.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="246.8" cy="45.2" r="1.3" fill="#f3927a"/><path d="M238.0 35.2 L238.0 45.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="238.0" cy="47.5" r="1.3" fill="#f3927a"/><path d="M235.4 34.5 L230.5 43.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="229.2" cy="45.2" r="1.3" fill="#f3927a"/><path d="M233.5 32.6 L225.0 37.5" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="222.8" cy="38.8" r="1.3" fill="#f3927a"/><path d="M232.8 30.0 L223.0 30.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="220.5" cy="30.0" r="1.3" fill="#f3927a"/><path d="M233.5 27.4 L225.0 22.5" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="222.8" cy="21.3" r="1.3" fill="#f3927a"/><path d="M235.4 25.5 L230.5 17.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="229.2" cy="14.8" r="1.3" fill="#f3927a"/><path d="M238.0 24.8 L238.0 15.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="238.0" cy="12.5" r="1.3" fill="#f3927a"/><path d="M240.6 25.5 L245.5 17.0" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="246.8" cy="14.8" r="1.3" fill="#f3927a"/><path d="M242.5 27.4 L251.0 22.5" stroke="#f3927a" stroke-width="1.8" stroke-linecap="round"/><circle cx="253.2" cy="21.2" r="1.3" fill="#f3927a"/><path d="M203.2 66.0 L209.0 66.0" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="211.5" cy="66.0" r="1.3" fill="#9fd6b8"/><path d="M202.5 67.9 L207.3 71.3" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="209.3" cy="72.8" r="1.3" fill="#9fd6b8"/><path d="M201.0 69.0 L202.8 74.6" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="203.6" cy="76.9" r="1.3" fill="#9fd6b8"/><path d="M199.0 69.0 L197.2 74.6" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="196.4" cy="76.9" r="1.3" fill="#9fd6b8"/><path d="M197.5 67.9 L192.7 71.3" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="190.7" cy="72.8" r="1.3" fill="#9fd6b8"/><path d="M196.8 66.0 L191.0 66.0" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="188.5" cy="66.0" r="1.3" fill="#9fd6b8"/><path d="M197.5 64.1 L192.7 60.7" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="190.7" cy="59.2" r="1.3" fill="#9fd6b8"/><path d="M199.0 63.0 L197.2 57.4" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="196.4" cy="55.1" r="1.3" fill="#9fd6b8"/><path d="M201.0 63.0 L202.8 57.4" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="203.6" cy="55.1" r="1.3" fill="#9fd6b8"/><path d="M202.5 64.1 L207.3 60.7" stroke="#9fd6b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="209.3" cy="59.2" r="1.3" fill="#9fd6b8"/><rect x="0" y="98" width="300" height="42" fill="#a23f2f"/><path d="M0 98 V89 L5.0 93 L10 89 V98 Z" fill="#a23f2f"/><path d="M16 98 V89 L21.0 93 L26 89 V98 Z" fill="#a23f2f"/><path d="M32 98 V89 L37.0 93 L42 89 V98 Z" fill="#a23f2f"/><path d="M48 98 V89 L53.0 93 L58 89 V98 Z" fill="#a23f2f"/><path d="M64 98 V89 L69.0 93 L74 89 V98 Z" fill="#a23f2f"/><path d="M80 98 V89 L85.0 93 L90 89 V98 Z" fill="#a23f2f"/><path d="M96 98 V89 L101.0 93 L106 89 V98 Z" fill="#a23f2f"/><path d="M112 98 V89 L117.0 93 L122 89 V98 Z" fill="#a23f2f"/><path d="M128 98 V89 L133.0 93 L138 89 V98 Z" fill="#a23f2f"/><path d="M144 98 V89 L149.0 93 L154 89 V98 Z" fill="#a23f2f"/><path d="M160 98 V89 L165.0 93 L170 89 V98 Z" fill="#a23f2f"/><path d="M176 98 V89 L181.0 93 L186 89 V98 Z" fill="#a23f2f"/><path d="M192 98 V89 L197.0 93 L202 89 V98 Z" fill="#a23f2f"/><path d="M208 98 V89 L213.0 93 L218 89 V98 Z" fill="#a23f2f"/><path d="M224 98 V89 L229.0 93 L234 89 V98 Z" fill="#a23f2f"/><path d="M240 98 V89 L245.0 93 L250 89 V98 Z" fill="#a23f2f"/><path d="M256 98 V89 L261.0 93 L266 89 V98 Z" fill="#a23f2f"/><path d="M272 98 V89 L277.0 93 L282 89 V98 Z" fill="#a23f2f"/><path d="M288 98 V89 L293.0 93 L298 89 V98 Z" fill="#a23f2f"/><g stroke="#87321f" stroke-width="1"><path d="M0 112 H300 M0 126 H300"/></g><rect x="128" y="66" width="44" height="74" fill="#943826"/><rect x="124" y="62" width="52" height="6" fill="#7d2e1f"/><rect x="136" y="40" width="28" height="22" fill="#943826"/><rect x="133" y="37" width="34" height="4" fill="#7d2e1f"/><path d="M135 37 L150 6 L165 37 Z" fill="#2f6b4c"/><circle cx="150" cy="5" r="3" fill="#d9ab3c"/><circle cx="150" cy="84" r="9" fill="#f6e7bd" stroke="#d9ab3c" stroke-width="2"/><path d="M150 84 V78 M150 84 H155" stroke="#5a2a1c" stroke-width="1.6" stroke-linecap="round"/><rect x="146" y="46" width="8" height="12" rx="4" fill="#f3d27a" opacity=".85"/><path d="M139 140 V114 a11 11 0 0 1 22 0 V140 Z" fill="#3b1c14"/><rect x="0" y="140" width="300" height="30" fill="#e8eef4"/><path d="M0 140 Q40 135 80 140 T160 139 T240 140 T300 139 V142 H0 Z" fill="#f7fafc"/><rect x="20" y="96" width="8" height="54" fill="#6e4a28"/><rect x="86" y="96" width="8" height="54" fill="#6e4a28"/><rect x="16" y="100" width="82" height="6" rx="1" fill="#5a3b1e"/><rect x="28" y="112" width="58" height="38" fill="#9a6b3e"/><g stroke="#7d5530" stroke-width="1.2"><path d="M37 112 V150 M46 112 V150 M66 112 V150 M75 112 V150"/></g><path d="M57 112 V150" stroke="#5a3b1e" stroke-width="2"/><g fill="#2f6b4c"><path d="M16 101 l5 -9 l5 9 Z"/><path d="M24 101 l5 -9 l5 9 Z"/><path d="M32 101 l5 -9 l5 9 Z"/><path d="M40 101 l5 -9 l5 9 Z"/><path d="M48 101 l5 -9 l5 9 Z"/><path d="M56 101 l5 -9 l5 9 Z"/><path d="M64 101 l5 -9 l5 9 Z"/><path d="M72 101 l5 -9 l5 9 Z"/><path d="M80 101 l5 -9 l5 9 Z"/><path d="M88 101 l5 -9 l5 9 Z"/></g><g fill="#3d8a62"><path d="M20 101 l4 -6 l4 6 Z"/><path d="M28 101 l4 -6 l4 6 Z"/><path d="M36 101 l4 -6 l4 6 Z"/><path d="M44 101 l4 -6 l4 6 Z"/><path d="M52 101 l4 -6 l4 6 Z"/><path d="M60 101 l4 -6 l4 6 Z"/><path d="M68 101 l4 -6 l4 6 Z"/><path d="M76 101 l4 -6 l4 6 Z"/><path d="M84 101 l4 -6 l4 6 Z"/></g><path d="M24 106 Q57 116 90 106" stroke="#2f6b4c" stroke-width="3" fill="none"/><rect x="106.5" y="144" width="3" height="6" fill="#5a3b1e"/><path d="M99.75 145 L108 133.5 L116.25 145 Z" fill="#2f6b4c"/><path d="M101.4 138.0 L108 124.5 L114.6 138.0 Z" fill="#2f6b4c"/><path d="M103.38 128.4 L108 120 L112.62 128.4 Z" fill="#2f6b4c"/><rect x="264.5" y="144" width="3" height="6" fill="#5a3b1e"/><path d="M256.65 145 L266 131.3 L275.35 145 Z" fill="#2f6b4c"/><path d="M258.52 136.4 L266 121.1 L273.48 136.4 Z" fill="#2f6b4c"/><path d="M260.764 125.52 L266 116 L271.236 125.52 Z" fill="#2f6b4c"/><rect x="282.5" y="144" width="3" height="6" fill="#5a3b1e"/><path d="M277.95 145 L284 137.9 L290.05 145 Z" fill="#3d8a62"/><path d="M279.16 141.2 L284 131.3 L288.84 141.2 Z" fill="#3d8a62"/><path d="M280.612 134.16 L284 128 L287.388 134.16 Z" fill="#3d8a62"/></svg>
+      <b>Москва, Красная площадь</b>
+      <span class="small">Ночь на 1 января 1700 года</span>
+    </button>
+    <button class="tm" type="button" data-choice="Поле под Полтавой, 27 июня 1709" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Полтавская битва: на опушке леса земляные редуты с частоколом и пушками, клубы порохового дыма; слева линия русской пехоты в зелёных мундирах с барабанщиком, знамёнами и офицером на коне; справа шведская пехота в синих мундирах и носилки, на которых несут раненого короля"><defs><linearGradient id="pSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9dce9"/><stop offset="1" stop-color="#f1f1ea"/></linearGradient><linearGradient id="pFld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6c98d"/><stop offset="1" stop-color="#97b06e"/></linearGradient></defs><rect width="300" height="170" fill="url(#pSky)"/><circle cx="266" cy="24" r="11" fill="#f4d27a"/><g fill="#fff" opacity=".8"><ellipse cx="60" cy="22" rx="22" ry="6"/><ellipse cx="76" cy="18" rx="12" ry="6"/><ellipse cx="190" cy="30" rx="18" ry="5"/></g><g fill="#555" opacity=".6"><path d="M150 18 q3 -3 6 0 q3 -3 6 0" stroke="#555" fill="none" stroke-width="1"/><path d="M168 24 q2 -2 4 0 q2 -2 4 0" stroke="#555" fill="none" stroke-width="1"/></g><g><circle cx="-4" cy="78.2" r="6.7" fill="#5d7f55"/><circle cx="4.7" cy="78.4" r="7.1" fill="#5d7f55"/><circle cx="14.0" cy="76.3" r="7.9" fill="#5d7f55"/><circle cx="24.2" cy="79.3" r="6.0" fill="#5d7f55"/><circle cx="32.1" cy="76.9" r="6.8" fill="#5d7f55"/><circle cx="40.9" cy="77.9" r="9.0" fill="#5d7f55"/><circle cx="52.6" cy="77.9" r="8.5" fill="#5d7f55"/><circle cx="63.6" cy="76.6" r="7.9" fill="#5d7f55"/><circle cx="73.9" cy="79.5" r="7.9" fill="#5d7f55"/><circle cx="84.2" cy="79.0" r="7.6" fill="#5d7f55"/><circle cx="94.0" cy="76.3" r="8.0" fill="#5d7f55"/><circle cx="104.4" cy="78.4" r="8.3" fill="#5d7f55"/><circle cx="115.2" cy="76.1" r="6.9" fill="#5d7f55"/><circle cx="124.2" cy="77.9" r="8.6" fill="#5d7f55"/><circle cx="135.4" cy="79.5" r="8.2" fill="#5d7f55"/><circle cx="146.0" cy="79.7" r="8.1" fill="#5d7f55"/><circle cx="156.5" cy="79.2" r="7.2" fill="#5d7f55"/><circle cx="165.9" cy="79.7" r="7.3" fill="#5d7f55"/><circle cx="175.4" cy="76.4" r="8.6" fill="#5d7f55"/><circle cx="186.6" cy="76.9" r="6.4" fill="#5d7f55"/><circle cx="195.0" cy="77.7" r="8.9" fill="#5d7f55"/><circle cx="206.5" cy="77.2" r="7.9" fill="#5d7f55"/><circle cx="216.8" cy="77.5" r="7.5" fill="#5d7f55"/><circle cx="226.6" cy="78.3" r="7.1" fill="#5d7f55"/><circle cx="235.7" cy="79.6" r="7.8" fill="#5d7f55"/><circle cx="245.8" cy="79.7" r="8.0" fill="#5d7f55"/><circle cx="256.3" cy="80.0" r="8.6" fill="#5d7f55"/><circle cx="267.4" cy="76.7" r="8.0" fill="#5d7f55"/><circle cx="277.8" cy="79.9" r="8.6" fill="#5d7f55"/><circle cx="289.0" cy="78.3" r="8.7" fill="#5d7f55"/><circle cx="300.3" cy="76.8" r="8.1" fill="#5d7f55"/></g><rect x="0" y="78" width="300" height="10" fill="#5d7f55"/><path d="M0 86 Q80 80 160 86 T300 84 V170 H0 Z" fill="url(#pFld)"/><path d="M112 104 L119 93 H169 L176 104 Z" fill="#8a7049"/><path d="M119 93 H169" stroke="#6b5534" stroke-width="2"/><path d="M115 101 H173" stroke="#7a6240" stroke-width="1"/><path d="M119 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M123 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M127 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M131 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M135 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M139 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M143 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M147 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M151 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M155 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M159 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M163 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M167 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M150.0 93.0 L164.4 90.3" stroke="#2b2b2b" stroke-width="3.2" stroke-linecap="round"/><path d="M147.3 97.5 L155.4 92.1" stroke="#6e4a28" stroke-width="2.2"/><circle cx="152.7" cy="96.6" r="3.8" fill="none" stroke="#5a3b1e" stroke-width="1.3"/><path d="M152.7 92.8 V100.4 M148.9 96.6 H156.5" stroke="#5a3b1e" stroke-width="0.7"/><path d="M166 89 l4.800000000000001 -2.4000000000000004 l-1.6 2.4000000000000004 l5.6000000000000005 0 l-5.6000000000000005 2.4000000000000004 l1.6 2.4000000000000004 Z" fill="#f6c453"/><g fill="#f6f4ef" opacity="0.92"><circle cx="182.0" cy="86.0" r="6.6"/><circle cx="189.7" cy="82.7" r="7.7"/><circle cx="198.5" cy="84.9" r="6.6"/><circle cx="190.8" cy="90.4" r="6.1"/><circle cx="175.4" cy="88.2" r="5.0"/><circle cx="205.1" cy="89.3" r="4.4"/></g><path d="M232 98 L239 89 H271 L278 98 Z" fill="#8a7049"/><path d="M239 89 H271" stroke="#6b5534" stroke-width="2"/><path d="M235 95 H275" stroke="#7a6240" stroke-width="1"/><path d="M239 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M243 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M247 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M251 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M255 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M259 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M263 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M267 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M271 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M256.0 89.0 L244.8 86.9" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/><path d="M258.1 92.5 L251.8 88.3" stroke="#6e4a28" stroke-width="1.8"/><circle cx="253.9" cy="91.8" r="2.9" fill="none" stroke="#5a3b1e" stroke-width="1.0"/><path d="M253.9 88.9 V94.7 M256.8 91.8 H251.0" stroke="#5a3b1e" stroke-width="0.6"/><g fill="#f6f4ef" opacity="0.85"><circle cx="222.0" cy="84.0" r="4.8"/><circle cx="227.6" cy="81.6" r="5.6"/><circle cx="234.0" cy="83.2" r="4.8"/><circle cx="228.4" cy="87.2" r="4.4"/><circle cx="217.2" cy="85.6" r="3.6"/><circle cx="238.8" cy="86.4" r="3.2"/></g><g fill="#f6f4ef" opacity="0.8"><circle cx="70.0" cy="96.0" r="5.4"/><circle cx="76.3" cy="93.3" r="6.3"/><circle cx="83.5" cy="95.1" r="5.4"/><circle cx="77.2" cy="99.6" r="5.0"/><circle cx="64.6" cy="97.8" r="4.0"/><circle cx="88.9" cy="98.7" r="3.6"/></g><g><path d="M10 160 l-2 -5 M10 160 l0 -6 M10 160 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M40 166 l-2 -5 M40 166 l0 -6 M40 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M98 162 l-2 -5 M98 162 l0 -6 M98 162 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M140 156 l-2 -5 M140 156 l0 -6 M140 156 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M168 166 l-2 -5 M168 166 l0 -6 M168 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M204 160 l-2 -5 M204 160 l0 -6 M204 160 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M240 166 l-2 -5 M240 166 l0 -6 M240 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M282 158 l-2 -5 M282 158 l0 -6 M282 158 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M128 124 l-2 -5 M128 124 l0 -6 M128 124 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M186 120 l-2 -5 M186 120 l0 -6 M186 120 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M20 128 l-2 -5 M20 128 l0 -6 M20 128 l2 -5" stroke="#6f8c4e" stroke-width="1"/></g><path d="M222 128 V92" stroke="#5a3b1e" stroke-width="1.8"/><circle cx="222" cy="91" r="1.6" fill="#d9ab3c"/><path d="M223 93 h20 v13 h-20 Z" fill="#2f5ea8"/><path d="M229 93 v13 M223 99.5 h20" stroke="#f2c867" stroke-width="2.6"/><ellipse cx="196.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M193.9 120.6 L192.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M198.1 120.6 L199.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M192.7 109.1 H199.3 L200.5 121.4 H191.5 Z" fill="#2f5ea8"/><path d="M192.7 110.0 L199.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="198.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="196.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M191.1 105.0 Q196.0 99.3 200.9 105.0 Q196.0 103.2 191.1 105.0 Z" fill="#1c2431"/><path d="M191.1 105.0 Q196.0 103.2 200.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M199.7 117.3 L201.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M201.3 96.8 L201.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="208.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M205.9 120.6 L204.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M210.1 120.6 L211.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M204.7 109.1 H211.3 L212.5 121.4 H203.5 Z" fill="#2f5ea8"/><path d="M204.7 110.0 L211.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="210.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="208.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M203.1 105.0 Q208.0 99.3 212.9 105.0 Q208.0 103.2 203.1 105.0 Z" fill="#1c2431"/><path d="M203.1 105.0 Q208.0 103.2 212.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M211.7 117.3 L213.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M213.3 96.8 L213.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="234.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M231.9 120.6 L230.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M236.1 120.6 L237.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M230.7 109.1 H237.3 L238.5 121.4 H229.5 Z" fill="#2f5ea8"/><path d="M230.7 110.0 L237.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="236.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="234.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M229.1 105.0 Q234.0 99.3 238.9 105.0 Q234.0 103.2 229.1 105.0 Z" fill="#1c2431"/><path d="M229.1 105.0 Q234.0 103.2 238.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M237.7 117.3 L239.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M239.3 96.8 L239.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="246.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M243.9 120.6 L242.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M248.1 120.6 L249.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M242.7 109.1 H249.3 L250.5 121.4 H241.5 Z" fill="#2f5ea8"/><path d="M242.7 110.0 L249.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="248.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="246.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M241.1 105.0 Q246.0 99.3 250.9 105.0 Q246.0 103.2 241.1 105.0 Z" fill="#1c2431"/><path d="M241.1 105.0 Q246.0 103.2 250.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M249.7 117.3 L251.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M251.3 96.8 L251.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="258.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M255.9 120.6 L254.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M260.1 120.6 L261.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M254.7 109.1 H261.3 L262.5 121.4 H253.5 Z" fill="#2f5ea8"/><path d="M254.7 110.0 L261.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="260.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="258.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M253.1 105.0 Q258.0 99.3 262.9 105.0 Q258.0 103.2 253.1 105.0 Z" fill="#1c2431"/><path d="M253.1 105.0 Q258.0 103.2 262.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M261.7 117.3 L263.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M263.3 96.8 L263.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="222.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M219.9 120.6 L218.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M224.1 120.6 L225.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M218.7 109.1 H225.3 L226.5 121.4 H217.5 Z" fill="#2f5ea8"/><path d="M218.7 110.0 L225.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="224.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="222.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M217.1 105.0 Q222.0 99.3 226.9 105.0 Q222.0 103.2 217.1 105.0 Z" fill="#1c2431"/><path d="M217.1 105.0 Q222.0 103.2 226.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><g><path d="M262 140 H292" stroke="#6e4a28" stroke-width="2"/><rect x="266" y="135" width="20" height="5" rx="2" fill="#2f5ea8"/><circle cx="270" cy="133.5" r="2.6" fill="#e6bf98"/><rect x="278" y="132" width="9" height="4" rx="1.5" fill="#f1ece0"/></g><ellipse cx="262.0" cy="152.5" rx="4.7" ry="1.2" fill="#000" opacity=".12"/><path d="M260.0 145.0 L259.8 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M264.0 145.0 L264.2 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M258.9 134.1 H265.1 L266.3 145.8 H257.7 Z" fill="#2f5ea8"/><path d="M258.9 134.8 L265.1 142.6" stroke="#f1ece0" stroke-width="1.0"/><rect x="264.6" y="140.3" width="1.9" height="1.9" fill="#f2c867"/><circle cx="262.0" cy="131.3" r="2.6" fill="#e6bf98"/><path d="M257.3 130.2 Q262.0 124.7 266.7 130.2 Q262.0 128.4 257.3 130.2 Z" fill="#1c2431"/><path d="M257.3 130.2 Q262.0 128.4 266.7 130.2" stroke="#c9a14a" stroke-width="0.55" fill="none"/><ellipse cx="292.0" cy="152.5" rx="4.7" ry="1.2" fill="#000" opacity=".12"/><path d="M290.0 145.0 L289.8 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M294.0 145.0 L294.2 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M288.9 134.1 H295.1 L296.3 145.8 H287.7 Z" fill="#2f5ea8"/><path d="M288.9 134.8 L295.1 142.6" stroke="#f1ece0" stroke-width="1.0"/><rect x="294.6" y="140.3" width="1.9" height="1.9" fill="#f2c867"/><circle cx="292.0" cy="131.3" r="2.6" fill="#e6bf98"/><path d="M287.3 130.2 Q292.0 124.7 296.7 130.2 Q292.0 128.4 287.3 130.2 Z" fill="#1c2431"/><path d="M287.3 130.2 Q292.0 128.4 296.7 130.2" stroke="#c9a14a" stroke-width="0.55" fill="none"/><ellipse cx="30" cy="140.5" rx="15" ry="2" fill="#000" opacity=".12"/><path d="M21 128 L19 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M25 128 L26 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M37 128 L35 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M40 128 L43 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="30" cy="125" rx="13" ry="6.5" fill="#6b4226"/><path d="M39 122 L45 112 L50 113 L48 117 L43 126 Z" fill="#6b4226"/><path d="M45 112 l1 -3 l2 2" fill="#6b4226" stroke="#6b4226" stroke-width="1"/><path d="M18 123 q-6 2 -5 10" stroke="#3a2414" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M42 114 q-3 4 -6 6" stroke="#3a2414" stroke-width="1.6" fill="none"/><path d="M26 120 L32 128" stroke="#e9e3d4" stroke-width="2.6" stroke-linecap="round"/><path d="M26 107 H33 L34 120 H24 Z" fill="#2f6b4c"/><circle cx="30" cy="104" r="3.2" fill="#e6bf98"/><path d="M24.0 102.5 Q30.0 95.5 36.0 102.5 Q30.0 100.3 24.0 102.5 Z" fill="#1c2431"/><path d="M24.0 102.5 Q30.0 100.3 36.0 102.5" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M32 110 L39 102 L45 94" stroke="#2f6b4c" stroke-width="2.2" stroke-linecap="round"/><path d="M44 95 L51 84" stroke="#c9ccd2" stroke-width="1.2"/><path d="M96 160 V112" stroke="#5a3b1e" stroke-width="1.8"/><circle cx="96" cy="111" r="1.6" fill="#d9ab3c"/><path d="M97 113 h22 l-4 7 l4 7 h-22 Z" fill="#2f6b4c" stroke="#d9ab3c" stroke-width="1.2"/><circle cx="106" cy="120" r="3.6" fill="none" stroke="#d9ab3c" stroke-width="1.4"/><path d="M106 116.4 V123.6 M102.4 120 H109.6" stroke="#d9ab3c" stroke-width="1"/><ellipse cx="62.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M59.4 151.0 L59.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M64.6 151.0 L64.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M58.0 137.0 H66.0 L67.5 152.0 H56.5 Z" fill="#2f6b4c"/><path d="M58.0 138.0 L66.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="65.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="62.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M56.0 132.0 Q62.0 125.0 68.0 132.0 Q62.0 129.8 56.0 132.0 Z" fill="#1c2431"/><path d="M56.0 132.0 Q62.0 129.8 68.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M66.5 147.0 L68.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M68.5 122.0 L69.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="78.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M75.4 151.0 L75.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M80.6 151.0 L80.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M74.0 137.0 H82.0 L83.5 152.0 H72.5 Z" fill="#2f6b4c"/><path d="M74.0 138.0 L82.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="81.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="78.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M72.0 132.0 Q78.0 125.0 84.0 132.0 Q78.0 129.8 72.0 132.0 Z" fill="#1c2431"/><path d="M72.0 132.0 Q78.0 129.8 84.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M82.5 147.0 L84.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M84.5 122.0 L85.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="112.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M109.4 151.0 L109.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M114.6 151.0 L114.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M108.0 137.0 H116.0 L117.5 152.0 H106.5 Z" fill="#2f6b4c"/><path d="M108.0 138.0 L116.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="115.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="112.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M106.0 132.0 Q112.0 125.0 118.0 132.0 Q112.0 129.8 106.0 132.0 Z" fill="#1c2431"/><path d="M106.0 132.0 Q112.0 129.8 118.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M116.5 147.0 L118.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M118.5 122.0 L119.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="128.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M125.4 151.0 L125.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M130.6 151.0 L130.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M124.0 137.0 H132.0 L133.5 152.0 H122.5 Z" fill="#2f6b4c"/><path d="M124.0 138.0 L132.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="131.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="128.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M122.0 132.0 Q128.0 125.0 134.0 132.0 Q128.0 129.8 122.0 132.0 Z" fill="#1c2431"/><path d="M122.0 132.0 Q128.0 129.8 134.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M132.5 147.0 L134.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M134.5 122.0 L135.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="144.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M141.4 151.0 L141.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M146.6 151.0 L146.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M140.0 137.0 H148.0 L149.5 152.0 H138.5 Z" fill="#2f6b4c"/><path d="M140.0 138.0 L148.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="147.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="144.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M138.0 132.0 Q144.0 125.0 150.0 132.0 Q144.0 129.8 138.0 132.0 Z" fill="#1c2431"/><path d="M138.0 132.0 Q144.0 129.8 150.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M148.5 147.0 L150.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M150.5 122.0 L151.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="160.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M157.4 151.0 L157.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M162.6 151.0 L162.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M156.0 137.0 H164.0 L165.5 152.0 H154.5 Z" fill="#2f6b4c"/><path d="M156.0 138.0 L164.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="163.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="160.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M154.0 132.0 Q160.0 125.0 166.0 132.0 Q160.0 129.8 154.0 132.0 Z" fill="#1c2431"/><path d="M154.0 132.0 Q160.0 129.8 166.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M164.5 147.0 L166.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M166.5 122.0 L167.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="96.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M93.4 151.0 L93.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M98.6 151.0 L98.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M92.0 137.0 H100.0 L101.5 152.0 H90.5 Z" fill="#2f6b4c"/><path d="M92.0 138.0 L100.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="99.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="96.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M90.0 132.0 Q96.0 125.0 102.0 132.0 Q96.0 129.8 90.0 132.0 Z" fill="#1c2431"/><path d="M90.0 132.0 Q96.0 129.8 102.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><ellipse cx="176.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M173.4 151.0 L173.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M178.6 151.0 L178.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M172.0 137.0 H180.0 L181.5 152.0 H170.5 Z" fill="#2f6b4c"/><path d="M172.0 138.0 L180.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="179.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="176.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M170.0 132.0 Q176.0 125.0 182.0 132.0 Q176.0 129.8 170.0 132.0 Z" fill="#1c2431"/><path d="M170.0 132.0 Q176.0 129.8 182.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><ellipse cx="181.0" cy="147.0" rx="4.0" ry="2.0" fill="#d9ab3c"/><rect x="177.0" y="147.0" width="8.0" height="5.0" fill="#b0392a"/><ellipse cx="181.0" cy="152.0" rx="4.0" ry="1.6" fill="#8a2c20"/><path d="M177.0 147.0 L185.0 152.0 M185.0 147.0 L177.0 152.0" stroke="#f1ece0" stroke-width=".7"/><path d="M179.0 145.0 l-3 -5 M183.0 145.0 l3 -5" stroke="#5a3b1e" stroke-width="1"/><g fill="#f6f4ef" opacity="0.7"><circle cx="140.0" cy="112.0" r="3.3"/><circle cx="143.8" cy="110.3" r="3.9"/><circle cx="148.2" cy="111.5" r="3.3"/><circle cx="144.4" cy="114.2" r="3.0"/><circle cx="136.7" cy="113.1" r="2.5"/><circle cx="151.6" cy="113.7" r="2.2"/></g></svg>
+      <b>Поле под Полтавой</b>
+      <span class="small">Северная война, лето 1709 года</span>
+    </button>
+    <button class="tm" type="button" data-choice="Лондон, сентябрь 1752" aria-pressed="false">
+      <svg viewBox="0 0 300 170" role="img" aria-label="Лондон, 1752 год: собор Святого Павла над Темзой и листок календаря на сентябрь 1752 года, где после среды, 2 сентября, сразу идёт четверг, 14 сентября"><rect width="300" height="170" fill="#e3e6ea"/><g fill="#cdd2da"><ellipse cx="40" cy="24" rx="26" ry="7"/><ellipse cx="128" cy="14" rx="22" ry="5"/></g><rect x="30" y="86" width="116" height="40" fill="#d8d1bf"/><rect x="26" y="82" width="124" height="5" fill="#c4bba5"/><g fill="#b9b09a"><rect x="38" y="92" width="5" height="28"/><rect x="50" y="92" width="5" height="28"/><rect x="62" y="92" width="5" height="28"/><rect x="109" y="92" width="5" height="28"/><rect x="121" y="92" width="5" height="28"/><rect x="133" y="92" width="5" height="28"/></g><rect x="80" y="100" width="16" height="26" rx="8" fill="#9c937d"/><rect x="62" y="60" width="52" height="22" fill="#d2cab6"/><g fill="#b9b09a"><rect x="66" y="64" width="3" height="14"/><rect x="73" y="64" width="3" height="14"/><rect x="80" y="64" width="3" height="14"/><rect x="87" y="64" width="3" height="14"/><rect x="94" y="64" width="3" height="14"/><rect x="101" y="64" width="3" height="14"/><rect x="108" y="64" width="3" height="14"/></g><rect x="60" y="57" width="56" height="4" fill="#c4bba5"/><path d="M64 58 Q64 25 88 21 Q112 25 112 58 Z" fill="#8c97a6"/><path d="M77 58 Q77 30 88 23" stroke="#a5afbd" stroke-width="2" fill="none"/><rect x="83" y="11" width="10" height="11" fill="#d2cab6"/><circle cx="88" cy="9" r="3" fill="#c99a2e"/><rect x="32" y="64" width="13" height="20" fill="#d2cab6"/><path d="M30 65 L38.5 52 L47 65 Z" fill="#8c97a6"/><rect x="131" y="64" width="13" height="20" fill="#d2cab6"/><path d="M129 65 L137.5 52 L146 65 Z" fill="#8c97a6"/><rect x="0" y="126" width="300" height="44" fill="#6f8aa3"/><g stroke="#9fb5c9" stroke-width="1.2" fill="none"><path d="M10 140 q8 -4 16 0 t16 0"/><path d="M120 158 q8 -4 16 0 t16 0"/><path d="M200 150 q8 -4 16 0 t16 0"/></g><path d="M52 150 h40 l-6 7 h-28 Z" fill="#5a3b1e"/><path d="M72 150 V132" stroke="#4a3018" stroke-width="1.5"/><path d="M73 133 L86 148 H73 Z" fill="#f4ead6"/><rect x="168" y="14" width="126" height="106" rx="6" fill="#fffdf8" stroke="#8f8574" stroke-width="1.5"/><path d="M168 20 a6 6 0 0 1 6 -6 h114 a6 6 0 0 1 6 6 V34 H168 Z" fill="#a8322a"/><text x="231.0" y="28" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10" font-weight="700" fill="#fff">СЕНТЯБРЬ 1752</text><text x="182.1" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#5d6370">Пн</text><text x="198.4" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#5d6370">Вт</text><text x="214.7" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#5d6370">Ср</text><text x="231.0" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#5d6370">Чт</text><text x="247.3" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#5d6370">Пт</text><text x="263.6" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#a8322a">Сб</text><text x="279.9" y="47" text-anchor="middle" font-family="Rubik, sans-serif" font-size="8.5" font-weight="500" fill="#a8322a">Вс</text><text x="198.4" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">1</text><circle cx="214.7" cy="62" r="7.4" fill="#fbe1d6" stroke="#a8322a" stroke-width="1.4"/><text x="214.7" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="700" fill="#1c2431">2</text><circle cx="231.0" cy="62" r="7.4" fill="#fbe1d6" stroke="#a8322a" stroke-width="1.4"/><text x="231.0" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="700" fill="#1c2431">14</text><text x="247.3" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">15</text><text x="263.6" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">16</text><text x="279.9" y="66" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">17</text><text x="182.1" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">18</text><text x="198.4" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">19</text><text x="214.7" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">20</text><text x="231.0" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">21</text><text x="247.3" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">22</text><text x="263.6" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">23</text><text x="279.9" y="86" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">24</text><text x="182.1" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">25</text><text x="198.4" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">26</text><text x="214.7" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">27</text><text x="231.0" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">28</text><text x="247.3" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">29</text><text x="263.6" y="106" text-anchor="middle" font-family="Rubik, sans-serif" font-size="10.5" font-weight="400" fill="#1c2431">30</text></svg>
+      <b>Лондон</b>
+      <span class="small">Сентябрь 1752 года, Великобритания</span>
+    </button>
+  </div>
+  <div class="card">
+    <p id="tm-picked" class="fb">Нажми на картинку, чтобы выбрать.</p>
+    <div class="grid2">
+      <div><label for="tm-know">Что ты уже знаешь об этом месте или событии?</label><input type="text" id="tm-know" data-save placeholder="Можно одно-два слова"></div>
+      <div><label for="tm-meet">Кого ты там встретишь? Чем заняты люди?</label><input type="text" id="tm-meet" data-save placeholder="Кто там живёт, кто правит, что делают"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Немного о тебе</h3>
+    <div class="grid2">
+      <div><label for="me-rus">Что сейчас проходите по истории России?</label><input type="text" id="me-rus" data-save placeholder="тема или параграф (или «ещё не начали»)"></div>
+      <div><label for="me-vse">А по всеобщей истории?</label><input type="text" id="me-vse" data-save placeholder="тема или параграф"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="me-like">Что в истории тебе нравится, а что даётся трудно?</label><input type="text" id="me-like" data-save></div>
+      <div><label for="me-goal">Зачем тебе занятия: оценки, ВПР, ОГЭ заранее, интерес, что-то ещё?</label><input type="text" id="me-goal" data-save></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Наши правила</h3>
+    <p>1. Ошибаться можно: ошибка показывает, что нам повторить.</p>
+    <p>2. Спрашивать «почему?» можно всегда.</p>
+    <p>3. Свой ответ доказываем: «Я думаю так, потому что…»</p>
+  </div>
+  <a class="next" href="#razvedka">Дальше: Разведка →</a>
+</section>
+
+<!-- 2. РАЗВЕДКА -->
+<section class="view" id="razvedka" hidden>
+  <div>
+    <p class="kicker">Этап 2 · 13 минут</p>
+    <h1>Разведка</h1>
+  </div>
+  <p class="lead">Это не контрольная, оценок не будет. Здесь вопросы по 7 классу и по началу 8 класса — и по истории России, и по всеобщей. Если тему ещё не проходили или не знаешь ответа, выбери «Не знаю» или поставь «?» и иди дальше. В конце нажми «Готово».</p>
+  <form class="card" id="diag" autocomplete="off">
+    <div class="task">
+      <p class="q"><span class="num">1</span>Какой это век? Запиши римскими цифрами.</p>
+      <div class="pairs">
+        <div><label for="d1a">1613 год</label><input type="text" id="d1a" data-save></div>
+        <div><label for="d1b">1682 год</label><input type="text" id="d1b" data-save></div>
+        <div><label for="d1c">1709 год</label><input type="text" id="d1c" data-save></div>
+        <div><label for="d1d">1789 год</label><input type="text" id="d1d" data-save></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">2</span>Расположи события по порядку, от самого раннего.</p>
+      <p class="small">А) Полтавская битва<br>Б) Земский собор избирает на царство Михаила Романова<br>В) Принятие Соборного уложения<br>Г) Великое посольство Петра I в Европу</p>
+      <div class="pairs">
+        <div><label for="d2a">Первое</label><select id="d2a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d2b">Второе</label><select id="d2b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d2c">Третье</label><select id="d2c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d2d">Четвёртое</label><select id="d2d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">3</span>Россия в XVII веке. Соедини человека и то, чем он известен.</p>
+      <p class="small">А) Возглавил крупное восстание казаков и крестьян<br>Б) Царь, при котором приняли Соборное уложение<br>В) Провёл церковную реформу, после которой произошёл раскол<br>Г) Первый царь новой династии, избранный Земским собором</p>
+      <div class="pairs">
+        <div><label for="d3a">1) Михаил Фёдорович</label><select id="d3a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d3b">2) Патриарх Никон</label><select id="d3b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d3c">3) Степан Разин</label><select id="d3c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d3d">4) Алексей Михайлович</label><select id="d3d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">4</span>Соедини понятие и его значение.</p>
+      <p class="small">А) Крупное предприятие с разделением труда, где работают в основном вручную<br>Б) Собрание представителей разных сословий, которое решало важнейшие дела государства<br>В) Зависимость крестьян от владельца земли: уйти нельзя, нужно работать на него или платить ему<br>Г) Те, кто не принял церковную реформу и сохранял прежние обряды</p>
+      <div class="pairs">
+        <div><label for="d4a">1) Земский собор</label><select id="d4a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d4b">2) Старообрядцы</label><select id="d4b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d4c">3) Крепостное право</label><select id="d4c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d4d">4) Мануфактура</label><select id="d4d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">5</span>Всеобщая история. Соедини человека и то, чем он известен.</p>
+      <p class="small">А) Французский философ-просветитель, высмеивал невежество и фанатизм, переписывался с Екатериной II<br>Б) Усовершенствовал паровую машину — это помогло промышленному перевороту<br>В) Начал Реформацию в Германии<br>Г) Французский король, символ абсолютизма, при нём построили Версаль</p>
+      <div class="pairs">
+        <div><label for="d5a">1) Мартин Лютер</label><select id="d5a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d5b">2) Людовик XIV</label><select id="d5b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d5c">3) Вольтер</label><select id="d5c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d5d">4) Джеймс Уатт</label><select id="d5d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">6</span>Соедини понятие и его значение.</p>
+      <p class="small">А) Переход от ручного труда к машинному, от мануфактуры к фабрике<br>Б) Власть короля ограничена парламентом, который принимает законы<br>В) Вся полнота власти у монарха, он ни с кем её не делит<br>Г) Движение мыслителей XVIII века, веривших в силу разума и знаний</p>
+      <div class="pairs">
+        <div><label for="d6a">1) Абсолютизм</label><select id="d6a" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d6b">2) Просвещение</label><select id="d6b" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d6c">3) Промышленный переворот</label><select id="d6c" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+        <div><label for="d6d">4) Парламентская монархия</label><select id="d6d" data-save><option value="">—</option><option>А</option><option>Б</option><option>В</option><option>Г</option><option>Не знаю</option></select></div>
+      </div>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">7</span>Найди лишнее имя и объясни, почему оно лишнее: Михаил Фёдорович, Алексей Михайлович, Борис Годунов, Пётр I.</p>
+      <select id="d7a" data-save aria-label="Лишнее в задании 7"><option value="">—</option><option>Михаил Фёдорович</option><option>Алексей Михайлович</option><option>Борис Годунов</option><option>Пётр I</option><option>Не знаю</option></select>
+      <textarea id="d7b" data-save aria-label="Объяснение к заданию 7" placeholder="Лишний, потому что…"></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">8</span>Какой город Пётр I основал в 1703 году?</p>
+      <select id="d8" data-save aria-label="Ответ на задание 8"><option value="">—</option><option>Архангельск</option><option>Азов</option><option>Санкт-Петербург</option><option>Воронеж</option><option>Не знаю</option></select>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">9</span>Прочитай отрывок из книги о правилах поведения для молодых людей.</p>
+      <blockquote><p>«Младый шляхтич или дворянин, ежели в экзерциции своей совершен, а наипаче в языках, в конной езде, танцевании, в шпажной битве и может добрый разговор учинить, и тому ж красноглаголив и в книгах научен, оный может с такими досугами прямым придворным человеком быть. <…></p><p>Отрок должен быть весьма учтив и вежлив как в словах, так и в делах: на руку не дерзок и не драчлив… <…> лучше, когда про кого говорят: он есть вежлив, смиренный кавалер и молодец, нежели когда скажут про которого: он есть спесивый болван».</p><cite>Статьи 18 и 22 (сокращено). Текст по учебнику истории России для 8 класса. Шляхтич — дворянин. Экзерциции — упражнения, умения. Наипаче — особенно. Красноглаголив — красноречив.</cite></blockquote>
+      <label for="d9a">А) Какие умения нужны молодому дворянину? Назови три.</label><input type="text" id="d9a" data-save>
+      <label for="d9b">Б) Как думаешь, в каком веке и при каком правителе появилась такая книга? По каким словам ты догадался(-ась)?</label><input type="text" id="d9b" data-save>
+      <label for="d9c">В) Можно ли по этой книге узнать, как на самом деле вели себя все молодые люди того времени? Почему?</label><textarea id="d9c" data-save></textarea>
+    </div>
+    <div class="task">
+      <p class="q"><span class="num">10</span>XVII век называют «бунташным». Почему? Приведи два примера.</p>
+      <textarea id="d10" data-save aria-label="Ответ на задание 10"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn" type="submit">Готово</button>
+      <span class="small">Ответы сохранятся, даже если случайно закрыть страницу.</span>
+    </div>
+  </form>
+  <div class="card" id="diag-done" hidden>
+    <h3>Отлично, разведка закончена!</h3>
+    <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
+    <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
+    <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
+  </div>
+  <a class="next" href="#igra">Дальше: Раньше или позже? →</a>
+</section>
+
+<!-- 3. ИГРА -->
+<section class="view" id="igra" hidden>
+  <div>
+    <p class="kicker">Этап 3 · Разминка</p>
+    <h1>Раньше или позже?</h1>
+  </div>
+  <p class="lead">Точка отсчёта — 1 января 1700 года: Россия впервые встречает Новый год зимой. Это событие было раньше или позже?</p>
+  <div class="big-event" id="g1-event" aria-live="polite">…</div>
+  <div class="lr">
+    <button class="btn" type="button" data-side="E">← Раньше 1700</button>
+    <button class="btn" type="button" data-side="L">Позже 1700 →</button>
+  </div>
+  <p class="fb" id="g1-fb" aria-live="polite"></p>
+  <p class="small">Верно: <span class="score" id="g1-score">0</span> из <span class="score" id="g1-total">0</span></p>
+  <a class="next" href="#rasskaz">Дальше: Рассказ →</a>
+</section>
+
+<!-- 4. РАССКАЗ -->
+<section class="view" id="rasskaz" hidden>
+  <div>
+    <p class="kicker">Этап 4 · Слушаем и смотрим</p>
+    <h1>Время по указу</h1>
+  </div>
+  <p class="lead">В 7 классе ты видел(а), как на Руси считали годы «от сотворения мира» и встречали Новый год 1 сентября. А потом царь одним указом «перевёл часы» всей страны. Но даже после этого Россия и Европа жили по разным календарям ещё больше двухсот лет.</p>
+  <div class="split">
+    <figure class="card pic" style="margin:0">
+      <svg viewBox="0 0 400 270" role="img" aria-label="Два листка календаря. Москва, юлианский календарь: 1 января 1750 года. Париж, григорианский календарь: в тот же день 12 января 1750 года. Разница 11 дней"><rect width="400" height="270" fill="#fffdf8"/><text x="200" y="30" text-anchor="middle" font-family="Rubik, sans-serif" font-size="17" fill="#1c2431" font-weight="500">Один и тот же день 1750 года</text><g transform="translate(30 52)"><rect width="140" height="190" rx="10" fill="#fff" stroke="#1f6a4a" stroke-width="3"/><path d="M0 10 a10 10 0 0 1 10 -10 h120 a10 10 0 0 1 10 10 V42 H0 Z" fill="#1f6a4a"/><text x="70" y="28" text-anchor="middle" font-family="Rubik, sans-serif" font-size="16" fill="#fff" font-weight="700">МОСКВА</text><text x="70" y="122" text-anchor="middle" font-family="Unbounded, Rubik, sans-serif" font-size="60" font-weight="800" fill="#1c2431">1</text><text x="70" y="152" text-anchor="middle" font-family="Rubik, sans-serif" font-size="18" fill="#1c2431">января</text><text x="70" y="176" text-anchor="middle" font-family="Rubik, sans-serif" font-size="14" fill="#5d6370">юлианский</text></g><g transform="translate(230 52)"><rect width="140" height="190" rx="10" fill="#fff" stroke="#25416f" stroke-width="3"/><path d="M0 10 a10 10 0 0 1 10 -10 h120 a10 10 0 0 1 10 10 V42 H0 Z" fill="#25416f"/><text x="70" y="28" text-anchor="middle" font-family="Rubik, sans-serif" font-size="16" fill="#fff" font-weight="700">ПАРИЖ</text><text x="70" y="122" text-anchor="middle" font-family="Unbounded, Rubik, sans-serif" font-size="60" font-weight="800" fill="#1c2431">12</text><text x="70" y="152" text-anchor="middle" font-family="Rubik, sans-serif" font-size="18" fill="#1c2431">января</text><text x="70" y="176" text-anchor="middle" font-family="Rubik, sans-serif" font-size="14" fill="#5d6370">григорианский</text></g><circle cx="200" cy="147" r="20" fill="#fbf1d8" stroke="#c99a2e" stroke-width="2"/><text x="200" y="153" text-anchor="middle" font-family="Unbounded, Rubik, sans-serif" font-size="15" font-weight="800" fill="#9a7420">+11</text></svg>
+      <p class="small">Юлианский год длиннее настоящего примерно на 11 минут, и за 128 лет набегают лишние сутки. В григорианском календаре из каждых 400 лет убраны 3 високосных года. Поэтому разница между календарями растёт: 10, потом 11, 12, 13 дней.</p>
+    </figure>
+    <div class="facts">
+      <div class="fact"><span class="y">45 г. до н. э.</span><span>Юлий Цезарь вводит календарь, который потом назовут <b>юлианским</b>: 365 дней, а каждый четвёртый год — високосный.</span></div>
+      <div class="fact"><span class="y">с конца XV в.</span><span>На Руси Новый год встречают 1 сентября, а годы считают от сотворения мира. Так было и при Иване Грозном, и при первых Романовых.</span></div>
+      <div class="fact"><span class="y">1582</span><span>Папа римский Григорий XIII вводит более точный, <b>григорианский</b> календарь: после 4 октября сразу наступает 15 октября. Католические страны переходят на него, протестантские и православные — нет.</span></div>
+      <div class="fact"><span class="y">20 декабря 1699</span><span>Указ Петра I: считать годы от Рождества Христова, а Новый год встречать 1 января. Календарь при этом остаётся юлианским.</span></div>
+      <div class="fact"><span class="y">1 января 1700</span><span>Москва впервые встречает Новый год зимой — с молебном, ветками ели у ворот и фейерверком на Красной площади.</span></div>
+      <div class="fact"><span class="y">1752</span><span>Великобритания переходит на григорианский календарь: после 2 сентября сразу наступает 14 сентября.</span></div>
+      <div class="fact"><span class="y">1793</span><span>Революционная Франция вводит свой, <b>республиканский</b> календарь. Его отменит Наполеон в 1806 году.</span></div>
+      <div class="fact"><span class="y">1918</span><span>Советская Россия переходит на григорианский календарь: после 31 января сразу наступает 14 февраля.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Почему Пётр не взял григорианский календарь?</h3>
+    <p>В указе Пётр подробно объясняет, зачем менять счёт лет и начало года. А вот почему он оставил старый, юлианский календарь, там не сказано. Историки обычно называют три причины.</p>
+    <p><b>1. Царю мешало другое.</b> Русские писали «7208 год», европейцы — «1699». Из-за разного счёта лет путались договоры и письма. Эту путаницу указ и убрал. Разница в 10 дней мешала гораздо меньше.</p>
+    <p><b>2. Календарь — это церковные праздники.</b> По юлианскому календарю православная церковь рассчитывает Пасху и другие праздники. Григорианский ввёл папа римский, глава католиков. Принять его значило поссориться с церковью, а недовольство и так вызывали бритьё бород и новое платье.</p>
+    <p><b>3. Пётр взял пример у православных.</b> Греки, сербы, болгары тоже считали годы от Рождества Христова — по юлианскому календарю. Пётр сделал так же и в указе прямо на них сослался. Протестантская Англия, которую он видел в Великом посольстве, тоже жила по юлианскому.</p>
+    <p class="small">Степень уверенности: общепринятое объяснение историков. Прямого свидетельства самого Петра нет.</p>
+  </div>
+  <div class="card">
+    <h3>Старый и новый стиль</h3>
+    <p>Даты по юлианскому календарю называют датами <b>по старому стилю</b>, по григорианскому — <b>по новому стилю</b>. В учебнике истории России события XVIII века даны по старому стилю — так, как их записывали в России.</p>
+    <table class="cmp">
+      <thead><tr><th>Век</th><th>Насколько новый стиль «впереди»</th></tr></thead>
+      <tbody>
+        <tr><td>XVII век</td><td class="n">+10 дней</td></tr>
+        <tr><td>XVIII век</td><td class="n">+11 дней</td></tr>
+        <tr><td>XIX век</td><td class="n">+12 дней</td></tr>
+        <tr><td>XX и XXI век</td><td class="n">+13 дней</td></tr>
+      </tbody>
+    </table>
+    <p class="small">Точнее, разница меняется в конце февраля 1700, 1800 и 1900 годов. В наших заданиях таких дат не будет.</p>
+  </div>
+  <div class="card reveal" id="r1">
+    <h3>Подумай</h3>
+    <p>Почему для купцов, дипломатов и военных так важно, чтобы год начинался в один день и годы считались одинаково?</p>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="r1">Показать ответ</button></div>
+    <p class="ans">Договоры, письма, счета и сроки поставок пишут с датами. Если в одной стране 7208 год, а в другой — 1699, легко перепутать сроки, заплатить не вовремя или опоздать к встрече. Чем больше Россия торговала и воевала вместе с Европой и против неё, тем важнее был общий счёт времени.</p>
+  </div>
+  <a class="next" href="#detektiv">Дальше: Детектив →</a>
+</section>
+
+<!-- 5. ДЕТЕКТИВ -->
+<section class="view" id="detektiv" hidden>
+  <div>
+    <p class="kicker">Этап 5 · Работа с источником</p>
+    <h1>Прочитай указ царя</h1>
+  </div>
+  <p class="lead">Перед тобой отрывки из указа Петра I. Его объявили в Москве 20 декабря 1699 года — меньше чем за две недели до нового, 1700 года. Язык старый, но почти всё можно понять — читай медленно.</p>
+  <div class="card">
+    <blockquote class="decree">
+      <p>«Известно ему, великому государю, стало, не только что во многих европейских христианских странах, но и в народах словенских, которые с восточною православною нашею церковью во всем согласны <…>, все те народы согласно лета свои счисляют от Рождества Христова… И ныне от Рождества Христова доходит 1699 год, а будущего января с 1 числа настает новый 1700 год, купно и новый столетний век…</p>
+      <p>…по большим и проезжим знатным улицам, знатным людям и у домов нарочитых духовного и мирского чина, перед вороты учинить некоторые украшения от древ и ветвей сосновых, еловых и можжевеловых… а людям скудным комуждо хотя по древцу или ветви на вороты или над хороминою своею поставить… а стоять тому украшению генваря по 7 день того ж 1700 года.</p>
+      <p>Да генваря ж в 1 день, в знак веселия, друг друга поздравляя новым годом и столетним веком… из небольших пушечек, буде у кого есть, и из нескольких мушкетов или иного мелкого ружья учинить трижды стрельбу и выпустить несколько ракетов, сколько у кого случится…»</p>
+      <cite>Указ Петра I «О праздновании Нового года», 20 декабря 1699 г. Полное собрание законов Российской империи, т. 3, № 1736. Сокращено, орфография современная.</cite>
+    </blockquote>
+    <p class="small">Словарик: <b>словенские народы</b> — славянские; <b>лета счисляют</b> — считают годы; <b>купно</b> — вместе с тем; <b>нарочитый</b> — знатный, заметный; <b>скудный</b> — бедный; <b>комуждо</b> — каждому; <b>хоромина</b> — дом; <b>генварь</b> — январь.</p>
+  </div>
+  <div class="card">
+    <h3>Шаг 1. Разберись в указе</h3>
+    <div class="task reveal" id="q1">
+      <p class="q">А) На какие народы ссылается Пётр, объясняя перемену? Как думаешь, зачем он упоминает не только европейцев, но и православных славян?</p>
+      <textarea id="dq1" data-save aria-label="Ответ на вопрос А"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q1">Проверить себя</button></div>
+      <p class="ans">На европейские христианские страны и на православные славянские народы. Многие русские люди могли считать новый счёт лет «латинским», чужим для православных. Пётр показывает: так считают и единоверцы, значит, вере это не противоречит. Так указ отвечает на возражения ещё до того, как их скажут вслух.</p>
+    </div>
+    <div class="task reveal" id="q2">
+      <p class="q">Б) Что должны были сделать знатные люди, а что — бедные («скудные»)? Как долго стояли украшения?</p>
+      <textarea id="dq2" data-save aria-label="Ответ на вопрос Б"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q2">Проверить себя</button></div>
+      <p class="ans">Знатные — украсить ворота ветвями сосны, ели и можжевельника, а 1 января трижды выстрелить из пушечек и ружей и пустить ракеты. Бедные — поставить хотя бы одно деревце или ветку на ворота или над домом. Украшения стояли с 1 по 7 января 1700 года.</p>
+    </div>
+    <div class="task">
+      <p class="q">В) Какой это источник?</p>
+      <select id="dq3" data-save aria-label="Тип источника" style="max-width:420px"><option value="">—</option><option>Официальный документ</option><option>Личный источник (дневник, письмо, мемуары)</option><option>Художественное произведение</option></select>
+      <div class="row"><button class="btn ghost" type="button" id="q3-check">Проверить</button></div>
+      <p class="fb" id="q3-fb" aria-live="polite"></p>
+    </div>
+    <div class="task reveal" id="q4">
+      <p class="q">Г) ★ Пётр пишет, что с 1700 года начинается «новый столетний век». А в учебнике XVIII век — это 1701–1800 годы. Кто прав?</p>
+      <textarea id="dq4" data-save aria-label="Ответ на вопрос Г"></textarea>
+      <div class="row"><button class="btn ghost" type="button" data-reveal="q4">Проверить себя</button></div>
+      <p class="ans">По счёту прав учебник: первый век — это годы 1–100, значит, XVIII век — 1701–1800. Но людям всегда хочется праздновать «круглую» дату. Такой же спор был в 2000 году: многие встречали новое тысячелетие на год раньше, чем по счёту. На проверке пиши: 1700 год — это XVII век.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Шаг 2. Переведи даты на новый стиль</h3>
+    <p>Правило: <b>дата по старому стилю + разница = дата по новому стилю</b>. Разницу бери из таблицы на этапе «Рассказ»: XVII век — 10 дней, XVIII — 11, XX–XXI — 13. Пиши число и месяц словами, например «9 июня».</p>
+    <div class="pairs">
+      <div><label for="p1">Пётр I родился 30 мая 1672 г.</label><input type="text" id="p1" data-save placeholder="по новому стилю"></div>
+      <div><label for="p2">Полтавская битва — 27 июня 1709 г.</label><input type="text" id="p2" data-save placeholder="по новому стилю"></div>
+      <div><label for="p3">М. В. Ломоносов родился 8 ноября 1711 г.</label><input type="text" id="p3" data-save placeholder="по новому стилю"></div>
+      <div><label for="p4">Православная церковь празднует Рождество 25 декабря по юлианскому календарю. Какой это день сейчас по нашему календарю?</label><input type="text" id="p4" data-save placeholder="по новому стилю"></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="p-check">Проверить</button></div>
+    <p class="fb" id="p-fb" aria-live="polite"></p>
+  </div>
+  <p class="note">Как работает историк: увидев дату в старом документе, он сначала выясняет, по какому календарю она записана. Русские документы XVIII века датированы по старому стилю, а письма иностранцев из той же Москвы — часто по новому. Иначе легко «найти» два разных события там, где было одно.</p>
+  <a class="next" href="#poltava">Дальше: Три даты одной битвы →</a>
+</section>
+
+<!-- 6. ПОЛТАВА -->
+<section class="view" id="poltava" hidden>
+  <div>
+    <p class="kicker">Этап 6 · Детектив продолжается</p>
+    <h1>Три даты одной битвы</h1>
+  </div>
+  <p class="lead">Полтавская битва была одним утром. Но русские, шведские и французские газеты записали её разными числами. Кто-то ошибся?</p>
+  <div class="card">
+    <h3>Шведская путаница</h3>
+    <p>В 1700 году Швеция тоже решила перейти на григорианский календарь. Но не сразу, а хитро: 40 лет подряд не отмечать 29 февраля. Так, по одному дню за раз, шведы догнали бы Европу.</p>
+    <p>Первый шаг сделали: в 1700 году 29 февраля в Швеции не было. Шведский календарь ушёл на день вперёд от русского, а до европейского ему оставалось ещё 10 дней.</p>
+    <p>Тут началась Северная война, и про план забыли. В 1704 и 1708 годах 29 февраля снова наступило. У Швеции получился свой календарь, которым больше никто в мире не пользовался. Вот почему у битв Северной войны часто по три даты.</p>
+    <p>В 1712 году шведы решили вернуться к юлианскому календарю. Для этого нужно было вернуть пропущенный день — и его добавили в февраль. Так в Швеции наступило <b>30 февраля 1712 года</b>. На григорианский календарь Швеция окончательно перешла только в 1753 году.</p>
+  </div>
+  <div class="card">
+    <h3>Какое число было в этот день?</h3>
+    <p class="small">Подсказки: по русскому (юлианскому) календарю битва была 27 июня 1709 года. Шведский календарь на день впереди русского. Григорианский в XVIII веке — на 11 дней впереди.</p>
+    <div class="pairs">
+      <div><label for="pl1">В России</label><select id="pl1" data-save><option value="">—</option><option>27 июня</option><option>28 июня</option><option>8 июля</option><option>10 июля</option></select></div>
+      <div><label for="pl2">В Швеции</label><select id="pl2" data-save><option value="">—</option><option>27 июня</option><option>28 июня</option><option>8 июля</option><option>10 июля</option></select></div>
+      <div><label for="pl3">Во Франции и Италии</label><select id="pl3" data-save><option value="">—</option><option>27 июня</option><option>28 июня</option><option>8 июля</option><option>10 июля</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="pl-check">Проверить</button></div>
+    <p class="fb" id="pl-fb" aria-live="polite"></p>
+  </div>
+  <div class="card reveal" id="pv1">
+    <h3>Кто ошибся?</h3>
+    <label for="dpv1">Шведский офицер записал в дневнике, что битва была 28 июня, а в русском походном журнале — 27 июня. Значит ли это, что кто-то из них ошибся?</label>
+    <textarea id="dpv1" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="pv1">Проверить себя</button></div>
+    <p class="ans">Нет. Оба записали верно, но по своему календарю. Это одни и те же сутки.</p>
+  </div>
+  <div class="card reveal" id="pv2">
+    <h3>★ Загадка календаря</h3>
+    <p>День воинской славы — День победы под Полтавой — отмечают <b>10 июля</b>. А по нашему правилу получается 8 июля. Откуда ещё два дня?</p>
+    <textarea id="dpv2" data-save aria-label="Ответ про 10 июля"></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="pv2">Показать ответ</button></div>
+    <div class="ans warn" style="background:#fbf1d8">
+      <p><b>⚠️ Здесь два разных счёта, и оба встречаются.</b></p>
+      <p>• <b>На проверке:</b> Полтавская битва — 27 июня 1709 г. Так в учебнике: даты XVIII века там даны по старому стилю.</p>
+      <p>• <b>Как считают историки:</b> чтобы перевести дату 1709 года на новый стиль, прибавляют 11 дней — получается 8 июля.</p>
+      <p>• <b>Откуда 10 июля:</b> дату памятного дня перевели, прибавив 13 дней, как для XX–XXI века. Так же получились и некоторые другие памятные даты. Это не ошибка в учебнике, а разные способы перевода дат.</p>
+    </div>
+  </div>
+  <a class="next" href="#sravni">Дальше: Кто и зачем менял календарь →</a>
+</section>
+
+<!-- 7. СРАВНИ -->
+<section class="view" id="sravni" hidden>
+  <div>
+    <p class="kicker">Этап 7 · Сравнение</p>
+    <h1>Кто и зачем менял календарь</h1>
+  </div>
+  <p class="lead">Ты уже знаешь четыре календарные реформы: Пётр I (1700), Великобритания (1752), революционная Франция (1793), Советская Россия (1918). Узнай каждую по описанию.</p>
+  <div class="card">
+    <div class="grid2" id="sorts"></div>
+  </div>
+  <div class="card">
+    <h3>Календарь в учебнике всеобщей истории</h3>
+    <p>Во Франции месяцы нового календаря назвали по явлениям природы: брюмер — месяц туманов, термидор — месяц жары. Отсюда странные названия событий: «переворот 9 термидора», «переворот 18 брюмера».</p>
+    <label for="br">Переворот 18 брюмера, после которого к власти пришёл Наполеон, — это какой месяц по нашему календарю?</label>
+    <div class="row"><select id="br" data-save style="max-width:260px"><option value="">—</option><option>январь 1799</option><option>июль 1799</option><option>ноябрь 1799</option></select><button class="btn ghost" type="button" id="br-check">Проверить</button></div>
+    <p class="fb" id="br-fb" aria-live="polite"></p>
+  </div>
+  <div class="card reveal" id="s1">
+    <h3>Сделай вывод</h3>
+    <label for="ds1">Зачем правители и правительства меняли календарь? Найди хотя бы одну общую причину и одно различие.</label>
+    <textarea id="ds1" data-save></textarea>
+    <div class="row"><button class="btn ghost" type="button" data-reveal="s1">Проверить себя</button></div>
+    <p class="ans">Общее — удобство: считать время так же, как соседи, с которыми торгуют и ведут переговоры (Россия в 1700 и 1918 годах, Великобритания в 1752). Различие — смысл перемены. Пётр показывал, что Россия начинает «новый век» вместе с Европой. Революционная Франция, наоборот, порвала с христианским календарём, которым жила вся Европа, и начала счёт лет с республики. Календарь — это не только про числа, но и про то, как страна видит себя.</p>
+  </div>
+  <a class="next" href="#mif">Дальше: Миф или правда →</a>
+</section>
+
+<!-- 8. МИФ -->
+<section class="view" id="mif" hidden>
+  <div>
+    <p class="kicker">Этап 8 · Закрепление</p>
+    <h1>Миф или правда?</h1>
+  </div>
+  <p class="lead">Сначала скажи учителю: «Это миф, потому что…» или «Это правда, потому что…», а потом нажми кнопку.</p>
+  <div class="grid2" id="myths"></div>
+  <a class="next" href="#itog">Дальше: Итог →</a>
+</section>
+
+<!-- 9. ИТОГ -->
+<section class="view" id="itog" hidden>
+  <div>
+    <p class="kicker">Этап 9 · Итог</p>
+    <h1>Расскажи и подведём итог</h1>
+  </div>
+  <div class="card">
+    <h3>Расскажи учителю по плану</h3>
+    <p>1. Что изменил указ Петра I 1699 года, а что оставил прежним?</p>
+    <p>2. Почему у одного события бывает две или даже три даты?</p>
+    <p>3. Зачем разные страны меняли календарь?</p>
+    <p>4. Какой источник мы сегодня читали? Что из него можно узнать, кроме самих правил?</p>
+  </div>
+  <div class="card">
+    <div class="grid2">
+      <div><p>Насколько сегодня было интересно?</p><div class="rate" data-rate="interest"></div></div>
+      <div><p>Насколько было понятно?</p><div class="rate" data-rate="clear"></div></div>
+    </div>
+    <div class="grid2">
+      <div><label for="it-best">Что было самым интересным?</label><input type="text" id="it-best" data-save></div>
+      <div><label for="it-hard">Что было трудным?</label><input type="text" id="it-hard" data-save></div>
+    </div>
+    <div><label for="it-want">О чём из XVIII века тебе хотелось бы узнать подробнее?</label><input type="text" id="it-want" data-save></div>
+    <div class="row"><button class="btn" type="button" id="all-copy">Скопировать все ответы для учителя</button></div>
+    <div class="copybox" id="all-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="all-text"></textarea></div>
+  </div>
+  <div class="card">
+    <h3>Только для учителя: очистить тетрадь</h3>
+    <p class="small">Стирает все ответы во всех разделах тетради — от «Знакомства» до «Домашки» — и открывает её с начала. Сначала скопируйте ответы ученика. Нужен код учителя.</p>
+    <div class="row" id="reset-row">
+      <input type="password" id="reset-pin" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Код учителя" aria-label="Код учителя" style="max-width:170px">
+      <button class="btn ghost" type="button" id="reset-btn">Стереть все ответы</button>
+      <span id="reset-ask" hidden><span class="fb wrong">Точно стереть все ответы во всей тетради?</span>
+        <button class="btn" type="button" id="reset-yes">Да, стереть</button>
+        <button class="btn ghost" type="button" id="reset-no">Отмена</button></span>
+    </div>
+    <p class="fb" id="reset-fb" aria-live="polite"></p>
+  </div>
+  <a class="next" href="#dz">Дальше: Домашнее задание →</a>
+</section>
+
+<!-- 10. ДЗ -->
+<section class="view" id="dz" hidden>
+  <div>
+    <p class="kicker">Этап 10 · 20–25 минут дома</p>
+    <h1>Домашнее задание</h1>
+  </div>
+  <div class="card">
+    <h3>1. Переведи даты</h3>
+    <div class="pairs">
+      <div><label for="h1">Екатерина II родилась 21 апреля 1729 г. (ст. ст.). По новому стилю?</label><input type="text" id="h1" data-save></div>
+      <div><label for="h2">Бородинское сражение — 26 августа 1812 г. (ст. ст.). По новому стилю? Подсказка: это XIX век.</label><input type="text" id="h2" data-save></div>
+      <div><label for="h3">Указ Петра подписан 20 декабря 1699 г. (ст. ст.). По новому стилю?</label><input type="text" id="h3" data-save></div>
+    </div>
+    <div><label for="h4">Твой день рождения в этом году по старому стилю (вычти 13 дней):</label><input type="text" id="h4" data-save style="max-width:300px"></div>
+    <div class="row"><button class="btn" type="button" id="h-check">Проверить</button></div>
+    <p class="fb" id="h-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>2. Твой указ</h3>
+    <p>Напиши «указ» в духе Петра I (5–7 строк) о том, как встречать Новый год в твоей семье или классе. Начни так: «Известно нам стало…» — и объясни, почему так надо. Дальше: кто что украшает, как поздравлять друг друга, до какого числа стоят украшения. Можно взять 2–3 старых слова из словарика на этапе 5. Сфотографируй или перепечатай и пришли учителю.</p>
+  </div>
+  <div class="card">
+    <h3>3. Проверь себя</h3>
+    <div class="pairs">
+      <div><label for="t1">С какого дня начинали год в России до 1700 года?</label><select id="t1" data-save><option value="">—</option><option>с 1 января</option><option>с 1 марта</option><option>с 1 сентября</option></select></div>
+      <div><label for="t2">По какому календарю жила Россия с 1700 по 1918 год?</label><select id="t2" data-save><option value="">—</option><option>по юлианскому</option><option>по григорианскому</option><option>по республиканскому</option></select></div>
+      <div><label for="t3">На сколько дней новый стиль опережал старый в XVIII веке?</label><select id="t3" data-save><option value="">—</option><option>на 10</option><option>на 11</option><option>на 13</option></select></div>
+      <div><label for="t4">Какая страна перешла на григорианский календарь в 1752 году?</label><select id="t4" data-save><option value="">—</option><option>Франция</option><option>Великобритания</option><option>Швеция</option></select></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="t-check">Проверить</button></div>
+    <p class="fb" id="t-fb" aria-live="polite"></p>
+  </div>
+  <div class="card">
+    <h3>4. Фото учебников</h3>
+    <p>Сфотографируй оглавление обоих учебников истории — России и всеобщей — и отметь параграфы, которые вы проходите сейчас. Напиши одну тему с начала года, которая была самой непонятной. Пришли учителю.</p>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>Тетрадь к вводному занятию по истории, 8 класс. Ответы хранятся только в этом браузере; чтобы учитель их увидел, используй кнопки «Скопировать».</p>
+</footer>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+/* ---------- хранение ---------- */
+const KEY="kalendar8-v1";
+let D={};
+try{D=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){D={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+$$("[data-save]").forEach(el=>{
+  if(D[el.id]!==undefined) el.value=D[el.id];
+  el.addEventListener("input",()=>{D[el.id]=el.value;save()});
+  el.addEventListener("change",()=>{D[el.id]=el.value;save()});
+});
+
+/* ---------- навигация ---------- */
+const views=$$("section.view");
+function show(){
+  const id=(location.hash||"").slice(1);
+  const v=views.find(x=>x.id===id)||views[0];
+  views.forEach(x=>x.hidden=(x!==v));
+  $$("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
+show();
+
+/* ---------- утилиты ---------- */
+function fb(el,text,good){el.textContent=text;el.className="fb "+(good===true?"good":good===false?"wrong":"")}
+function toRoman(n){const m=[[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];let r="";for(const [v,s] of m){while(n>=v){r+=s;n-=v}}return r}
+function cent(s){
+  s=(s||"").toUpperCase().replace(/Х/g,"X").replace(/І/g,"I").replace(/[^0-9IVXLCDM]/g,"");
+  if(/^\d+$/.test(s)) s=toRoman(parseInt(s,10));
+  return s;
+}
+/* число и месяц: «9 июня», «9 июн», «9.06» → [9,6] */
+const MONTHS=[["янв",1],["фев",2],["мар",3],["апр",4],["ма",5],["июн",6],["июл",7],["авг",8],["сен",9],["окт",10],["ноя",11],["дек",12]];
+function dm(s){
+  s=(s||"").toLowerCase().replace(/ё/g,"е");
+  let m=s.match(/(\d{1,2})\s*[.\/]\s*(\d{1,2})/);
+  if(m) return [parseInt(m[1],10),parseInt(m[2],10)];
+  m=s.match(/\d{1,2}/); if(!m) return null;
+  const d=parseInt(m[0],10);
+  const rest=s.replace(/\d+/g," ");
+  for(const [stem,n] of MONTHS){ if(new RegExp("(^|[^а-я])"+stem).test(rest)) return [d,n]; }
+  return [d,0];
+}
+const same=(s,d,mo)=>{const r=dm(s);return !!r&&r[0]===d&&r[1]===mo};
+async function copy(text,box,ta,btn){
+  ta.value=text;
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  catch(e){box.classList.add("show");ta.focus();ta.select()}
+}
+$$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
+const val=id=>($("#"+id)||{}).value||"";
+const opened=id=>D["open_"+id]?" (открывал ответ)":"";
+
+/* ---------- 1. Машина времени ---------- */
+const tms=$$("#tm-cards .tm");
+function setTm(choice){
+  tms.forEach(b=>b.setAttribute("aria-pressed",b.dataset.choice===choice?"true":"false"));
+  fb($("#tm-picked"),choice?"Ты отправляешься: "+choice+".":"Нажми на картинку, чтобы выбрать.",choice?true:undefined);
+}
+tms.forEach(b=>b.addEventListener("click",()=>{D.tm=b.dataset.choice;save();setTm(D.tm)}));
+setTm(D.tm||"");
+
+/* ---------- 2. Разведка ---------- */
+function pairsScore(list){const c=list.filter(([id,a])=>val(id)===a).length;return c===4?2:c>=2?1:0}
+function diagScore(){
+  let s=0;
+  const c=[["d1a","XVII"],["d1b","XVII"],["d1c","XVIII"],["d1d","XVIII"]].filter(([id,a])=>cent(val(id))===a).length;
+  s+=c===4?2:c>=2?1:0;
+  if([val("d2a"),val("d2b"),val("d2c"),val("d2d")].join("")==="БВГА") s+=1;
+  s+=pairsScore([["d3a","Г"],["d3b","В"],["d3c","А"],["d3d","Б"]]);
+  s+=pairsScore([["d4a","Б"],["d4b","Г"],["d4c","В"],["d4d","А"]]);
+  s+=pairsScore([["d5a","В"],["d5b","Г"],["d5c","А"],["d5d","Б"]]);
+  s+=pairsScore([["d6a","В"],["d6b","Г"],["d6c","А"],["d6d","Б"]]);
+  if(val("d7a")==="Борис Годунов") s+=1;
+  if(val("d8")==="Санкт-Петербург") s+=1;
+  return s;
+}
+function diagText(){
+  const L=[];
+  L.push("РАЗВЕДКА (диагностика)");
+  L.push("1) 1613 — "+val("d1a")+"; 1682 — "+val("d1b")+"; 1709 — "+val("d1c")+"; 1789 — "+val("d1d"));
+  L.push("2) порядок: "+[val("d2a"),val("d2b"),val("d2c"),val("d2d")].join(" "));
+  L.push("3) Михаил Фёдорович "+val("d3a")+", Никон "+val("d3b")+", Разин "+val("d3c")+", Алексей Михайлович "+val("d3d"));
+  L.push("4) Земский собор "+val("d4a")+", старообрядцы "+val("d4b")+", крепостное право "+val("d4c")+", мануфактура "+val("d4d"));
+  L.push("5) Лютер "+val("d5a")+", Людовик XIV "+val("d5b")+", Вольтер "+val("d5c")+", Уатт "+val("d5d"));
+  L.push("6) абсолютизм "+val("d6a")+", Просвещение "+val("d6b")+", промышленный переворот "+val("d6c")+", парламентская монархия "+val("d6d"));
+  L.push("7) лишнее: "+val("d7a")+"; почему: "+val("d7b"));
+  L.push("8) "+val("d8"));
+  L.push("9А) "+val("d9a"));
+  L.push("9Б) "+val("d9b"));
+  L.push("9В) "+val("d9c"));
+  L.push("10) "+val("d10"));
+  L.push("Автопроверка заданий 1–8: "+diagScore()+" из 13. Объяснение в 7, задания 9–10 (до 6 баллов) проверяет учитель.");
+  return L.join("\n");
+}
+$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-text").value=diagText();$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
+$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
+
+/* ---------- 3. Игра ---------- */
+const events=[
+  ["Земский собор избирает на царство Михаила Романова","E","1613 год — начало династии Романовых."],
+  ["Основан Санкт-Петербург","L","1703 год — в разгар Северной войны."],
+  ["Исаак Ньютон публикует книгу с законами движения","E","1687 год — «Математические начала натуральной философии»."],
+  ["Русская армия побеждает шведов под Полтавой","L","1709 год."],
+  ["Пётр I едет в Европу с Великим посольством","E","1697–1698 годы. Вернувшись, царь и задумал новый календарь."],
+  ["В Москве открывается первый университет","L","1755 год. Одним из его создателей был М. В. Ломоносов."],
+  ["Принято Соборное уложение","E","1649 год, царь Алексей Михайлович."],
+  ["Великобритания переходит на григорианский календарь","L","1752 год: после 2 сентября — сразу 14 сентября."],
+  ["Людовик XIV переносит королевский двор в Версаль","E","1682 год."],
+  ["Во Франции начинается революция","L","1789 год."]
+];
+let gi=0,gs=0,gt=0,locked=false;
+function g1(){ $("#g1-event").textContent=events[gi%events.length][0]; }
+$$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
+  if(locked)return; locked=true;
+  const ev=events[gi%events.length];const right=ev[1]===b.dataset.side; gt++; if(right)gs++;
+  $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
+  fb($("#g1-fb"),(right?"Верно! ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
+  setTimeout(()=>{gi++;g1();locked=false},2400);
+}));
+g1();
+
+/* ---------- 5. Детектив ---------- */
+$("#q3-check").addEventListener("click",()=>{
+  const v=val("dq3");
+  if(!v){fb($("#q3-fb"),"Сначала выбери ответ.");return}
+  const ok=v==="Официальный документ";D.q3first=D.q3first||(ok?"верно":"ошибка");save();
+  fb($("#q3-fb"),ok?"Верно! Указ — закон, который издаёт государь. Это официальный документ: он показывает, чего хотела власть, но не говорит, как люди его выполняли.":"Не совсем. Кто написал этот текст и для чего? Это приказ всем подданным от имени царя.",ok);
+});
+const PK=[["p1",9,6,"9 июня"],["p2",8,7,"8 июля"],["p3",19,11,"19 ноября"],["p4",7,1,"7 января"]];
+$("#p-check").addEventListener("click",()=>{
+  let n=0;
+  PK.forEach(([id,d,m])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(same(e.value,d,m)){e.classList.add("ok");n++}else e.classList.add("bad")});
+  D.pcheck=n;save();
+  fb($("#p-fb"),n===4?"Всё верно! 9 июня, 8 июля, 19 ноября и 7 января. Заметь: в первой и последней дате пришлось перейти в следующий месяц.":"Верно "+n+" из 4. Проверь век: Пётр родился в XVII веке (+10), Полтава и Ломоносов — XVIII (+11), Рождество сейчас — XXI (+13). В мае 31 день, в декабре тоже 31.",n===4);
+});
+
+/* ---------- 6. Полтава ---------- */
+$("#pl-check").addEventListener("click",()=>{
+  const k=[["pl1","27 июня"],["pl2","28 июня"],["pl3","8 июля"]];let n=0;
+  k.forEach(([id,a])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(e.value===a){e.classList.add("ok");n++}else e.classList.add("bad")});
+  D.pl=n;save();
+  fb($("#pl-fb"),n===3?"Верно! Россия — 27 июня, Швеция — 28 июня, Франция и Италия — 8 июля 1709 года. Три даты — один день.":"Верно "+n+" из 3. Шведский календарь — на 1 день впереди русского, григорианский — на 11.",n===3);
+});
+
+/* ---------- 7. Сравнение ---------- */
+const REF=["Россия, 1700","Великобритания, 1752","Франция, 1793","Советская Россия, 1918"];
+const SORT=[
+  ["Годы стали считать от Рождества Христова, а Новый год встречать 1 января, но сам календарь остался юлианским.",0,"Это указ Петра I."],
+  ["После 2 сентября сразу наступило 14 сентября: пропустили 11 дней.",1,"Великобритания, 1752 год."],
+  ["Месяцы назвали по явлениям природы, годы стали считать от провозглашения республики.",2,"Республиканский календарь Франции."],
+  ["После 31 января сразу наступило 14 февраля: пропустили 13 дней.",3,"Декрет 1918 года."],
+  ["Вместо семидневной недели ввели десятидневную «декаду».",2,"Во французском республиканском календаре в месяце было три декады по 10 дней."],
+  ["Перед Новым годом приказали украсить ворота ветками ели, сосны и можжевельника.",0,"Это из указа Петра, который мы читали."]
+];
+$("#sorts").innerHTML=SORT.map((s,i)=>'<div class="sorti" id="so'+i+'"><span class="st">'+(i+1)+'. '+s[0]+'</span><select data-so="'+i+'" aria-label="Какая реформа"><option value="">— какая реформа? —</option>'+REF.map((r,j)=>'<option value="'+j+'">'+r+'</option>').join("")+'</select><p class="fb"></p></div>').join("");
+$$("#sorts [data-so]").forEach(sel=>sel.addEventListener("change",()=>{
+  const i=+sel.dataset.so,s=SORT[i],box=$("#so"+i);
+  if(sel.value===""){fb($(".fb",box),"");sel.classList.remove("ok","bad");return}
+  const right=+sel.value===s[1];
+  sel.classList.remove("ok","bad");sel.classList.add(right?"ok":"bad");
+  fb($(".fb",box),(right?"Верно! ":"Не совсем. ")+(right?s[2]:"Подумай ещё: сколько дней пропустили и в каком веке?"),right);
+  if(D["so"+i]===undefined){D["so"+i]=right?"верно":"ошибка";save()}
+}));
+$("#br-check").addEventListener("click",()=>{
+  const v=val("br");if(!v){fb($("#br-fb"),"Сначала выбери ответ.");return}
+  const ok=v==="ноябрь 1799";if(D.brfirst===undefined){D.brfirst=ok?"верно":"ошибка";save()}
+  fb($("#br-fb"),ok?"Верно! 18 брюмера VIII года — это 9 ноября 1799 года. Брюмер — месяц туманов, поздняя осень.":"Подсказка: брюмер — «месяц туманов». Когда во Франции туманы — летом, зимой или поздней осенью?",ok);
+});
+
+/* ---------- 8. Миф ---------- */
+const MY=[
+  ["Новогоднюю ёлку в России ввёл Пётр I.",false,"Скорее миф. Пётр велел украсить ворота и дома ветками ели, сосны и можжевельника на неделю праздника. Наряженная ёлка в комнате — немецкий обычай, в России его переняли в XIX веке."],
+  ["Пётр I перевёл Россию на тот же календарь, что во Франции и Италии.",false,"Миф. Пётр изменил начало года и счёт лет, но календарь оставил юлианским. На григорианский Россия перешла только в 1918 году."],
+  ["Октябрьская революция 1917 года по нашему календарю произошла в ноябре.",true,"Правда. 25 октября 1917 года по старому стилю — это 7 ноября по новому. Потому её и отмечали 7 ноября."],
+  ["В 1752 году англичане бунтовали и требовали: «Верните наши 11 дней!»",false,"Скорее миф. Надёжных свидетельств таких бунтов историки не нашли. Лозунг известен по картине Уильяма Хогарта 1755 года — сатире на предвыборную борьбу. Ворчали многие, но бунтов, похоже, не было."],
+  ["В Швеции однажды было 30 февраля.",true,"Правда. В 1712 году: так шведы вернулись к юлианскому календарю после неудачной попытки перейти на григорианский."],
+  ["«Старый Новый год» 14 января придумали при Петре I.",false,"Миф. Это Новый год по старому стилю: 1 января по юлианскому календарю — сейчас 14 января. Такой праздник мог появиться только после перехода на новый стиль в 1918 году."]
+];
+$("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="st">'+(i+1)+'. '+m[0]+'</span><div class="row"><button class="btn ghost" type="button" data-m="'+i+'" data-a="0">Миф</button><button class="btn ghost" type="button" data-m="'+i+'" data-a="1">Правда</button></div><p class="ex fb"></p></div>').join("");
+$$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
+  const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
+  $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
+}));
+
+/* ---------- 9. Итог ---------- */
+$$(".rate").forEach(r=>{const k=r.dataset.rate;for(let n=1;n<=5;n++){const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-label",n+" из 5");b.setAttribute("aria-pressed",String(D[k]==n));b.addEventListener("click",()=>{D[k]=n;save();$$("button",r).forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});r.appendChild(b)}});
+function allText(){
+  const L=[];
+  L.push("ЗНАКОМСТВО: машина времени — "+(D.tm||"не выбрано")+"; знаю: "+val("tm-know")+"; встречу там: "+val("tm-meet"));
+  L.push("О СЕБЕ: история России — "+val("me-rus")+"; всеобщая — "+val("me-vse")+"; нравится/трудно — "+val("me-like")+"; цель — "+val("me-goal"));
+  L.push("");L.push(diagText());L.push("");
+  L.push("РАНЬШЕ ИЛИ ПОЗЖЕ 1700: "+(D.game||"не играл(а)"));
+  L.push("РАССКАЗ: открывал ответ «Подумай» — "+(D.open_r1?"да":"нет"));
+  L.push("УКАЗ: А) "+val("dq1")+opened("q1"));
+  L.push("Б) "+val("dq2")+opened("q2"));
+  L.push("В) тип источника: "+(val("dq3")||"—")+(D.q3first?" (первая проверка: "+D.q3first+")":""));
+  L.push("Г) новый век: "+val("dq4")+opened("q4"));
+  L.push("ДАТЫ: "+PK.map(([id,,,a])=>val(id)+" ("+a+")").join("; ")+" — верно "+(D.pcheck===undefined?"не проверял":D.pcheck+" из 4"));
+  L.push("ПОЛТАВА: "+[val("pl1"),val("pl2"),val("pl3")].join(", ")+" (верно: 27 июня, 28 июня, 8 июля); кто ошибся — "+val("dpv1")+opened("pv1")+"; 10 июля — "+val("dpv2")+opened("pv2"));
+  L.push("РЕФОРМЫ (первый ответ): "+SORT.map((s,i)=>(i+1)+" "+(D["so"+i]||"—")).join(", ")+"; 18 брюмера — "+(val("br")||"—")+"; вывод — "+val("ds1")+opened("s1"));
+  L.push("МИФ ИЛИ ПРАВДА (первый ответ): "+MY.map((m,i)=>(i+1)+" "+(D["myth"+i]||"—")).join(", "));
+  L.push("ИТОГ: интересно "+(D.interest||"—")+"/5, понятно "+(D.clear||"—")+"/5; интересное: "+val("it-best")+"; трудное: "+val("it-hard")+"; хочу узнать: "+val("it-want"));
+  return L.join("\n");
+}
+$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
+
+/* ---------- 10. ДЗ ---------- */
+$("#h-check").addEventListener("click",()=>{
+  const k=[["h1",2,5],["h2",7,9],["h3",30,12]];let n=0;
+  k.forEach(([id,d,m])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(same(e.value,d,m)){e.classList.add("ok");n++}else e.classList.add("bad")});
+  fb($("#h-fb"),n===3?"Всё верно: 2 мая, 7 сентября, 30 декабря. А свой день рождения покажи учителю.":"Верно "+n+" из 3. Екатерина — XVIII век (+11), Бородино — XIX век (+12), указ — XVII век (+10).",n===3);
+});
+$("#t-check").addEventListener("click",()=>{
+  const r=[[val("t1")==="с 1 сентября","1"],[val("t2")==="по юлианскому","2"],[val("t3")==="на 11","3"],[val("t4")==="Великобритания","4"]];
+  const n=r.filter(x=>x[0]).length;
+  fb($("#t-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+});
+
+/* ---------- Сброс ---------- */
+const PIN_H=3425594781;
+function fnv(str){let h=0x811c9dc5;const b=new TextEncoder().encode(str);for(const c of b){h^=c;h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+let pinWait=false;
+$("#reset-btn").addEventListener("click",()=>{
+  if(pinWait)return;
+  const pin=($("#reset-pin").value||"").trim();
+  if(fnv("kal8:"+pin)===PIN_H){fb($("#reset-fb"),"");$("#reset-pin").hidden=true;$("#reset-ask").hidden=false;$("#reset-btn").hidden=true;return}
+  $("#reset-pin").value="";pinWait=true;
+  fb($("#reset-fb"),"Неверный код. Эта кнопка только для учителя.",false);
+  setTimeout(()=>{pinWait=false},3000);
+});
+$("#reset-pin").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#reset-btn").click()}});
+$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#reset-btn").hidden=false;$("#reset-pin").hidden=false;$("#reset-pin").value=""});
+$("#reset-yes").addEventListener("click",()=>{
+  try{localStorage.removeItem(KEY)}catch(e){}
+  try{history.replaceState(null,"","#znakomstvo")}catch(e){}
+  location.reload();
+});
+})();
+</script>
+</body>
+</html>
+</untrusted-document-e7aa81724b12>
