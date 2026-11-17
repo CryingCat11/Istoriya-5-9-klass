@@ -151,6 +151,9 @@ footer p{margin:0 0 12px}
 .reset-ask p{margin:0}
 .btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
 @media (prefers-reduced-motion:no-preference){.btn,.chip,.tm,nav a{transition:background .15s,border-color .15s,box-shadow .15s}}
+
+/* Планшеты и телефоны: панель не прилипает к экрану, а стоит в начале страницы */
+@media (hover:none),(pointer:coarse),(any-pointer:coarse){header.top{position:static!important}}
 </style>
 </head>
 <body>

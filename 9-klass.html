@@ -152,6 +152,9 @@ footer p{margin:0}
 #reset-ask{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
 #reset-ask[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){.btn,.tm,nav a,.fbtn{transition:background .15s,border-color .15s,box-shadow .15s}}
+
+/* Планшеты и телефоны: панель не прилипает к экрану, а стоит в начале страницы */
+@media (hover:none),(pointer:coarse),(any-pointer:coarse){header.top{position:static!important}}
 </style>
 </head>
 <body>
