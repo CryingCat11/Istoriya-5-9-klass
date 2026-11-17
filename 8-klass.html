@@ -42,17 +42,17 @@ header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--she
 .brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f0d38a}
 nav{display:flex;gap:6px;flex-wrap:wrap}
 nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #4b5466;white-space:nowrap}
-nav a b{color:#f0d38a;font-weight:700;margin-right:4px}
+nav a b{color:#f0d38a;font-weight:600;margin-right:4px}
 nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
 nav a[aria-current="page"] b{color:#fff}
 main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
 section.view{display:grid;gap:20px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
-h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h1{font-size:clamp(26px,4vw,38px);font-weight:600}
 h2{font-size:22px;font-weight:600}
 h3{font-size:18px;font-weight:600}
 .lead{font-size:20px;max-width:65ch;margin:0}
-.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.kicker{font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--cin);margin:0 0 6px}
 .card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
 .card p{margin:0;max-width:68ch}
 .note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
@@ -65,7 +65,7 @@ input[type=text],input[type=password],textarea,select{font:inherit;font-size:17p
 textarea{min-height:70px;resize:vertical}
 input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:10px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
 .btn.ghost{background:transparent;color:var(--indigo)}
 .btn:hover{filter:brightness(1.08)}
 .next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
@@ -76,11 +76,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
 .task:first-of-type{border-top:0;padding-top:0}
 .task .q{margin:0;font-weight:500}
-.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:600;margin-right:8px;vertical-align:middle}
 .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .pairs>div{display:grid;gap:4px}
 .small{font-size:15px;color:var(--muted)}
-blockquote{margin:0;padding:12px 16px;background:#f3f1e6;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote{margin:0;padding:12px 16px;background:#f3f1e6;border-left:5px solid var(--cin);border-radius:6px}
 blockquote p{margin:0 0 8px}
 blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
 /* Машина времени */
@@ -92,14 +92,14 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 .big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
 .lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
-.score{font-variant-numeric:tabular-nums;font-weight:700}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
 /* Рассказ */
 .split{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
 @media (max-width:760px){.split{grid-template-columns:1fr}}
 .pic svg{width:100%;height:auto;display:block}
 .facts{display:grid;gap:10px}
 .fact{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.fact .y{font-family:var(--display);font-weight:800;font-size:17px;color:var(--cin);font-variant-numeric:tabular-nums}
+.fact .y{font-family:var(--display);font-weight:600;font-size:17px;color:var(--cin);font-variant-numeric:tabular-nums}
 @media (max-width:480px){.fact{grid-template-columns:1fr}}
 .reveal{display:grid;gap:8px}
 .reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
@@ -107,7 +107,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 table.cmp{border-collapse:collapse;width:100%;font-size:16px}
 table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 table.cmp th{background:#e8eadf;font-weight:500}
-table.cmp td.n{font-family:var(--display);font-weight:800;color:var(--cin);text-align:center;font-variant-numeric:tabular-nums}
+table.cmp td.n{font-family:var(--display);font-weight:600;color:var(--cin);text-align:center;font-variant-numeric:tabular-nums}
 .decree{font-family:var(--old);font-style:normal;font-size:18px;line-height:1.55}
 /* Сортировка и мифы */
 .sorti,.myth{display:grid;gap:8px;background:var(--sheet);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
@@ -116,7 +116,7 @@ table.cmp td.n{font-family:var(--display);font-weight:800;color:var(--cin);text-
 .myth.done .ex{display:block}
 /* Итог */
 .rate{display:flex;gap:6px}
-.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:600;cursor:pointer}
 .rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
 .copybox{display:none;gap:8px}
 .copybox.show{display:grid}
@@ -297,7 +297,7 @@ footer p{margin:0}
     </div>
   </form>
   <div class="card" id="diag-done" hidden>
-    <h3>Отлично, разведка закончена!</h3>
+    <h3>Разведка закончена</h3>
     <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
     <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
     <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
@@ -473,7 +473,7 @@ footer p{margin:0}
     <textarea id="dpv2" data-save aria-label="Ответ про 10 июля"></textarea>
     <div class="row"><button class="btn ghost" type="button" data-reveal="pv2">Показать ответ</button></div>
     <div class="ans warn" style="background:#fbf1d8">
-      <p><b>⚠️ Здесь два разных счёта, и оба встречаются.</b></p>
+      <p><b>Здесь два разных счёта, и оба встречаются.</b></p>
       <p>• <b>На проверке:</b> Полтавская битва — 27 июня 1709 г. Так в учебнике: даты XVIII века там даны по старому стилю.</p>
       <p>• <b>Как считают историки:</b> чтобы перевести дату 1709 года на новый стиль, прибавляют 11 дней — получается 8 июля.</p>
       <p>• <b>Откуда 10 июля:</b> дату памятного дня перевели, прибавив 13 дней, как для XX–XXI века. Так же получились и некоторые другие памятные даты. Это не ошибка в учебнике, а разные способы перевода дат.</p>
@@ -655,7 +655,7 @@ function dm(s){
 const same=(s,d,mo)=>{const r=dm(s);return !!r&&r[0]===d&&r[1]===mo};
 async function copy(text,box,ta,btn){
   ta.value=text;
-  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
   catch(e){box.classList.add("show");ta.focus();ta.select()}
 }
 $$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
@@ -726,7 +726,7 @@ $$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
   if(locked)return; locked=true;
   const ev=events[gi%events.length];const right=ev[1]===b.dataset.side; gt++; if(right)gs++;
   $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
-  fb($("#g1-fb"),(right?"Верно! ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
+  fb($("#g1-fb"),(right?"Верно. ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
   setTimeout(()=>{gi++;g1();locked=false},2400);
 }));
 g1();
@@ -736,14 +736,14 @@ $("#q3-check").addEventListener("click",()=>{
   const v=val("dq3");
   if(!v){fb($("#q3-fb"),"Сначала выбери ответ.");return}
   const ok=v==="Официальный документ";D.q3first=D.q3first||(ok?"верно":"ошибка");save();
-  fb($("#q3-fb"),ok?"Верно! Указ — закон, который издаёт государь. Это официальный документ: он показывает, чего хотела власть, но не говорит, как люди его выполняли.":"Не совсем. Кто написал этот текст и для чего? Это приказ всем подданным от имени царя.",ok);
+  fb($("#q3-fb"),ok?"Верно. Указ — закон, который издаёт государь. Это официальный документ: он показывает, чего хотела власть, но не говорит, как люди его выполняли.":"Не совсем. Кто написал этот текст и для чего? Это приказ всем подданным от имени царя.",ok);
 });
 const PK=[["p1",9,6,"9 июня"],["p2",8,7,"8 июля"],["p3",19,11,"19 ноября"],["p4",7,1,"7 января"]];
 $("#p-check").addEventListener("click",()=>{
   let n=0;
   PK.forEach(([id,d,m])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(same(e.value,d,m)){e.classList.add("ok");n++}else e.classList.add("bad")});
   D.pcheck=n;save();
-  fb($("#p-fb"),n===4?"Всё верно! 9 июня, 8 июля, 19 ноября и 7 января. Заметь: в первой и последней дате пришлось перейти в следующий месяц.":"Верно "+n+" из 4. Проверь век: Пётр родился в XVII веке (+10), Полтава и Ломоносов — XVIII (+11), Рождество сейчас — XXI (+13). В мае 31 день, в декабре тоже 31.",n===4);
+  fb($("#p-fb"),n===4?"Всё верно. 9 июня, 8 июля, 19 ноября и 7 января. Заметь: в первой и последней дате пришлось перейти в следующий месяц.":"Верно "+n+" из 4. Проверь век: Пётр родился в XVII веке (+10), Полтава и Ломоносов — XVIII (+11), Рождество сейчас — XXI (+13). В мае 31 день, в декабре тоже 31.",n===4);
 });
 
 /* ---------- 6. Полтава ---------- */
@@ -751,7 +751,7 @@ $("#pl-check").addEventListener("click",()=>{
   const k=[["pl1","27 июня"],["pl2","28 июня"],["pl3","8 июля"]];let n=0;
   k.forEach(([id,a])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(e.value===a){e.classList.add("ok");n++}else e.classList.add("bad")});
   D.pl=n;save();
-  fb($("#pl-fb"),n===3?"Верно! Россия — 27 июня, Швеция — 28 июня, Франция и Италия — 8 июля 1709 года. Три даты — один день.":"Верно "+n+" из 3. Шведский календарь — на 1 день впереди русского, григорианский — на 11.",n===3);
+  fb($("#pl-fb"),n===3?"Верно. Россия — 27 июня, Швеция — 28 июня, Франция и Италия — 8 июля 1709 года. Три даты — один день.":"Верно "+n+" из 3. Шведский календарь — на 1 день впереди русского, григорианский — на 11.",n===3);
 });
 
 /* ---------- 7. Сравнение ---------- */
@@ -770,13 +770,13 @@ $$("#sorts [data-so]").forEach(sel=>sel.addEventListener("change",()=>{
   if(sel.value===""){fb($(".fb",box),"");sel.classList.remove("ok","bad");return}
   const right=+sel.value===s[1];
   sel.classList.remove("ok","bad");sel.classList.add(right?"ok":"bad");
-  fb($(".fb",box),(right?"Верно! ":"Не совсем. ")+(right?s[2]:"Подумай ещё: сколько дней пропустили и в каком веке?"),right);
+  fb($(".fb",box),(right?"Верно. ":"Не совсем. ")+(right?s[2]:"Подумай ещё: сколько дней пропустили и в каком веке?"),right);
   if(D["so"+i]===undefined){D["so"+i]=right?"верно":"ошибка";save()}
 }));
 $("#br-check").addEventListener("click",()=>{
   const v=val("br");if(!v){fb($("#br-fb"),"Сначала выбери ответ.");return}
   const ok=v==="ноябрь 1799";if(D.brfirst===undefined){D.brfirst=ok?"верно":"ошибка";save()}
-  fb($("#br-fb"),ok?"Верно! 18 брюмера VIII года — это 9 ноября 1799 года. Брюмер — месяц туманов, поздняя осень.":"Подсказка: брюмер — «месяц туманов». Когда во Франции туманы — летом, зимой или поздней осенью?",ok);
+  fb($("#br-fb"),ok?"Верно. 18 брюмера VIII года — это 9 ноября 1799 года. Брюмер — месяц туманов, поздняя осень.":"Подсказка: брюмер — «месяц туманов». Когда во Франции туманы — летом, зимой или поздней осенью?",ok);
 });
 
 /* ---------- 8. Миф ---------- */
@@ -792,7 +792,7 @@ $("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="
 $$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
   const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
   $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
-  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно. ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
   if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
 }));
 
@@ -827,7 +827,7 @@ $("#h-check").addEventListener("click",()=>{
 $("#t-check").addEventListener("click",()=>{
   const r=[[val("t1")==="с 1 сентября","1"],[val("t2")==="по юлианскому","2"],[val("t3")==="на 11","3"],[val("t4")==="Великобритания","4"]];
   const n=r.filter(x=>x[0]).length;
-  fb($("#t-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+  fb($("#t-fb"),n===4?"Всё верно":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
 });
 
 /* ---------- Сброс ---------- */

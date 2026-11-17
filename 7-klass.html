@@ -41,17 +41,17 @@ header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--she
 .brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f1c9a8}
 nav{display:flex;gap:6px;flex-wrap:wrap}
 nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #57504a;white-space:nowrap}
-nav a b{color:#ee9a86;font-weight:700;margin-right:4px}
+nav a b{color:#ee9a86;font-weight:600;margin-right:4px}
 nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
 nav a[aria-current="page"] b{color:#fff}
 main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
 section.view{display:grid;gap:20px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
-h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h1{font-size:clamp(26px,4vw,38px);font-weight:600}
 h2{font-size:22px;font-weight:600}
 h3{font-size:18px;font-weight:600}
 .lead{font-size:20px;max-width:65ch;margin:0}
-.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.kicker{font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--cin);margin:0 0 6px}
 .card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
 .card p{margin:0;max-width:68ch}
 .note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
@@ -62,7 +62,7 @@ input[type=text],input[type=password],textarea,select{font:inherit;font-size:17p
 textarea{min-height:70px;resize:vertical}
 input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:10px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
 .btn.ghost{background:transparent;color:var(--indigo)}
 .btn:hover{filter:brightness(1.08)}
 .next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
@@ -73,11 +73,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
 .task:first-of-type{border-top:0;padding-top:0}
 .task .q{margin:0;font-weight:500}
-.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:600;margin-right:8px;vertical-align:middle}
 .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .pairs>div{display:grid;gap:4px}
 .small{font-size:15px;color:var(--muted)}
-blockquote{margin:0;padding:12px 16px;background:#f5efe3;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote{margin:0;padding:12px 16px;background:#f5efe3;border-left:5px solid var(--cin);border-radius:6px}
 blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
 /* Машина времени */
 .tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
@@ -88,14 +88,14 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 .big-event{font-family:var(--display);font-size:clamp(20px,3.2vw,28px);font-weight:600;text-align:center;padding:24px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
 .lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
-.score{font-variant-numeric:tabular-nums;font-weight:700}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
 /* Рассказ */
 .split{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
 @media (max-width:760px){.split{grid-template-columns:1fr}}
 .pic svg{width:100%;height:auto;display:block}
 .facts{display:grid;gap:10px}
 .fact{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.fact .y{font-family:var(--display);font-weight:800;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
+.fact .y{font-family:var(--display);font-weight:600;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
 @media (max-width:480px){.fact{grid-template-columns:1fr}}
 .reveal{display:grid;gap:8px}
 .reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
@@ -123,7 +123,7 @@ table.cmp th{background:#efe8da;font-weight:500}
 .myth.done .ex{display:block}
 /* Итог */
 .rate{display:flex;gap:6px}
-.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:600;cursor:pointer}
 .rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
 .copybox{display:none;gap:8px}
 .copybox.show{display:grid}
@@ -371,7 +371,7 @@ footer p{margin:0}
     </div>
   </form>
   <div class="card" id="diag-done" hidden>
-    <h3>Отлично, разведка закончена!</h3>
+    <h3>Разведка закончена</h3>
     <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
     <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
     <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
@@ -566,7 +566,7 @@ footer p{margin:0}
   </div>
   <div class="card">
     <h3>Источник 2. Историк Николай Карамзин, XIX век</h3>
-    <p>Карамзин писал свою «Историю государства Российского» через 250 лет после событий. По его версии, печатные книги вызвали <i>«негодование многих грамотеев, которые жили списыванием книг церковных»</i>: переписчики теряли заработок. К ним присоединились суеверные люди, которых испугала новинка. А после смерти митрополита Макария у Фёдорова не стало защитника.</p>
+    <p>Карамзин писал свою «Историю государства Российского» через 250 лет после событий. По его версии, печатные книги вызвали «негодование многих грамотеев, которые жили списыванием книг церковных»: переписчики теряли заработок. К ним присоединились суеверные люди, которых испугала новинка. А после смерти митрополита Макария у Фёдорова не стало защитника.</p>
     <p class="small">Н. М. Карамзин. История государства Российского, т. 9 (пересказ, короткая цитата).</p>
     <div class="task reveal" id="v3">
       <p class="q">в) Чем версия Карамзина отличается от слов самого Фёдорова? Что у Карамзина — факт, а что — его объяснение?</p>
@@ -758,7 +758,7 @@ function cent(s){
 const num=s=>parseInt(String(s||"").replace(/\D/g,""),10);
 async function copy(text,box,ta,btn){
   ta.value=text;
-  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
   catch(e){box.classList.add("show");ta.focus();ta.select()}
 }
 $$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
@@ -828,7 +828,7 @@ $$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
   if(locked)return; locked=true;
   const ev=events[gi%events.length];const right=ev[1]===b.dataset.side; gt++; if(right)gs++;
   $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
-  fb($("#g1-fb"),(right?"Верно! ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
+  fb($("#g1-fb"),(right?"Верно. ":"Не совсем: это было "+(ev[1]==="E"?"раньше. ":"позже. "))+ev[2],right);
   setTimeout(()=>{gi++;g1();locked=false},2600);
 }));
 g1();
@@ -840,20 +840,20 @@ $("#n-check").addEventListener("click",()=>{
   const k=[["n1",7071],["n2",19],["n3",7072],["n4",1]];let n=0;
   k.forEach(([id,a])=>{const e=$("#"+id);e.classList.remove("ok","bad");if(!e.value)return;if(num(e.value)===a){e.classList.add("ok");n++}else e.classList.add("bad")});
   D.ncheck=n;save();
-  fb($("#n-fb"),n===4?"Всё верно! Начали в 7071 году 19 апреля, закончили в 7072 году 1 марта.":"Верно "+n+" из 4. Подсказка: ҂з = 7000, о = 70, а = 1 — сложи их.",n===4);
+  fb($("#n-fb"),n===4?"Всё верно. Начали в 7071 году 19 апреля, закончили в 7072 году 1 марта.":"Верно "+n+" из 4. Подсказка: ҂з = 7000, о = 70, а = 1 — сложи их.",n===4);
 });
 $("#y-check").addEventListener("click",()=>{
   const a=num(val("y1")),b=num(val("y2"));
   $("#y1").classList.toggle("ok",a===1563);$("#y1").classList.toggle("bad",!!val("y1")&&a!==1563);
   $("#y2").classList.toggle("ok",b===1564);$("#y2").classList.toggle("bad",!!val("y2")&&b!==1564);
-  if(a===1563&&b===1564) fb($("#y-fb"),"Верно! Работу начали 19 апреля 1563 года, а закончили 1 марта 1564 года. Эту дату и называют в учебнике.",true);
+  if(a===1563&&b===1564) fb($("#y-fb"),"Верно. Работу начали 19 апреля 1563 года, а закончили 1 марта 1564 года. Эту дату и называют в учебнике.",true);
   else fb($("#y-fb"),"Пока не так. Апрель и март — это месяцы с января по август, значит, вычитаем 5508.",false);
 });
 
 /* ---------- 7. Цепочка и сортировка ---------- */
 $("#c-check").addEventListener("click",()=>{
   const got=[val("c1"),val("c2"),val("c3"),val("c4")].join("");D.chain=got;save();
-  if(got==="бгав") fb($("#c-fb"),"Верно! Изобретение → дешёвые книги → больше читателей → идеи расходятся быстро.",true);
+  if(got==="бгав") fb($("#c-fb"),"Верно. Изобретение → дешёвые книги → больше читателей → идеи расходятся быстро.",true);
   else fb($("#c-fb"),"Пока не так. С чего всё началось? И что должно случиться с ценой книг, чтобы их стали покупать многие?",false);
 });
 const SORT=[
@@ -868,7 +868,7 @@ $("#sorts").innerHTML=SORT.map((s,i)=>'<div class="sorti" id="so'+i+'"><span cla
 $$("#sorts [data-so]").forEach(b=>b.addEventListener("click",()=>{
   const i=+b.dataset.so,s=SORT[i],right=b.dataset.a===s[1],box=$("#so"+i);
   $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
-  fb($(".fb",box),(right?"Верно! ":"Не совсем. ")+s[2],right);
+  fb($(".fb",box),(right?"Верно. ":"Не совсем. ")+s[2],right);
   if(D["so"+i]===undefined){D["so"+i]=right?"верно":"ошибка";save()}
 }));
 
@@ -884,7 +884,7 @@ $("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="
 $$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
   const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
   $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
-  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно. ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
   if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
 }));
 
@@ -925,7 +925,7 @@ $("#h-check1").addEventListener("click",()=>{
 $("#t-check").addEventListener("click",()=>{
   const r=[[val("t1")==="1564","1"],[val("t2")==="Пётр Мстиславец","2"],[val("t3")==="во Львове","3"],[val("t4")==="с 1 сентября","4"]];
   const n=r.filter(x=>x[0]).length;
-  fb($("#t-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+  fb($("#t-fb"),n===4?"Всё верно":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
 });
 
 /* ---------- Сброс ---------- */

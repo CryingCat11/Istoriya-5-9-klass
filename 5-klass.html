@@ -37,11 +37,11 @@ a{color:var(--lapis)}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--sheet)}
 .top-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.02em;white-space:nowrap}
 .brand .g{font-family:var(--hiero);font-weight:400;font-size:22px;color:var(--gold);margin-right:6px}
 nav{display:flex;gap:6px;flex-wrap:wrap}
 nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #5a4c3b;white-space:nowrap}
-nav a b{color:var(--gold);font-weight:700;margin-right:4px}
+nav a b{color:var(--gold);font-weight:600;margin-right:4px}
 nav a[aria-current="page"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
 nav a[aria-current="page"] b{color:var(--ink)}
 main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
@@ -55,11 +55,11 @@ main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
 }
 section.view{display:grid;gap:20px;scroll-margin-top:100vh}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
-h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h1{font-size:clamp(26px,4vw,38px);font-weight:600}
 h2{font-size:22px;font-weight:600}
 h3{font-size:18px;font-weight:600}
 .lead{font-size:20px;max-width:65ch;margin:0}
-.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lapis);margin:0 0 6px}
+.kicker{font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--lapis);margin:0 0 6px}
 .card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
 .card p{margin:0;max-width:65ch}
 .note{background:var(--lapis-soft);border-left:5px solid var(--lapis);border-radius:8px;padding:12px 16px;font-size:16px}
@@ -70,7 +70,7 @@ input[type=text],input[type=password],textarea,select{font:inherit;font-size:17p
 textarea{min-height:70px;resize:vertical}
 input:focus,textarea:focus,select:focus{border-color:var(--lapis);outline:none}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--lapis);background:var(--lapis);color:#fff}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:10px;padding:9px 18px;border:2px solid var(--lapis);background:var(--lapis);color:#fff}
 .btn.ghost{background:transparent;color:var(--lapis)}
 .btn:hover{filter:brightness(1.08)}
 .next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
@@ -81,11 +81,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--lapis);outline:none}
 .task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
 .task:first-of-type{border-top:0;padding-top:0}
 .task .q{margin:0;font-weight:500}
-.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:600;margin-right:8px;vertical-align:middle}
 .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .pairs>div{display:grid;gap:4px}
 .small{font-size:15px;color:var(--muted)}
-blockquote{margin:0;padding:12px 16px;background:#f5ecd6;border-left:5px solid var(--gold);border-radius:6px;font-style:italic}
+blockquote{margin:0;padding:12px 16px;background:#f5ecd6;border-left:5px solid var(--gold);border-radius:6px}
 blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
 /* Машина времени */
 .tm{cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--sheet);border:3px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
@@ -96,14 +96,14 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 .big-event{font-family:var(--display);font-size:clamp(22px,3.4vw,30px);font-weight:600;text-align:center;padding:26px 12px;background:var(--sheet);border:2px solid var(--line);border-radius:14px;min-height:110px;display:grid;place-items:center}
 .lr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .lr .btn{font-size:20px;padding:16px 10px;border-radius:14px}
-.score{font-variant-numeric:tabular-nums;font-weight:700}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
 /* Камень */
 .stone-wrap{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:20px;align-items:start}
 @media (max-width:760px){.stone-wrap{grid-template-columns:1fr}}
 .stone svg{width:100%;height:auto;display:block}
 .facts{display:grid;gap:10px}
 .fact{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.fact .y{font-family:var(--display);font-weight:800;font-size:20px;color:var(--lapis);font-variant-numeric:tabular-nums}
+.fact .y{font-family:var(--display);font-weight:600;font-size:20px;color:var(--lapis);font-variant-numeric:tabular-nums}
 @media (max-width:480px){.fact{grid-template-columns:1fr}}
 .reveal{display:grid;gap:8px}
 .reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px}
@@ -113,7 +113,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 .cartouche::after{content:"";position:absolute;right:-14px;top:12%;height:76%;width:8px;border-radius:3px;background:var(--ink)}
 .glyph{font-family:var(--hiero);font-size:48px;line-height:1.1;color:var(--ink)}
 .cell{display:grid;justify-items:center;gap:4px}
-.cell input{width:46px;text-align:center;font-weight:700;padding:4px 2px;font-size:18px;text-transform:uppercase}
+.cell input{width:46px;text-align:center;font-weight:600;padding:4px 2px;font-size:18px}
 .cwrap{overflow-x:auto;padding:6px 18px 10px 4px}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{font-family:var(--hiero);font-size:40px;line-height:1;cursor:pointer;background:#fff;border:3px solid var(--line);border-radius:12px;padding:6px 12px;color:var(--ink)}
@@ -140,7 +140,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;co
 .myth.done .ex{display:block}
 /* Итог */
 .rate{display:flex;gap:6px}
-.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:600;cursor:pointer}
 .rate button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold)}
 .copybox{display:none;gap:8px}
 .copybox.show{display:grid}
@@ -309,7 +309,7 @@ footer p{margin:0 0 12px}
     </div>
   </form>
   <div class="card" id="diag-done" hidden>
-    <h3>Отлично, разведка закончена!</h3>
+    <h3>Разведка закончена</h3>
     <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
     <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
     <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
@@ -617,7 +617,7 @@ function cent(s){
 }
 async function copy(text,box,ta,btn){
   ta.value=text;
-  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
   catch(e){box.classList.add("show");ta.focus();ta.select()}
 }
 $$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{$("#"+b.dataset.reveal).classList.toggle("open")}));
@@ -680,7 +680,7 @@ $$("#igra .lr [data-side]").forEach(b=>b.addEventListener("click",()=>{
   if(locked)return; locked=true;
   const right=events[gi%events.length][1]===b.dataset.side; gt++; if(right)gs++;
   $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;
-  fb($("#g1-fb"),right?"Верно!":"Не совсем: "+(events[gi%events.length][1]==="L"?"это было до нашей эры.":"это наша эра."),right);
+  fb($("#g1-fb"),right?"Верно":"Не совсем: "+(events[gi%events.length][1]==="L"?"это было до нашей эры.":"это наша эра."),right);
   setTimeout(()=>{gi++;g1();locked=false},900);
 }));
 g1();
@@ -696,7 +696,7 @@ function g2(){const p=pairs[pi%pairs.length];$("#g2-q").textContent=p[0][0]+"  �
 $$("#g2-btns button").forEach(b=>b.addEventListener("click",()=>{
   const p=pairs[pi%pairs.length];const right=+b.dataset.i===p[1];
   b.classList.add(right?"ok":"bad");
-  fb($("#g2-fb"),(right?"Верно! ":"Не совсем. ")+p[2],right);
+  fb($("#g2-fb"),(right?"Верно. ":"Не совсем. ")+p[2],right);
   if(right) setTimeout(()=>{pi++;g2()},1400);
 }));
 g2();
@@ -723,13 +723,13 @@ P.forEach(([g],i)=>{const b=document.createElement("button");b.type="button";b.c
 $("#s1-check").addEventListener("click",()=>{
   let wrong=0,missed=0;
   $$("#chips .chip").forEach((b,i)=>{const on=b.getAttribute("aria-pressed")==="true";const should=common.has(P[i][0]);b.classList.remove("ok","bad");if(on&&should)b.classList.add("ok");else if(on&&!should){b.classList.add("bad");wrong++}else if(!on&&should)missed++});
-  if(!wrong&&!missed) fb($("#s1-fb"),"Верно! Общих знаков пять: циновка, хлеб, перепёлка, лев и тростник.",true);
+  if(!wrong&&!missed) fb($("#s1-fb"),"Верно. Общих знаков пять: циновка, хлеб, перепёлка, лев и тростник.",true);
   else fb($("#s1-fb"),(wrong?"Лишних знаков: "+wrong+". ":"")+(missed?"Найдены не все: не хватает "+missed+".":""),false);
 });
 $("#s2-check").addEventListener("click",()=>{
   let ok=0,all=0;
   [[P,"p"],[K,"k"]].forEach(([arr,pre])=>arr.forEach(([,l],i)=>{const inp=$("#"+pre+i);all++;inp.classList.remove("ok","bad");if(!inp.value)return;if(norm(inp.value)===l){inp.classList.add("ok");ok++}else inp.classList.add("bad")}));
-  fb($("#s2-fb"),ok===all?"Все буквы на месте! Ты расшифровал два имени, как Шампольон.":"Верно "+ok+" из "+all+". Подсказка: сравни, на каком месте стоит знак в каждом имени.",ok===all);
+  fb($("#s2-fb"),ok===all?"Все буквы на месте. Ты расшифровал два имени, как Шампольон.":"Верно "+ok+" из "+all+". Подсказка: сравни, на каком месте стоит знак в каждом имени.",ok===all);
 });
 $("#s2-clear").addEventListener("click",()=>{$$("#c1 input, #c2 input").forEach(i=>{i.value="";i.classList.remove("ok","bad");delete D[i.id]});save();fb($("#s2-fb"),"")});
 
@@ -801,7 +801,7 @@ $("#tl-check").addEventListener("click",()=>{
       if(marks[t.id]===undefined)msgs.push(t.label+": не отмечено на ленте");else if(!posOk)msgs.push(t.label+": точка далеко от нужного места");
       if(!cOk)msgs.push(t.label+": проверь век и эру");}
   });
-  fb($("#tl-fb"),good===3?"Всё верно! II век до н. э., XVIII век и XIX век.":msgs.join(". ")+".",good===3);
+  fb($("#tl-fb"),good===3?"Всё верно. II век до н. э., XVIII век и XIX век.":msgs.join(". ")+".",good===3);
 });
 $("#tl-rule").addEventListener("click",()=>{$("#tl-rule-box").hidden=!$("#tl-rule-box").hidden});
 $("#tl-years-check").addEventListener("click",()=>{
@@ -823,7 +823,7 @@ $("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="
 $$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
   const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
   $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
-  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно. ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
   D["myth"+i]=right?"верно":"ошибка";save();
 }));
 
@@ -872,7 +872,7 @@ $("#reset-yes").addEventListener("click",()=>{
 $("#h-check").addEventListener("click",()=>{
   const r=[[cent(val("h1"))==="XVIII","1798 — XVIII век"],[cent(val("h2"))==="XII","1147 — XII век"],[cent(val("h3"))==="V","500 до н. э. — V век до н. э."],[val("h4")==="500 до н. э.","самая ранняя — 500 до н. э."]];
   const n=r.filter(x=>x[0]).length;
-  fb($("#h-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Проверь: "+r.filter(x=>!x[0]).map(x=>x[1].split(" — ")[0]).join(", ")+".",n===4);
+  fb($("#h-fb"),n===4?"Всё верно":"Верно "+n+" из 4. Проверь: "+r.filter(x=>!x[0]).map(x=>x[1].split(" — ")[0]).join(", ")+".",n===4);
 });
 })();
 </script>

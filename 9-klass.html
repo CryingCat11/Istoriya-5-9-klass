@@ -40,21 +40,21 @@ header.top{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--she
 .brand{font-family:"Ruslan Display",var(--display);font-size:20px;letter-spacing:.02em;white-space:nowrap;color:#f1d3a8}
 nav{display:flex;gap:6px;flex-wrap:wrap}
 nav a{color:var(--sheet);text-decoration:none;font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid #54483f;white-space:nowrap}
-nav a b{color:#ef9a85;font-weight:700;margin-right:4px}
+nav a b{color:#ef9a85;font-weight:600;margin-right:4px}
 nav a[aria-current="page"]{background:var(--cin);border-color:var(--cin);color:#fff}
 nav a[aria-current="page"] b{color:#fff}
 main{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
 section.view{display:grid;gap:20px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
-h1{font-size:clamp(26px,4vw,38px);font-weight:800}
+h1{font-size:clamp(26px,4vw,38px);font-weight:600}
 h2{font-size:22px;font-weight:600}
 h3{font-size:18px;font-weight:600}
 .lead{font-size:20px;max-width:65ch;margin:0}
-.kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cin);margin:0 0 6px}
+.kicker{font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--cin);margin:0 0 6px}
 .card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
 .card p{margin:0;max-width:68ch}
 .note{background:var(--indigo-soft);border-left:5px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:16px;margin:0}
-.oge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--indigo);background:var(--indigo-soft);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.oge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--indigo);background:var(--indigo-soft);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 label{font-weight:500}
@@ -62,7 +62,7 @@ input[type=text],input[type=password],textarea,select{font:inherit;font-size:17p
 textarea{min-height:70px;resize:vertical}
 input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:999px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
+.btn{font:inherit;font-weight:500;font-size:17px;cursor:pointer;border-radius:10px;padding:9px 18px;border:2px solid var(--indigo);background:var(--indigo);color:#fff}
 .btn.ghost{background:transparent;color:var(--indigo)}
 .btn:hover{filter:brightness(1.08)}
 .next{justify-self:end;font-family:var(--display);font-size:15px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px}
@@ -73,13 +73,13 @@ input:focus,textarea:focus,select:focus{border-color:var(--indigo);outline:none}
 .task{display:grid;gap:10px;padding:16px 0;border-top:1px dashed var(--line)}
 .task:first-of-type{border-top:0;padding-top:0}
 .task .q{margin:0;font-weight:500}
-.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:700;margin-right:8px;vertical-align:middle}
+.task .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:15px;font-weight:600;margin-right:8px;vertical-align:middle}
 .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .pairs>div{display:grid;gap:4px}
 .list{margin:0;padding-left:22px}
 .list li{margin:2px 0}
 .small{font-size:15px;color:var(--muted)}
-blockquote{margin:0;padding:12px 16px;background:#f5eee2;border-left:5px solid var(--cin);border-radius:6px;font-style:italic}
+blockquote{margin:0;padding:12px 16px;background:#f5eee2;border-left:5px solid var(--cin);border-radius:6px}
 blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:15px;color:var(--muted)}
 figure{margin:0}
 .fig svg{width:100%;height:auto;display:block;border-radius:10px}
@@ -95,13 +95,13 @@ figure{margin:0}
 .lr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .lr .btn{font-size:18px;padding:14px 8px;border-radius:14px}
 @media (max-width:520px){.lr{grid-template-columns:1fr}}
-.score{font-variant-numeric:tabular-nums;font-weight:700}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
 /* Рассказ */
 .split{display:grid;grid-template-columns:minmax(260px,440px) 1fr;gap:20px;align-items:start}
 @media (max-width:780px){.split{grid-template-columns:1fr}}
 .facts{display:grid;gap:10px}
 .fact{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:baseline;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.fact .y{font-family:var(--display);font-weight:800;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
+.fact .y{font-family:var(--display);font-weight:600;font-size:18px;color:var(--cin);font-variant-numeric:tabular-nums}
 @media (max-width:480px){.fact{grid-template-columns:1fr}}
 .reveal{display:grid;gap:8px}
 .reveal .ans{display:none;background:var(--ok-soft);border-left:5px solid var(--ok);border-radius:8px;padding:10px 14px;margin:0}
@@ -124,7 +124,7 @@ table.cmp tbody th{background:#f7f1e6;font-weight:500;white-space:nowrap}
 .screen .off{opacity:0}
 .screen-hint{position:absolute;inset:0;display:grid;place-items:center;color:#9d9086;font-size:16px;text-align:center;padding:20px;pointer-events:none}
 .filters{display:flex;gap:8px;flex-wrap:wrap}
-.fbtn{font:inherit;font-weight:500;font-size:16px;cursor:pointer;border-radius:999px;padding:8px 14px;border:2px solid var(--line);background:#fff;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.fbtn{font:inherit;font-weight:500;font-size:16px;cursor:pointer;border-radius:10px;padding:8px 14px;border:2px solid var(--line);background:#fff;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
 .fbtn i{width:16px;height:16px;border-radius:50%;display:inline-block}
 .fbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 3px var(--indigo-soft)}
 /* Фентон */
@@ -141,7 +141,7 @@ table.cmp tbody th{background:#f7f1e6;font-weight:500;white-space:nowrap}
 .myth.done .ex{display:block}
 /* Итог */
 .rate{display:flex;gap:6px}
-.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.rate button{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:#fff;font:inherit;font-weight:600;cursor:pointer}
 .rate button[aria-pressed="true"]{background:var(--cin);border-color:var(--cin);color:#fff}
 .copybox{display:none;gap:8px}
 .copybox.show{display:grid}
@@ -618,7 +618,7 @@ footer p{margin:0}
     </div>
   </form>
   <div class="card" id="diag-done" hidden>
-    <h3>Отлично, разведка закончена!</h3>
+    <h3>Разведка закончена</h3>
     <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
     <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
     <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
@@ -1169,7 +1169,7 @@ const digits=s=>String(s||"").replace(/\D/g,"");
 const low=s=>String(s||"").toLowerCase().replace(/ё/g,"е").trim();
 async function copy(text,box,ta,btn){
   ta.value=text;
-  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано!";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
+  try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent="Скопировано";setTimeout(()=>btn.textContent=old,1800);box.classList.remove("show")}
   catch(e){box.classList.add("show");ta.focus();ta.select()}
 }
 $$("[data-reveal]").forEach(b=>b.addEventListener("click",()=>{const r=$("#"+b.dataset.reveal);r.classList.toggle("open");if(r.classList.contains("open")){D["open_"+r.id]=1;save()}}));
@@ -1242,7 +1242,7 @@ $$("#igra [data-side]").forEach(b=>b.addEventListener("click",()=>{
   if(locked)return; locked=true;
   const ev=events[gi%events.length];const right=ev[2]===b.dataset.side; gt++; if(right)gs++;
   $("#g1-score").textContent=gs;$("#g1-total").textContent=gt;D.game=gs+" из "+gt;save();
-  fb($("#g1-fb"),(right?"Верно! ":"Не совсем. ")+ev[3],right);
+  fb($("#g1-fb"),(right?"Верно. ":"Не совсем. ")+ev[3],right);
   setTimeout(()=>{gi++;g1();locked=false},2800);
 }));
 g1();
@@ -1264,7 +1264,7 @@ $$("#rul select").forEach(el=>{if(D[el.id]!==undefined)el.value=D[el.id];el.addE
 $("#rul-check").addEventListener("click",()=>{
   let n=0;ACTS.forEach(a=>{const ok=val(a[0])===a[2];mark(a[0],ok);if(ok)n++});
   D.rul=n;save();
-  fb($("#rul-fb"),n===8?"Всё верно! Ты хорошо ориентируешься в веке.":"Верно "+n+" из 8. Открой карточки императоров ниже и проверь себя.",n===8);
+  fb($("#rul-fb"),n===8?"Всё верно. Ты хорошо ориентируешься в веке.":"Верно "+n+" из 8. Открой карточки императоров ниже и проверь себя.",n===8);
 });
 
 /* ---------- 5. Крымская война ---------- */
@@ -1274,7 +1274,7 @@ function crimeaParts(){
 $("#k-check").addEventListener("click",()=>{
   const r=crimeaParts();["k1","k2","k3","k4","k5"].forEach((id,i)=>mark(id,r[i]));
   const n=r.filter(Boolean).length;D.crimea=n;save();
-  fb($("#k-fb"),n===5?"Всё верно! Николай I, Синоп, П. С. Нахимов, Севастополь, Карс.":"Верно "+n+" из 5. Подсказки: война началась в 1853 году; адмирал, который командовал при Синопе, потом возглавил оборону Севастополя.",n===5);
+  fb($("#k-fb"),n===5?"Всё верно. Николай I, Синоп, П. С. Нахимов, Севастополь, Карс.":"Верно "+n+" из 5. Подсказки: война началась в 1853 году; адмирал, который командовал при Синопе, потом возглавил оборону Севастополя.",n===5);
 });
 
 /* ---------- 6. Парижский мир ---------- */
@@ -1292,18 +1292,18 @@ $("#t-check").addEventListener("click",()=>{
   const k=[["t1","1882"],["t2","1899"]];let n=0;
   k.forEach(([id,a])=>{const ok=val(id)===a;mark(id,ok);if(ok)n++});
   D.tcheck=n;save();
-  fb($("#t-fb"),n===2?"Всё верно! Телефон — 1882, электрический трамвай — 1899. Не путай трамвай с конкой.":"Верно "+n+" из 2. Подсказки: конка (вагон, который тянули лошади) появилась в 1872 году, первая телефонная станция в Москве — в 1882 году, первая линия электрического трамвая — в 1899 году.",n===2);
+  fb($("#t-fb"),n===2?"Всё верно. Телефон — 1882, электрический трамвай — 1899. Не путай трамвай с конкой.":"Верно "+n+" из 2. Подсказки: конка (вагон, который тянули лошади) появилась в 1872 году, первая телефонная станция в Москве — в 1882 году, первая линия электрического трамвая — в 1899 году.",n===2);
 });
 $("#t2-check").addEventListener("click",()=>{
   const a=digits(val("t4"))==="1899",b=digits(val("t5"))==="1918"||digits(val("t5"))==="1917";
   mark("t4",a);mark("t5",b);
-  if(a&&b) fb($("#t2-fb"),"Верно! Примерно между 1899 и 1918 годами — это правление Николая II. Нижнюю границу задаёт самая «молодая» деталь — трамвай.",true);
+  if(a&&b) fb($("#t2-fb"),"Верно. Примерно между 1899 и 1918 годами — это правление Николая II. Нижнюю границу задаёт самая «молодая» деталь — трамвай.",true);
   else if(!a) fb($("#t2-fb"),"Нижняя граница — год появления самой «молодой» детали на снимке. Какая из них появилась позже всех?",false);
-  else fb($("#t2-fb"),"Нижняя граница верна! А верхняя — год реформы орфографии.",false);
+  else fb($("#t2-fb"),"Нижняя граница верна. А верхняя — год реформы орфографии.",false);
 });
 $("#t6-check").addEventListener("click",()=>{
   const ok=val("t6")==="С. Ю. Витте";mark("t6",ok);D.witte=ok?"верно":"ошибка";save();
-  fb($("#t6-fb"),ok?"Верно! Сергей Юльевич Витте был министром финансов при Александре III и Николае II.":"Не совсем. Сперанский — начало XIX века, Горчаков — министр иностранных дел при Александре II, Столыпин — премьер-министр после 1906 года.",ok);
+  fb($("#t6-fb"),ok?"Верно. Сергей Юльевич Витте был министром финансов при Александре III и Николае II.":"Не совсем. Сперанский — начало XIX века, Горчаков — министр иностранных дел при Александре II, Столыпин — премьер-министр после 1906 года.",ok);
 });
 
 /* ---------- 8. Миф ---------- */
@@ -1318,7 +1318,7 @@ $("#myths").innerHTML=MY.map((m,i)=>'<div class="myth" id="m'+i+'"><span class="
 $$("#myths [data-m]").forEach(b=>b.addEventListener("click",()=>{
   const i=+b.dataset.m,m=MY[i],right=(b.dataset.a==="1")===m[1],box=$("#m"+i);
   $$("button",box).forEach(x=>x.classList.remove("ok","bad"));b.classList.add(right?"ok":"bad");
-  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно! ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
+  box.classList.add("done");const ex=$(".ex",box);ex.textContent=(right?"Верно. ":"Не совсем. ")+m[2];ex.className="ex fb "+(right?"good":"wrong");
   if(D["myth"+i]===undefined){D["myth"+i]=right?"верно":"ошибка";save()}
 }));
 
@@ -1347,7 +1347,7 @@ $("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-
 $("#h-check").addEventListener("click",()=>{
   const r=[[val("h1")==="П. С. Нахимов","1"],[val("h2")==="1856","2"],[val("h3")==="Александр II","3"],[val("h4")==="С. Ю. Витте","4"]];
   const n=r.filter(x=>x[0]).length;
-  fb($("#h-fb"),n===4?"Всё верно!":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
+  fb($("#h-fb"),n===4?"Всё верно":"Верно "+n+" из 4. Ещё раз посмотри вопросы: "+r.filter(x=>!x[0]).map(x=>x[1]).join(", ")+".",n===4);
 });
 
 /* ---------- Сброс ---------- */
