@@ -24,4 +24,11 @@ export function notebookPage(grade, config) {
 // Открытая демоверсия: главная и тетради как на сайте, ответы остаются только в браузере
 export const publicPages = new Map([['/', 'index.html'], ['/index.html', 'index.html'],
   ...notebooks.map(item => ['/' + item.file, item.file])]);
-export const publicPage = file => readFileSync(new URL(file, root), 'utf8');
+export function publicPage(file) {
+  const page = readFileSync(new URL(file, root), 'utf8');
+  if (file !== 'index.html') return page;
+  // На сервере ответы из выданных тетрадей приходят учителю, поэтому вместо совета копировать ответы — вход в кабинет
+  return page
+    .replace(/<p class="note">[\s\S]*?<\/p>/, '<p class="note"><a class="teacher" href="/tutor">Вход для учителя</a></p>')
+    .replace('</style>', '.teacher{color:var(--muted);text-underline-offset:3px}.teacher:hover{color:var(--cin)}</style>');
+}
