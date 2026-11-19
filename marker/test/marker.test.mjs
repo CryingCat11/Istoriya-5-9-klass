@@ -87,7 +87,7 @@ test('учитель выдаёт тетрадь, ученик пишет и с�
     const extraPath = extra.headers.get('location');
     const extraWork = await tutor('/tutor/new', { form: { student: extraPath.split('/').pop(), grade: '5', note: '' } });
     const extraWorkPath = extraWork.headers.get('location').split('?')[0];
-    assert.match(await (await tutor(extraPath + '/delete')).text(), /Удалить ученика\?[\s\S]*Тимур С\./);
+    assert.match(await (await tutor(extraPath + '/delete')).text(), /Тимур С\.[\s\S]*Удалить ученика\?/);
     assert.equal((await tutor(extraPath + '/delete', { form: {} })).headers.get('location'), '/tutor/students?removed=1');
     assert.equal((await tutor(extraPath)).status, 404);
     assert.equal((await tutor(extraWorkPath)).status, 404);
