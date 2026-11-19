@@ -3,16 +3,23 @@
   const m = window.MARKER;
   if (!m) return;
   const resetFlag = 'marker-reset-' + m.work;
+  // Ответы выданной тетради лежат под своим ключом, чтобы не смешиваться с открытой демоверсией и другими тетрадями
+  const realKey = 'marker-work-' + m.work;
+  const proto = Storage.prototype;
+  const getItem = proto.getItem;
+  const setItem = proto.setItem;
+  const removeItem = proto.removeItem;
+  const mapped = (storage, key) => (storage === window.localStorage && key === m.key ? realKey : key);
   let pendingReset = false;
   let resetting = false;
 
-  // Перед запуском тетради кладём в localStorage то, что сохранено на сервере
+  // Перед запуском тетради кладём в браузер то, что сохранено на сервере
   try {
     if (sessionStorage.getItem(resetFlag)) {
       pendingReset = true;
-      localStorage.removeItem(m.key);
-    } else if (m.state) localStorage.setItem(m.key, m.state);
-    else localStorage.removeItem(m.key);
+      removeItem.call(localStorage, realKey);
+    } else if (m.state) setItem.call(localStorage, realKey, m.state);
+    else removeItem.call(localStorage, realKey);
   } catch (e) {}
 
   let revision = m.revision;
@@ -22,15 +29,15 @@
   let again = false;
   let bar, statusText, button;
 
-  const proto = Storage.prototype;
-  const setItem = proto.setItem;
-  const removeItem = proto.removeItem;
+  proto.getItem = function (key) {
+    return getItem.call(this, mapped(this, key));
+  };
   proto.setItem = function (key, value) {
-    setItem.call(this, key, value);
+    setItem.call(this, mapped(this, key), value);
     if (this === window.localStorage && key === m.key) schedule();
   };
   proto.removeItem = function (key) {
-    removeItem.call(this, key);
+    removeItem.call(this, mapped(this, key));
     if (this === window.localStorage && key === m.key && document.readyState !== 'loading') {
       // Учитель стёр тетрадь: если страница сейчас перезагрузится, пустая тетрадь уйдёт на сервер уже после загрузки
       resetting = true;
@@ -86,7 +93,7 @@
     busy = true;
     try {
       let state = '';
-      try { state = localStorage.getItem(m.key) || ''; } catch (e) {}
+      try { state = getItem.call(localStorage, realKey) || ''; } catch (e) {}
       const { ok, result } = await post('save', { revision, state, report: report() }, keepalive);
       if (ok) {
         revision = result.revision;

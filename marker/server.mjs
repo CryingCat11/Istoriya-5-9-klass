@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openDatabase, dataAccess } from './lib/database.mjs';
-import { byGrade, notebookPage } from './lib/notebooks.mjs';
+import { byGrade, notebookPage, publicPages, publicPage } from './lib/notebooks.mjs';
 import * as ui from './lib/views.mjs';
 
 process.umask(0o077);
@@ -234,7 +234,10 @@ const server = createServer(async (request, response) => {
     const asset = assets.get(path);
     if (asset && !isPost) return response.writeHead(200, { 'Content-Type': asset[0], 'Cache-Control': 'no-cache' }).end(asset[1]);
     const jar = cookies(request);
-    if (path === '/' && !isPost) return redirect(response, '/tutor');
+    if (!isPost && publicPages.has(path)) {
+      response.setHeader('Content-Security-Policy', notebookPolicy);
+      return html(response, publicPage(publicPages.get(path)));
+    }
     if (path === '/tutor' || path.startsWith('/tutor/')) {
       const loggedIn = equal(sessionId('tutor', jar.get('marker_tutor')), tutorId);
       return await tutor(request, response, path, search, isPost, loggedIn);

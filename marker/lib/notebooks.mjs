@@ -20,3 +20,8 @@ export function notebookPage(grade, config) {
     '<link rel="stylesheet" href="/assets/sync.css">';
   return source.replace(/<head>/i, match => match + inject);
 }
+
+// Открытая демоверсия: главная и тетради как на сайте, ответы остаются только в браузере
+export const publicPages = new Map([['/', 'index.html'], ['/index.html', 'index.html'],
+  ...notebooks.map(item => ['/' + item.file, item.file])]);
+export const publicPage = file => readFileSync(new URL(file, root), 'utf8');

@@ -45,6 +45,16 @@ test('учитель выдаёт тетрадь, ученик пишет и с�
   const origin = 'http://127.0.0.1:' + port;
   let server = await start(port);
   try {
+    const visitor = client(origin);
+    const home = await visitor('/');
+    assert.equal(home.status, 200);
+    assert.match(await home.text(), /Тетради по истории/);
+    const demo = await (await visitor('/9-klass.html')).text();
+    assert.match(demo, /Кадры одного века/);
+    assert.doesNotMatch(demo, /MARKER/);
+    assert.equal((await visitor('/README.md')).status, 404);
+    assert.equal((await visitor('/marker/server.mjs')).status, 404);
+
     const tutor = client(origin);
     assert.equal((await tutor('/tutor/login', { form: { code: 'wrong-code' } })).status, 401);
     assert.equal((await tutor('/tutor/login', { form: { code } })).status, 303);
