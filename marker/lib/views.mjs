@@ -70,7 +70,7 @@ export function studentList(students, error = '', value = '', removed = false) {
       <span class="what"><b>${h(student.name)}</b></span><span class="meta">Личная ссылка и работы</span></a></li>`).join('')}</ul>`
     : '<p class="muted">Учеников пока нет.</p>';
   return page('Ученики', `<section class="sheet"><h1>Ученики</h1>
-    ${removed ? '<p class="ok">Ученик удалён вместе с его тетрадями.</p>' : ''}${list}
+    ${removed ? '<p class="ok" data-flash>Ученик удалён вместе с его тетрадями.</p>' : ''}${list}
     <form method="post" action="/tutor/students" class="inline">
       <label>Новый ученик<input name="name" maxlength="80" value="${h(value)}" placeholder="Имя и первая буква фамилии" required></label>
       <button class="btn">Добавить</button>
@@ -85,7 +85,7 @@ function copyField(link, label) {
 export function studentDetail(student, works, link, renewed) {
   return page(student.name, `<section class="sheet">
     <p class="kicker"><a href="/tutor/students">Ученики</a></p><h1>${h(student.name)}</h1>
-    ${renewed ? '<p class="ok">Ссылка заменена. Старые ссылки и входы этого ученика больше не работают, ответы сохранены.</p>' : ''}
+    ${renewed ? '<p class="ok" data-flash>Ссылка заменена. Старые ссылки и входы этого ученика больше не работают, ответы сохранены.</p>' : ''}
     ${copyField(link, 'Личная ссылка: по ней ученик видит все свои тетради')}
     <div class="head"><h2>Тетради</h2><a class="btn" href="/tutor/new?student=${student.id}">Выдать тетрадь</a></div>
     ${works.length ? `<ul class="list">${works.map(work => workRow(work, false)).join('')}</ul>` : '<p class="muted">Тетрадей пока нет.</p>'}
@@ -150,7 +150,7 @@ export function tutorWork(work, link, created) {
     <p class="kicker"><a href="/tutor">Работы</a></p>
     <h1>${h(work.name)}</h1>
     <p class="sub">${h(notebookName(work.grade))}</p>
-    ${created ? '<p class="ok">Тетрадь выдана. Отправь ученику ссылку ниже.</p>' : ''}
+    ${created ? '<p class="ok" data-flash>Тетрадь выдана. Отправь ученику ссылку ниже.</p>' : ''}
     ${copyField(link, 'Ссылка на эту тетрадь для ученика')}
     ${work.note ? `<blockquote class="note">${h(work.note)}</blockquote>` : ''}
     <div class="head"><h2>Ответы</h2><p class="state"><span class="dot ${s.code}" data-dot></span><span data-status>${h(s.label)}</span></p></div>

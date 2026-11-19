@@ -39,3 +39,15 @@ if (live) {
   setInterval(refresh, 5000);
   document.addEventListener('visibilitychange', refresh);
 }
+
+// Уведомления вроде «Ученик удалён» показываются один раз: адрес очищается, а через 5 секунд надпись исчезает
+const flashes = document.querySelectorAll('[data-flash]');
+if (flashes.length) {
+  const url = new URL(location.href);
+  ['removed', 'created', 'link'].forEach(key => url.searchParams.delete(key));
+  history.replaceState(null, '', url.pathname + url.search + url.hash);
+  setTimeout(() => flashes.forEach(el => {
+    el.classList.add('gone');
+    setTimeout(() => el.remove(), 400);
+  }), 5000);
+}
