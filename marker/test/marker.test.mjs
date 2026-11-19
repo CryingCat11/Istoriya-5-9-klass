@@ -49,8 +49,8 @@ test('учитель выдаёт тетрадь, ученик пишет и с�
     const home = await visitor('/');
     assert.equal(home.status, 200);
     const homeText = await home.text();
-    assert.match(homeText, /Тетради по истории/);
-    assert.match(homeText, /href="\/tutor">Вход для учителя/);
+    assert.match(homeText, /Пройди вводный урок бесплатно/);
+    assert.match(homeText, /Вход для учителя/);
     assert.doesNotMatch(homeText, /Ответы сохраняются только/);
     const demo = await (await visitor('/9-klass.html')).text();
     assert.match(demo, /Кадры одного века/);

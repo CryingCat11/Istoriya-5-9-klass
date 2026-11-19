@@ -1,37 +1,375 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Тетради по истории</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Миша · уроки истории для 5–9 классов</title>
+<meta name="description" content="Репетитор по истории для 5–9 классов, онлайн. Пройди вводный урок бесплатно.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Unbounded:wght@500;600&family=Ruslan+Display&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#efe9de;--sheet:#fffdf8;--ink:#241d18;--muted:#675c52;--cin:#a1301f;--line:#d9cfbf}
+:root{--paper:#efe9de;--sheet:#fffdf8;--ink:#241d18;--muted:#675c52;--line:rgba(36,29,24,.12);--cin:#a1301f;--folder:#e3c993;--folder-d:#d2b47a;--folder-l:#efdcb3}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Rubik",system-ui,sans-serif;font-size:18px;line-height:1.5}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 "Rubik",system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 header{background:var(--ink);color:var(--sheet);background-image:repeating-linear-gradient(90deg,transparent 0 52px,rgba(255,255,255,.05) 52px 56px,transparent 56px 112px)}
-header div{max-width:860px;margin:0 auto;padding:22px 16px}
-h1{font-family:"Unbounded","Rubik",sans-serif;font-weight:600;font-size:clamp(24px,4vw,34px);margin:0}
-main{max-width:860px;margin:0 auto;padding:24px 16px 48px;display:grid;gap:14px}
-a.card{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:inherit;text-decoration:none}
-a.card:hover{border-color:var(--cin);box-shadow:0 0 0 3px #f5ddd5}
-.num{font-family:"Unbounded","Rubik",sans-serif;font-weight:600;font-size:30px;color:var(--cin);text-align:center}
-.t{font-weight:600;font-size:19px}
-.s{font-size:15px;color:var(--muted)}
-p.note{font-size:15px;color:var(--muted);margin:8px 0 0}
-</style>
-</head>
+header .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.brand{font-family:"Ruslan Display",serif;font-size:22px;color:#f1d3a8;text-decoration:none;margin-right:auto}
+header nav{display:flex;gap:4px}
+header nav a{text-decoration:none;font-size:15px;padding:6px 12px;border-radius:8px;color:#e6ddd1}
+header nav a.cta{background:var(--sheet);color:var(--ink);font-weight:500}
+
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding:64px 0 72px}
+.kicker{font-size:15px;color:var(--cin);font-weight:500;margin:0 0 16px}
+h1{font-family:"Unbounded",sans-serif;font-weight:600;font-size:46px;line-height:1.12;letter-spacing:-.01em;margin:0 0 20px}
+.lead{font-size:19px;color:var(--muted);margin:0 0 28px;max-width:30em}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;font:inherit;font-weight:500;font-size:16px;text-decoration:none;border-radius:10px;padding:13px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--sheet)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:rgba(36,29,24,.25)}
+.btn:hover{background:#3a302a}
+.btn.ghost:hover{background:rgba(36,29,24,.05)}
+.facts{display:flex;gap:28px;margin:36px 0 0;padding:20px 0 0;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+.facts b{display:block;color:var(--ink);font-weight:500;font-size:17px}
+
+/* Папка с вводными уроками */
+.folder-title{font-family:"Unbounded",sans-serif;font-weight:500;font-size:20px;line-height:1.3;margin:0 0 14px 4px}
+.folder{position:relative}
+.tabs{display:flex;gap:6px;padding-left:18px;position:relative;z-index:2}
+.tab{width:64px;height:40px;border-radius:12px 12px 0 0;background:var(--folder-d);display:grid;place-items:center;font-family:"Unbounded",sans-serif;font-weight:600;font-size:17px;color:rgba(36,29,24,.55);margin-bottom:-1px}
+.tab{border:0;font:inherit;font-family:"Unbounded",sans-serif;font-weight:600;cursor:pointer;padding:0}
+.tab:hover{background:#dcc085;color:var(--ink)}
+.tab:focus-visible,.btn:focus-visible,a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.pic{display:block}
+.lesson[hidden]{display:none}
+h2.folder-title{font-size:20px;margin:0 0 14px 4px;scroll-margin-top:16px}
+.tab.on{background:var(--folder);color:var(--ink);height:46px;margin-top:-6px}
+.body{position:relative;background:var(--folder);border-radius:4px 18px 18px 18px;padding:22px;box-shadow:0 1px 0 var(--folder-d) inset,0 18px 40px -18px rgba(36,29,24,.35)}
+.paper{background:var(--sheet);border-radius:12px;padding:18px;box-shadow:0 1px 2px rgba(36,29,24,.12);position:relative;z-index:2}
+.paper svg{display:block;width:100%;height:auto;border-radius:8px}
+.pmeta{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:16px}
+.pmeta .btn{white-space:nowrap}
+.pmeta .t{font-family:"Unbounded",sans-serif;font-weight:500;font-size:20px;line-height:1.25}
+.pmeta .s{color:var(--muted);font-size:15px;margin-top:4px}
+.free{position:absolute;right:-10px;top:-18px;z-index:3;background:var(--cin);color:#fff;font-weight:500;font-size:14px;padding:6px 12px;border-radius:8px;transform:rotate(3deg)}
+
+section.block{padding:72px 0;border-top:1px solid var(--line)}
+h2{font-family:"Unbounded",sans-serif;font-weight:500;font-size:30px;line-height:1.2;margin:0 0 32px;scroll-margin-top:16px}
+section.block{scroll-margin-top:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:24px}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--sheet);display:grid;place-items:center;font-weight:500;font-size:15px;margin-bottom:16px}
+.step h3{font-size:19px;font-weight:500;margin:0 0 8px}
+.step p{margin:0;color:var(--muted);font-size:16px}
+
+.split{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.oge{background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:12px}
+.q{border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;display:flex;gap:10px;align-items:center}
+.q .num{font-variant-numeric:tabular-nums;color:var(--muted);width:22px}
+.q.ok{border-color:#3f6b3a;background:#f1f6ee}
+.q.ok .num{color:#3f6b3a}
+.split p{color:var(--muted);margin:0 0 24px}
+
+.contact{background:var(--ink);color:var(--sheet);border-radius:20px;padding:44px;display:flex;justify-content:space-between;align-items:center;gap:24px;background-image:repeating-linear-gradient(90deg,transparent 0 52px,rgba(255,255,255,.04) 52px 56px,transparent 56px 112px)}
+.contact h2{margin:0 0 8px;color:#fff}
+.contact p{margin:0;color:#d8cdbf}
+.contact .btn{background:var(--sheet);color:var(--ink);border-color:var(--sheet)}
+.contact .btn:hover{background:#f1d3a8}
+header nav a:hover{background:rgba(255,253,248,.1)}
+header nav a.cta:hover{background:#f1d3a8}
+footer{padding:28px 0 40px;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between}
+footer a{text-underline-offset:3px}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  header nav a:not(.cta){display:none}
+  .brand{font-size:19px}
+  .hero{grid-template-columns:1fr;gap:40px;padding:36px 0 48px}
+  h1{font-size:32px}
+  .lead{font-size:17px}
+  .facts{gap:18px;flex-wrap:wrap}
+  .tab{width:52px;height:36px;font-size:15px}
+  .tab.on{height:42px}
+  .body{padding:14px}
+  .paper{padding:12px}
+  .pmeta{flex-direction:column;align-items:stretch}
+  .pmeta .btn{text-align:center}
+  .free{top:28px;right:20px}
+  .facts{display:none}
+  section.block{padding:48px 0}
+  h2{font-size:24px;margin-bottom:22px}
+  .steps,.split{grid-template-columns:1fr}
+  .contact{flex-direction:column;align-items:flex-start;padding:28px}
+  footer .wrap{flex-direction:column;gap:8px}
+}
+</style></head>
 <body>
-<header><div><h1>Тетради по истории</h1></div></header>
-<main>
-  <a class="card" href="5-klass.html"><span class="num">5</span><span><span class="t">«Тайна иероглифов»</span><br><span class="s">Вводное занятие, 5 класс</span></span></a>
-  <a class="card" href="6-klass.html"><span class="num">6</span><span><span class="t">«Письма из-под земли»</span><br><span class="s">Вводное занятие, 6 класс</span></span></a>
-  <a class="card" href="7-klass.html"><span class="num">7</span><span><span class="t">«Тайна первопечатника»</span><br><span class="s">Вводное занятие, 7 класс</span></span></a>
-  <a class="card" href="8-klass.html"><span class="num">8</span><span><span class="t">«Который год?»</span><br><span class="s">Вводное занятие, 8 класс</span></span></a>
-  <a class="card" href="9-klass.html"><span class="num">9</span><span><span class="t">«Кадры одного века»</span><br><span class="s">Вводное занятие, 9 класс</span></span></a>
-  <p class="note">Ответы сохраняются только в браузере ученика. В конце занятия нажми «Скопировать все ответы для учителя» и отправь их учителю.</p>
+<header><div class="wrap">
+  <a class="brand" href="./">Миша · история</a>
+  <nav><a href="#lessons">Вводный урок</a><a href="#how">Как занимаемся</a><a class="cta" href="https://t.me/Crying_Cat11">Записаться</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="kicker">Репетитор по истории · 5–9 классы · онлайн</p>
+      <h1>Историю можно понимать, а не зубрить</h1>
+      <p class="lead">Разбираем эпохи по документам, картам и картинкам. Каждое занятие — интерактивная тетрадь: ученик отвечает, учитель сразу видит ответы и разбирает ошибки.</p>
+      <div class="actions"><a class="btn" href="#lessons">Пройти вводный урок</a><a class="btn ghost" href="https://t.me/Crying_Cat11">Записаться на занятие</a></div>
+      <div class="facts"><span><b>5–9 классы</b>школьная программа</span><span><b>ОГЭ</b>задания по демоверсии ФИПИ</span><span><b>Онлайн</b>с телефона или компьютера</span></div>
+    </div>
+
+    <div>
+      <h2 class="folder-title" id="lessons">Пройди вводный урок бесплатно уже сейчас</h2>
+      <div class="folder">
+        <div class="tabs" role="tablist" aria-label="Выбери свой класс"><button class="tab" role="tab" id="tab-5" aria-controls="lesson" aria-selected="false" data-grade="5"><span class="sr">Класс </span>5</button><button class="tab" role="tab" id="tab-6" aria-controls="lesson" aria-selected="false" data-grade="6"><span class="sr">Класс </span>6</button><button class="tab" role="tab" id="tab-7" aria-controls="lesson" aria-selected="false" data-grade="7"><span class="sr">Класс </span>7</button><button class="tab" role="tab" id="tab-8" aria-controls="lesson" aria-selected="false" data-grade="8"><span class="sr">Класс </span>8</button><button class="tab on" role="tab" id="tab-9" aria-controls="lesson" aria-selected="true" data-grade="9"><span class="sr">Класс </span>9</button></div>
+        <div class="body" role="tabpanel" id="lesson" aria-labelledby="tab-9">
+          <span class="free">Бесплатно</span>
+          <div class="paper">
+            <div class="lesson" data-grade="5" hidden>
+              <a class="pic" href="5-klass.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 170" role="img" aria-label="Строительство пирамиды: рабочие тянут каменный блок по насыпи, вдали готовая пирамида, на Ниле лодка"><defs><linearGradient id="g5-sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d796"/><stop offset="1" stop-color="#fbeccb"/></linearGradient></defs><rect width="300" height="170" fill="url(#g5-sk2)"/><circle cx="258" cy="30" r="15" fill="#f0b23c"/><circle cx="258" cy="30" r="21" fill="#f0b23c" opacity=".2"/><path d="M18 116 L52 74 L86 116 Z" fill="#e2c486"/><path d="M52 74 L86 116 L66 116 Z" fill="#cfae6c"/><path d="M0 114 Q150 106 300 114 V140 H0 Z" fill="#e8cc8e"/><path d="M150 128 L201.2 64 L218.8 64 L270 128 Z" fill="#dcbc78"/><path d="M210.0 64 L218.8 64 L270 128 L224.0 128 Z" fill="#c9a660"/><path d="M156.4 120 L263.6 120" stroke="#b8954f" stroke-width=".8"/><path d="M162.8 112 L257.2 112" stroke="#b8954f" stroke-width=".8"/><path d="M169.2 104 L250.8 104" stroke="#b8954f" stroke-width=".8"/><path d="M175.6 96 L244.4 96" stroke="#b8954f" stroke-width=".8"/><path d="M182.0 88 L238.0 88" stroke="#b8954f" stroke-width=".8"/><path d="M188.4 80 L231.6 80" stroke="#b8954f" stroke-width=".8"/><path d="M194.8 72 L225.2 72" stroke="#b8954f" stroke-width=".8"/><path d="M201.2 64 L218.8 64" stroke="#b8954f" stroke-width="1.2"/><rect x="205.0" y="58" width="10" height="6" fill="#e6cf98" stroke="#a78445" stroke-width=".8"/><path d="M40 128 L183.6 86 L189.6 89 L189.6 128 Z" fill="#b98f55"/><path d="M40 128 L183.6 86" stroke="#9c7440" stroke-width="2"/><g transform="translate(100.3 110.4) rotate(-16.30)"><rect x="-13" y="-2.5" width="26" height="2.5" fill="#6e4a28"/><rect x="-10" y="-15" width="20" height="12.5" fill="#e6cf98" stroke="#a78445" stroke-width="1"/></g><path d="M107.5 100.3 L151.1 78.1" stroke="#5a3d22" stroke-width="1.1"/><g transform="translate(123.3 103.6) scale(0.62) rotate(14)"><path d="M-3 0 L-2 -12 M3 0 L2 -12" stroke="#8a5a3a" stroke-width="2.6" stroke-linecap="round"/><path d="M-5 -10 L5 -10 L4 -17 L-4 -17 Z" fill="#f4efe2"/><path d="M-4 -17 L4 -17 L3.5 -27 L-3.5 -27 Z" fill="#8a5a3a"/><circle cx="0" cy="-31.5" r="4.6" fill="#8a5a3a"/></g><g transform="translate(136.2 99.9) scale(0.62) rotate(14)"><path d="M-3 0 L-2 -12 M3 0 L2 -12" stroke="#8a5a3a" stroke-width="2.6" stroke-linecap="round"/><path d="M-5 -10 L5 -10 L4 -17 L-4 -17 Z" fill="#f4efe2"/><path d="M-4 -17 L4 -17 L3.5 -27 L-3.5 -27 Z" fill="#8a5a3a"/><circle cx="0" cy="-31.5" r="4.6" fill="#8a5a3a"/></g><g transform="translate(149.1 96.1) scale(0.62) rotate(14)"><path d="M-3 0 L-2 -12 M3 0 L2 -12" stroke="#8a5a3a" stroke-width="2.6" stroke-linecap="round"/><path d="M-5 -10 L5 -10 L4 -17 L-4 -17 Z" fill="#f4efe2"/><path d="M-4 -17 L4 -17 L3.5 -27 L-3.5 -27 Z" fill="#8a5a3a"/><circle cx="0" cy="-31.5" r="4.6" fill="#8a5a3a"/></g><g transform="translate(30 128) scale(0.62) rotate(0)"><path d="M-3 0 L-2 -12 M3 0 L2 -12" stroke="#8a5a3a" stroke-width="2.6" stroke-linecap="round"/><path d="M-5 -10 L5 -10 L4 -17 L-4 -17 Z" fill="#f4efe2"/><path d="M-4 -17 L4 -17 L3.5 -27 L-3.5 -27 Z" fill="#8a5a3a"/><circle cx="0" cy="-31.5" r="4.6" fill="#8a5a3a"/></g><path d="M34 128 L36 106" stroke="#5a3d22" stroke-width="1.4"/><path d="M132 140 Q135 129.0 133 118" stroke="#8a6a3a" stroke-width="3" fill="none"/><path d="M133.0 118.0 Q124.3 113.8 118.0 112.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M133.0 118.0 Q126.9 110.3 124.0 107.3" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M133.0 118.0 Q131.1 108.7 132.0 106.0" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M133.0 118.0 Q136.0 107.9 141.0 106.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M133.0 118.0 Q140.5 110.3 148.0 112.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M133.0 118.0 Q126.4 115.2 121.2 115.9" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M284 140 Q281 127.0 283 114" stroke="#8a6a3a" stroke-width="3" fill="none"/><path d="M283.0 114.0 Q274.3 109.8 268.0 108.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M283.0 114.0 Q276.9 106.3 274.0 103.3" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M283.0 114.0 Q281.1 104.7 282.0 102.0" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M283.0 114.0 Q286.0 103.9 291.0 102.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M283.0 114.0 Q290.5 106.3 298.0 108.5" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M283.0 114.0 Q276.4 111.2 271.2 111.9" stroke="#4f7a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/><rect y="138" width="300" height="32" fill="#3f7fb4"/><path d="M0 144 Q40 141 80 144 T160 144 T240 144 T300 143" stroke="#7fb5da" stroke-width="1.5" fill="none"/><path d="M6 150 L6 132" stroke="#4f7a3a" stroke-width="1.5"/><path d="M2 130 L6 134 L10 130 Z" fill="#6a9a4a"/><path d="M12 150 L12 132" stroke="#4f7a3a" stroke-width="1.5"/><path d="M8 130 L12 134 L16 130 Z" fill="#6a9a4a"/><path d="M18 150 L18 132" stroke="#4f7a3a" stroke-width="1.5"/><path d="M14 130 L18 134 L22 130 Z" fill="#6a9a4a"/><path d="M292 150 L292 132" stroke="#4f7a3a" stroke-width="1.5"/><path d="M288 130 L292 134 L296 130 Z" fill="#6a9a4a"/><path d="M164 149 L216 149 Q208 160 190 160 Q172 160 164 149 Z" fill="#7a5230"/><path d="M164 149 L216 149" stroke="#5a3a20" stroke-width="1.2"/><path d="M190 150 L190 126" stroke="#5a3a20" stroke-width="1.6"/><path d="M191 128 L207 130 L205 147 L191 147 Z" fill="#f4efe2" stroke="#d8cdb4" stroke-width=".8"/></svg></a>
+              <div class="pmeta">
+                <div><div class="t">«Тайна иероглифов»</div><div class="s">5 класс · расшифруй египетские иероглифы, как Шампольон · без регистрации</div></div>
+                <a class="btn" href="5-klass.html">Начать урок</a>
+              </div>
+            </div>
+            <div class="lesson" data-grade="6" hidden>
+              <a class="pic" href="6-klass.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 170" role="img" aria-label="Новгород XIII века: торг с лавками и избами, Софийский собор за деревянной стеной, ладья на Волхове">
+        <defs>
+          <linearGradient id="g6-nvSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdeea"/><stop offset="1" stop-color="#eef2f2"/></linearGradient>
+          <linearGradient id="g6-nvRiver" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f97b8"/><stop offset="1" stop-color="#4f7aa0"/></linearGradient>
+          <pattern id="g6-nvLogs" width="6" height="4" patternUnits="userSpaceOnUse"><rect width="6" height="4" fill="#a3764a"/><path d="M0 3.6H6" stroke="#7a5432" stroke-width="0.8"/></pattern>
+          <pattern id="g6-nvLogs2" width="6" height="4" patternUnits="userSpaceOnUse"><rect width="6" height="4" fill="#b78a5a"/><path d="M0 3.6H6" stroke="#8a6238" stroke-width="0.8"/></pattern>
+          <pattern id="g6-nvStake" width="4" height="20" patternUnits="userSpaceOnUse"><rect width="4" height="20" fill="#8c6440"/><path d="M3.6 0V20" stroke="#6a4a2c" stroke-width="0.8"/></pattern>
+        </defs>
+        <rect width="300" height="170" fill="url(#g6-nvSky)"/>
+        <!-- дальний лес -->
+        <path d="M0 98 Q12 90 24 96 Q36 88 50 95 Q64 87 78 94 Q92 88 106 95 Q120 89 134 95 L134 112 L0 112 Z" fill="#9db29a"/>
+        <path d="M226 96 Q240 89 254 95 Q268 88 282 94 Q292 90 300 93 L300 112 L226 112 Z" fill="#9db29a"/>
+        <!-- Софийский собор -->
+        <g>
+          <rect x="150" y="72" width="66" height="40" fill="#f5f0e4"/>
+          <rect x="196" y="72" width="20" height="40" fill="#e3dccb"/>
+          <path d="M150 72 a11 9 0 0 1 22 0 a11 9 0 0 1 22 0 a11 9 0 0 1 22 0 Z" fill="#f5f0e4" stroke="#d8d0bd" stroke-width="0.8"/>
+          <g fill="#c9c0aa"><rect x="158" y="84" width="3" height="8" rx="1.5"/><rect x="170" y="84" width="3" height="8" rx="1.5"/><rect x="182" y="84" width="3" height="8" rx="1.5"/><rect x="203" y="84" width="3" height="8" rx="1.5"/></g>
+          <!-- барабаны и шлемовидные главы -->
+          <rect x="158" y="58" width="9" height="13" fill="#ece5d4"/>
+          <path d="M156.5 59 Q156.5 50 162.5 45 Q168.5 50 168.5 59 Z" fill="#7f8790"/>
+          <rect x="199" y="58" width="9" height="13" fill="#e0d8c5"/>
+          <path d="M197.5 59 Q197.5 50 203.5 45 Q209.5 50 209.5 59 Z" fill="#7f8790"/>
+          <rect x="177" y="48" width="12" height="22" fill="#f1ebdc"/>
+          <g fill="#c9c0aa"><rect x="180" y="53" width="2" height="7" rx="1"/><rect x="184.5" y="53" width="2" height="7" rx="1"/></g>
+          <path d="M175 49 Q175 37 183 30 Q191 37 191 49 Z" fill="#d6a93a"/>
+          <path d="M183 30 V21 M180 24 H186" stroke="#9c7a24" stroke-width="1.2"/>
+          <path d="M162.5 45 V39 M160.5 41.5 H164.5 M203.5 45 V39 M201.5 41.5 H205.5" stroke="#5c636b" stroke-width="1"/>
+        </g>
+        <!-- деревянная стена детинца с башней -->
+        <rect x="138" y="96" width="96" height="18" fill="url(#g6-nvStake)"/>
+        <path d="M138 96 L140.0 93 L142 96 L144.0 93 L146 96 L148.0 93 L150 96 L152.0 93 L154 96 L156.0 93 L158 96 L160.0 93 L162 96 L164.0 93 L166 96 L168.0 93 L170 96 L172.0 93 L174 96 L176.0 93 L178 96 L180.0 93 L182 96 L184.0 93 L186 96 L188.0 93 L190 96 L192.0 93 L194 96 L196.0 93 L198 96 L200.0 93 L202 96 L204.0 93 L206 96 L208.0 93 L210 96 L212.0 93 L214 96 L216.0 93 L218 96 L220.0 93 L222 96 L224.0 93 L226 96 L228.0 93 L230 96 L232.0 93 L234 96 Z" fill="#8c6440"/>
+        <rect x="226" y="80" width="18" height="34" fill="url(#g6-nvLogs)"/>
+        <path d="M223 81 L235 68 L247 81 Z" fill="#5e3f24"/>
+        <rect x="232" y="88" width="5" height="6" fill="#3d2814"/>
+        <!-- торг: избы и лавки -->
+        <rect x="8" y="88" width="34" height="26" fill="url(#g6-nvLogs)"/>
+        <path d="M4 89 L25 72 L46 89 Z" fill="#6b4626"/>
+        <path d="M25 72 L25 70" stroke="#4a2f18" stroke-width="2"/>
+        <rect x="20" y="97" width="9" height="8" fill="#3d2814"/><rect x="21" y="98" width="7" height="6" fill="#e9c97a" opacity=".55"/>
+        <rect x="48" y="94" width="26" height="20" fill="url(#g6-nvLogs2)"/>
+        <path d="M45 95 L61 82 L77 95 Z" fill="#7a5230"/>
+        <rect x="57" y="101" width="7" height="6" fill="#3d2814"/>
+        <rect x="100" y="90" width="32" height="24" fill="url(#g6-nvLogs)"/>
+        <path d="M96 91 L116 75 L136 91 Z" fill="#6b4626"/>
+        <rect x="111" y="98" width="9" height="16" fill="#4a3018"/>
+        <!-- лавки с навесами -->
+        <g>
+          <rect x="76" y="103" width="22" height="11" fill="#9a7048"/>
+          <path d="M74 103 L100 103 L97 97 L77 97 Z" fill="#b0392a"/>
+          <path d="M80 97 L79 103 M86 97 L86 103 M92 97 L93 103" stroke="#f3e6cf" stroke-width="2"/>
+          <circle cx="81" cy="101" r="1.8" fill="#d6a93a"/><circle cx="86" cy="101" r="1.8" fill="#c86a3a"/><circle cx="91" cy="101" r="1.8" fill="#8aa05a"/>
+        </g>
+        <!-- люди на торгу -->
+        <g>
+          <circle cx="44" cy="106" r="2.3" fill="#e7c3a0"/><path d="M41 109 h6 l1 7 h-8 Z" fill="#3f6b8a"/>
+          <circle cx="84" cy="111" r="2.3" fill="#e7c3a0"/><path d="M81 114 h6 l1 7 h-8 Z" fill="#a8452c"/>
+          <circle cx="139" cy="110" r="2.3" fill="#e7c3a0"/><path d="M136 113 h6 l1 7 h-8 Z" fill="#6c7a3c"/><path d="M135 113 h-2 v6" stroke="#6b4626" stroke-width="1.2" fill="none"/>
+        </g>
+        <!-- берег с деревянной мостовой -->
+        <rect x="0" y="114" width="300" height="10" fill="#8b6a46"/>
+        <g stroke="#6e5234" stroke-width="0.8"><path d="M6 114v10M14 114v10M22 114v10M30 114v10M38 114v10M46 114v10M54 114v10M62 114v10M70 114v10M78 114v10M86 114v10M94 114v10M102 114v10M110 114v10M118 114v10M126 114v10M134 114v10M142 114v10M150 114v10M158 114v10M166 114v10M174 114v10M182 114v10M190 114v10M198 114v10M206 114v10M214 114v10M222 114v10M230 114v10M238 114v10M246 114v10M254 114v10M262 114v10M270 114v10M278 114v10M286 114v10M294 114v10"/></g>
+        <!-- Волхов -->
+        <rect x="0" y="124" width="300" height="46" fill="url(#g6-nvRiver)"/>
+        <g stroke="#9fbfd8" stroke-width="1" fill="none" opacity=".8"><path d="M20 138 q6 -3 12 0 t12 0"/><path d="M200 134 q6 -3 12 0 t12 0"/><path d="M240 156 q6 -3 12 0 t12 0"/><path d="M120 160 q6 -3 12 0 t12 0"/></g>
+        <!-- ладья -->
+        <g>
+          <path d="M44 149 Q78 160 120 149 L116 154 Q80 163 48 154 Z" fill="#5a3a1e"/>
+          <path d="M42 150 l-5 -6 M122 149 l5 -6" stroke="#5a3a1e" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M82 150 V120" stroke="#4a2f18" stroke-width="2"/>
+          <path d="M70 123 H94" stroke="#4a2f18" stroke-width="1.6"/>
+          <path d="M71 124 H93 L91 145 H73 Z" fill="#efe3c8"/>
+          <path d="M71 131 H93 M72 138 H92" stroke="#b0392a" stroke-width="2.2"/>
+          <g stroke="#6e4a28" stroke-width="1.2"><path d="M60 154 l-6 8M72 156 l-5 8M96 156 l5 8M108 154 l6 8"/></g>
+        </g>
+      </svg></a>
+              <div class="pmeta">
+                <div><div class="t">«Письма из-под земли»</div><div class="s">6 класс · прочитай берестяную грамоту и тетрадки мальчика Онфима · без регистрации</div></div>
+                <a class="btn" href="6-klass.html">Начать урок</a>
+              </div>
+            </div>
+            <div class="lesson" data-grade="7" hidden>
+              <a class="pic" href="7-klass.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 170" role="img" aria-label="Парусный корабль с прямыми парусами и красными крестами в открытом океане">
+        <rect width="300" height="170" fill="#e3eef3"/>
+        <circle cx="258" cy="34" r="16" fill="#efc163"/>
+        <path d="M40 30 q6 -5 12 0 q6 -5 12 0 M210 50 q5 -4 10 0 q5 -4 10 0" stroke="#5b6b78" stroke-width="2" fill="none"/>
+        <rect y="122" width="300" height="48" fill="#3f7fb0"/>
+        <path d="M150 20 V118 M106 36 V118 M200 52 V118" stroke="#5a3b1e" stroke-width="4"/>
+        <path d="M206 64 L238 104 L206 104 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M84 46 h44 q6 18 0 36 h-44 q-6 -18 0 -36 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M126 28 h48 q6 20 0 40 h-48 q-6 -20 0 -40 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M130 74 h40 q5 16 0 30 h-40 q-5 -16 0 -30 Z" fill="#fffaf0" stroke="#c9bfa8" stroke-width="1.5"/>
+        <path d="M150 36 v24 M140 48 h20" stroke="#b3261e" stroke-width="5"/>
+        <path d="M106 54 v20 M98 64 h16" stroke="#b3261e" stroke-width="4"/>
+        <path d="M150 20 l16 5 l-16 5 Z" fill="#b3261e"/>
+        <path d="M52 106 L66 104 L238 104 L256 96 L246 124 Q150 136 64 124 Z" fill="#7a5230"/>
+        <path d="M50 106 L46 88 L88 88 L88 104 Z" fill="#6e4a28"/><path d="M46 88 H88" stroke="#4a3018" stroke-width="3"/>
+        <path d="M60 116 H244" stroke="#5a3b1e" stroke-width="2"/>
+        <g fill="#3a2a18"><circle cx="100" cy="112" r="2.5"/><circle cx="130" cy="112" r="2.5"/><circle cx="160" cy="112" r="2.5"/><circle cx="190" cy="112" r="2.5"/></g>
+        <path d="M0 132 q20 -7 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#d6e8f4" stroke-width="3" fill="none"/>
+        <path d="M0 150 q25 -6 50 0 t50 0 t50 0 t50 0 t50 0 t50 0" stroke="#9cc3df" stroke-width="2" fill="none"/>
+      </svg></a>
+              <div class="pmeta">
+                <div><div class="t">«Тайна первопечатника»</div><div class="s">7 класс · узнай, как книга изменила мир, и расшифруй дату Ивана Фёдорова · без регистрации</div></div>
+                <a class="btn" href="7-klass.html">Начать урок</a>
+              </div>
+            </div>
+            <div class="lesson" data-grade="8" hidden>
+              <a class="pic" href="8-klass.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 170" role="img" aria-label="Полтавская битва: на опушке леса земляные редуты с частоколом и пушками, клубы порохового дыма; слева линия русской пехоты в зелёных мундирах с барабанщиком, знамёнами и офицером на коне; справа шведская пехота в синих мундирах и носилки, на которых несут раненого короля"><defs><linearGradient id="g8-pSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9dce9"/><stop offset="1" stop-color="#f1f1ea"/></linearGradient><linearGradient id="g8-pFld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6c98d"/><stop offset="1" stop-color="#97b06e"/></linearGradient></defs><rect width="300" height="170" fill="url(#g8-pSky)"/><circle cx="266" cy="24" r="11" fill="#f4d27a"/><g fill="#fff" opacity=".8"><ellipse cx="60" cy="22" rx="22" ry="6"/><ellipse cx="76" cy="18" rx="12" ry="6"/><ellipse cx="190" cy="30" rx="18" ry="5"/></g><g fill="#555" opacity=".6"><path d="M150 18 q3 -3 6 0 q3 -3 6 0" stroke="#555" fill="none" stroke-width="1"/><path d="M168 24 q2 -2 4 0 q2 -2 4 0" stroke="#555" fill="none" stroke-width="1"/></g><g><circle cx="-4" cy="78.2" r="6.7" fill="#5d7f55"/><circle cx="4.7" cy="78.4" r="7.1" fill="#5d7f55"/><circle cx="14.0" cy="76.3" r="7.9" fill="#5d7f55"/><circle cx="24.2" cy="79.3" r="6.0" fill="#5d7f55"/><circle cx="32.1" cy="76.9" r="6.8" fill="#5d7f55"/><circle cx="40.9" cy="77.9" r="9.0" fill="#5d7f55"/><circle cx="52.6" cy="77.9" r="8.5" fill="#5d7f55"/><circle cx="63.6" cy="76.6" r="7.9" fill="#5d7f55"/><circle cx="73.9" cy="79.5" r="7.9" fill="#5d7f55"/><circle cx="84.2" cy="79.0" r="7.6" fill="#5d7f55"/><circle cx="94.0" cy="76.3" r="8.0" fill="#5d7f55"/><circle cx="104.4" cy="78.4" r="8.3" fill="#5d7f55"/><circle cx="115.2" cy="76.1" r="6.9" fill="#5d7f55"/><circle cx="124.2" cy="77.9" r="8.6" fill="#5d7f55"/><circle cx="135.4" cy="79.5" r="8.2" fill="#5d7f55"/><circle cx="146.0" cy="79.7" r="8.1" fill="#5d7f55"/><circle cx="156.5" cy="79.2" r="7.2" fill="#5d7f55"/><circle cx="165.9" cy="79.7" r="7.3" fill="#5d7f55"/><circle cx="175.4" cy="76.4" r="8.6" fill="#5d7f55"/><circle cx="186.6" cy="76.9" r="6.4" fill="#5d7f55"/><circle cx="195.0" cy="77.7" r="8.9" fill="#5d7f55"/><circle cx="206.5" cy="77.2" r="7.9" fill="#5d7f55"/><circle cx="216.8" cy="77.5" r="7.5" fill="#5d7f55"/><circle cx="226.6" cy="78.3" r="7.1" fill="#5d7f55"/><circle cx="235.7" cy="79.6" r="7.8" fill="#5d7f55"/><circle cx="245.8" cy="79.7" r="8.0" fill="#5d7f55"/><circle cx="256.3" cy="80.0" r="8.6" fill="#5d7f55"/><circle cx="267.4" cy="76.7" r="8.0" fill="#5d7f55"/><circle cx="277.8" cy="79.9" r="8.6" fill="#5d7f55"/><circle cx="289.0" cy="78.3" r="8.7" fill="#5d7f55"/><circle cx="300.3" cy="76.8" r="8.1" fill="#5d7f55"/></g><rect x="0" y="78" width="300" height="10" fill="#5d7f55"/><path d="M0 86 Q80 80 160 86 T300 84 V170 H0 Z" fill="url(#g8-pFld)"/><path d="M112 104 L119 93 H169 L176 104 Z" fill="#8a7049"/><path d="M119 93 H169" stroke="#6b5534" stroke-width="2"/><path d="M115 101 H173" stroke="#7a6240" stroke-width="1"/><path d="M119 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M123 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M127 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M131 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M135 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M139 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M143 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M147 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M151 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M155 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M159 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M163 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M167 93 V89" stroke="#5a3b1e" stroke-width="1.6"/><path d="M150.0 93.0 L164.4 90.3" stroke="#2b2b2b" stroke-width="3.2" stroke-linecap="round"/><path d="M147.3 97.5 L155.4 92.1" stroke="#6e4a28" stroke-width="2.2"/><circle cx="152.7" cy="96.6" r="3.8" fill="none" stroke="#5a3b1e" stroke-width="1.3"/><path d="M152.7 92.8 V100.4 M148.9 96.6 H156.5" stroke="#5a3b1e" stroke-width="0.7"/><path d="M166 89 l4.800000000000001 -2.4000000000000004 l-1.6 2.4000000000000004 l5.6000000000000005 0 l-5.6000000000000005 2.4000000000000004 l1.6 2.4000000000000004 Z" fill="#f6c453"/><g fill="#f6f4ef" opacity="0.92"><circle cx="182.0" cy="86.0" r="6.6"/><circle cx="189.7" cy="82.7" r="7.7"/><circle cx="198.5" cy="84.9" r="6.6"/><circle cx="190.8" cy="90.4" r="6.1"/><circle cx="175.4" cy="88.2" r="5.0"/><circle cx="205.1" cy="89.3" r="4.4"/></g><path d="M232 98 L239 89 H271 L278 98 Z" fill="#8a7049"/><path d="M239 89 H271" stroke="#6b5534" stroke-width="2"/><path d="M235 95 H275" stroke="#7a6240" stroke-width="1"/><path d="M239 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M243 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M247 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M251 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M255 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M259 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M263 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M267 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M271 89 V85" stroke="#5a3b1e" stroke-width="1.6"/><path d="M256.0 89.0 L244.8 86.9" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/><path d="M258.1 92.5 L251.8 88.3" stroke="#6e4a28" stroke-width="1.8"/><circle cx="253.9" cy="91.8" r="2.9" fill="none" stroke="#5a3b1e" stroke-width="1.0"/><path d="M253.9 88.9 V94.7 M256.8 91.8 H251.0" stroke="#5a3b1e" stroke-width="0.6"/><g fill="#f6f4ef" opacity="0.85"><circle cx="222.0" cy="84.0" r="4.8"/><circle cx="227.6" cy="81.6" r="5.6"/><circle cx="234.0" cy="83.2" r="4.8"/><circle cx="228.4" cy="87.2" r="4.4"/><circle cx="217.2" cy="85.6" r="3.6"/><circle cx="238.8" cy="86.4" r="3.2"/></g><g fill="#f6f4ef" opacity="0.8"><circle cx="70.0" cy="96.0" r="5.4"/><circle cx="76.3" cy="93.3" r="6.3"/><circle cx="83.5" cy="95.1" r="5.4"/><circle cx="77.2" cy="99.6" r="5.0"/><circle cx="64.6" cy="97.8" r="4.0"/><circle cx="88.9" cy="98.7" r="3.6"/></g><g><path d="M10 160 l-2 -5 M10 160 l0 -6 M10 160 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M40 166 l-2 -5 M40 166 l0 -6 M40 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M98 162 l-2 -5 M98 162 l0 -6 M98 162 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M140 156 l-2 -5 M140 156 l0 -6 M140 156 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M168 166 l-2 -5 M168 166 l0 -6 M168 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M204 160 l-2 -5 M204 160 l0 -6 M204 160 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M240 166 l-2 -5 M240 166 l0 -6 M240 166 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M282 158 l-2 -5 M282 158 l0 -6 M282 158 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M128 124 l-2 -5 M128 124 l0 -6 M128 124 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M186 120 l-2 -5 M186 120 l0 -6 M186 120 l2 -5" stroke="#6f8c4e" stroke-width="1"/><path d="M20 128 l-2 -5 M20 128 l0 -6 M20 128 l2 -5" stroke="#6f8c4e" stroke-width="1"/></g><path d="M222 128 V92" stroke="#5a3b1e" stroke-width="1.8"/><circle cx="222" cy="91" r="1.6" fill="#d9ab3c"/><path d="M223 93 h20 v13 h-20 Z" fill="#2f5ea8"/><path d="M229 93 v13 M223 99.5 h20" stroke="#f2c867" stroke-width="2.6"/><ellipse cx="196.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M193.9 120.6 L192.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M198.1 120.6 L199.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M192.7 109.1 H199.3 L200.5 121.4 H191.5 Z" fill="#2f5ea8"/><path d="M192.7 110.0 L199.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="198.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="196.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M191.1 105.0 Q196.0 99.3 200.9 105.0 Q196.0 103.2 191.1 105.0 Z" fill="#1c2431"/><path d="M191.1 105.0 Q196.0 103.2 200.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M199.7 117.3 L201.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M201.3 96.8 L201.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="208.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M205.9 120.6 L204.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M210.1 120.6 L211.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M204.7 109.1 H211.3 L212.5 121.4 H203.5 Z" fill="#2f5ea8"/><path d="M204.7 110.0 L211.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="210.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="208.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M203.1 105.0 Q208.0 99.3 212.9 105.0 Q208.0 103.2 203.1 105.0 Z" fill="#1c2431"/><path d="M203.1 105.0 Q208.0 103.2 212.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M211.7 117.3 L213.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M213.3 96.8 L213.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="234.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M231.9 120.6 L230.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M236.1 120.6 L237.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M230.7 109.1 H237.3 L238.5 121.4 H229.5 Z" fill="#2f5ea8"/><path d="M230.7 110.0 L237.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="236.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="234.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M229.1 105.0 Q234.0 99.3 238.9 105.0 Q234.0 103.2 229.1 105.0 Z" fill="#1c2431"/><path d="M229.1 105.0 Q234.0 103.2 238.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M237.7 117.3 L239.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M239.3 96.8 L239.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="246.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M243.9 120.6 L242.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M248.1 120.6 L249.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M242.7 109.1 H249.3 L250.5 121.4 H241.5 Z" fill="#2f5ea8"/><path d="M242.7 110.0 L249.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="248.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="246.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M241.1 105.0 Q246.0 99.3 250.9 105.0 Q246.0 103.2 241.1 105.0 Z" fill="#1c2431"/><path d="M241.1 105.0 Q246.0 103.2 250.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M249.7 117.3 L251.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M251.3 96.8 L251.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="258.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M255.9 120.6 L254.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M260.1 120.6 L261.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M254.7 109.1 H261.3 L262.5 121.4 H253.5 Z" fill="#2f5ea8"/><path d="M254.7 110.0 L261.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="260.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="258.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M253.1 105.0 Q258.0 99.3 262.9 105.0 Q258.0 103.2 253.1 105.0 Z" fill="#1c2431"/><path d="M253.1 105.0 Q258.0 103.2 262.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><path d="M261.7 117.3 L263.3 96.8" stroke="#5a3b1e" stroke-width="1.3" stroke-linecap="round"/><path d="M263.3 96.8 L263.7 91.9" stroke="#b9bec6" stroke-width="0.7"/><ellipse cx="222.0" cy="128.5" rx="4.9" ry="1.3" fill="#000" opacity=".12"/><path d="M219.9 120.6 L218.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M224.1 120.6 L225.5 128.0" stroke="#d9d2bf" stroke-width="2.0" stroke-linecap="round"/><path d="M218.7 109.1 H225.3 L226.5 121.4 H217.5 Z" fill="#2f5ea8"/><path d="M218.7 110.0 L225.3 118.2" stroke="#f1ece0" stroke-width="1.1"/><rect x="224.7" y="115.7" width="2.0" height="2.0" fill="#f2c867"/><circle cx="222.0" cy="106.3" r="2.7" fill="#e6bf98"/><path d="M217.1 105.0 Q222.0 99.3 226.9 105.0 Q222.0 103.2 217.1 105.0 Z" fill="#1c2431"/><path d="M217.1 105.0 Q222.0 103.2 226.9 105.0" stroke="#c9a14a" stroke-width="0.57" fill="none"/><g><path d="M262 140 H292" stroke="#6e4a28" stroke-width="2"/><rect x="266" y="135" width="20" height="5" rx="2" fill="#2f5ea8"/><circle cx="270" cy="133.5" r="2.6" fill="#e6bf98"/><rect x="278" y="132" width="9" height="4" rx="1.5" fill="#f1ece0"/></g><ellipse cx="262.0" cy="152.5" rx="4.7" ry="1.2" fill="#000" opacity=".12"/><path d="M260.0 145.0 L259.8 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M264.0 145.0 L264.2 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M258.9 134.1 H265.1 L266.3 145.8 H257.7 Z" fill="#2f5ea8"/><path d="M258.9 134.8 L265.1 142.6" stroke="#f1ece0" stroke-width="1.0"/><rect x="264.6" y="140.3" width="1.9" height="1.9" fill="#f2c867"/><circle cx="262.0" cy="131.3" r="2.6" fill="#e6bf98"/><path d="M257.3 130.2 Q262.0 124.7 266.7 130.2 Q262.0 128.4 257.3 130.2 Z" fill="#1c2431"/><path d="M257.3 130.2 Q262.0 128.4 266.7 130.2" stroke="#c9a14a" stroke-width="0.55" fill="none"/><ellipse cx="292.0" cy="152.5" rx="4.7" ry="1.2" fill="#000" opacity=".12"/><path d="M290.0 145.0 L289.8 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M294.0 145.0 L294.2 152.0" stroke="#d9d2bf" stroke-width="1.9" stroke-linecap="round"/><path d="M288.9 134.1 H295.1 L296.3 145.8 H287.7 Z" fill="#2f5ea8"/><path d="M288.9 134.8 L295.1 142.6" stroke="#f1ece0" stroke-width="1.0"/><rect x="294.6" y="140.3" width="1.9" height="1.9" fill="#f2c867"/><circle cx="292.0" cy="131.3" r="2.6" fill="#e6bf98"/><path d="M287.3 130.2 Q292.0 124.7 296.7 130.2 Q292.0 128.4 287.3 130.2 Z" fill="#1c2431"/><path d="M287.3 130.2 Q292.0 128.4 296.7 130.2" stroke="#c9a14a" stroke-width="0.55" fill="none"/><ellipse cx="30" cy="140.5" rx="15" ry="2" fill="#000" opacity=".12"/><path d="M21 128 L19 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M25 128 L26 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M37 128 L35 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><path d="M40 128 L43 140" stroke="#4a2f1a" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="30" cy="125" rx="13" ry="6.5" fill="#6b4226"/><path d="M39 122 L45 112 L50 113 L48 117 L43 126 Z" fill="#6b4226"/><path d="M45 112 l1 -3 l2 2" fill="#6b4226" stroke="#6b4226" stroke-width="1"/><path d="M18 123 q-6 2 -5 10" stroke="#3a2414" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M42 114 q-3 4 -6 6" stroke="#3a2414" stroke-width="1.6" fill="none"/><path d="M26 120 L32 128" stroke="#e9e3d4" stroke-width="2.6" stroke-linecap="round"/><path d="M26 107 H33 L34 120 H24 Z" fill="#2f6b4c"/><circle cx="30" cy="104" r="3.2" fill="#e6bf98"/><path d="M24.0 102.5 Q30.0 95.5 36.0 102.5 Q30.0 100.3 24.0 102.5 Z" fill="#1c2431"/><path d="M24.0 102.5 Q30.0 100.3 36.0 102.5" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M32 110 L39 102 L45 94" stroke="#2f6b4c" stroke-width="2.2" stroke-linecap="round"/><path d="M44 95 L51 84" stroke="#c9ccd2" stroke-width="1.2"/><path d="M96 160 V112" stroke="#5a3b1e" stroke-width="1.8"/><circle cx="96" cy="111" r="1.6" fill="#d9ab3c"/><path d="M97 113 h22 l-4 7 l4 7 h-22 Z" fill="#2f6b4c" stroke="#d9ab3c" stroke-width="1.2"/><circle cx="106" cy="120" r="3.6" fill="none" stroke="#d9ab3c" stroke-width="1.4"/><path d="M106 116.4 V123.6 M102.4 120 H109.6" stroke="#d9ab3c" stroke-width="1"/><ellipse cx="62.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M59.4 151.0 L59.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M64.6 151.0 L64.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M58.0 137.0 H66.0 L67.5 152.0 H56.5 Z" fill="#2f6b4c"/><path d="M58.0 138.0 L66.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="65.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="62.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M56.0 132.0 Q62.0 125.0 68.0 132.0 Q62.0 129.8 56.0 132.0 Z" fill="#1c2431"/><path d="M56.0 132.0 Q62.0 129.8 68.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M66.5 147.0 L68.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M68.5 122.0 L69.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="78.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M75.4 151.0 L75.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M80.6 151.0 L80.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M74.0 137.0 H82.0 L83.5 152.0 H72.5 Z" fill="#2f6b4c"/><path d="M74.0 138.0 L82.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="81.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="78.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M72.0 132.0 Q78.0 125.0 84.0 132.0 Q78.0 129.8 72.0 132.0 Z" fill="#1c2431"/><path d="M72.0 132.0 Q78.0 129.8 84.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M82.5 147.0 L84.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M84.5 122.0 L85.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="112.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M109.4 151.0 L109.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M114.6 151.0 L114.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M108.0 137.0 H116.0 L117.5 152.0 H106.5 Z" fill="#2f6b4c"/><path d="M108.0 138.0 L116.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="115.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="112.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M106.0 132.0 Q112.0 125.0 118.0 132.0 Q112.0 129.8 106.0 132.0 Z" fill="#1c2431"/><path d="M106.0 132.0 Q112.0 129.8 118.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M116.5 147.0 L118.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M118.5 122.0 L119.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="128.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M125.4 151.0 L125.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M130.6 151.0 L130.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M124.0 137.0 H132.0 L133.5 152.0 H122.5 Z" fill="#2f6b4c"/><path d="M124.0 138.0 L132.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="131.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="128.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M122.0 132.0 Q128.0 125.0 134.0 132.0 Q128.0 129.8 122.0 132.0 Z" fill="#1c2431"/><path d="M122.0 132.0 Q128.0 129.8 134.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M132.5 147.0 L134.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M134.5 122.0 L135.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="144.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M141.4 151.0 L141.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M146.6 151.0 L146.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M140.0 137.0 H148.0 L149.5 152.0 H138.5 Z" fill="#2f6b4c"/><path d="M140.0 138.0 L148.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="147.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="144.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M138.0 132.0 Q144.0 125.0 150.0 132.0 Q144.0 129.8 138.0 132.0 Z" fill="#1c2431"/><path d="M138.0 132.0 Q144.0 129.8 150.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M148.5 147.0 L150.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M150.5 122.0 L151.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="160.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M157.4 151.0 L157.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M162.6 151.0 L162.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M156.0 137.0 H164.0 L165.5 152.0 H154.5 Z" fill="#2f6b4c"/><path d="M156.0 138.0 L164.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="163.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="160.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M154.0 132.0 Q160.0 125.0 166.0 132.0 Q160.0 129.8 154.0 132.0 Z" fill="#1c2431"/><path d="M154.0 132.0 Q160.0 129.8 166.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><path d="M164.5 147.0 L166.5 122.0" stroke="#5a3b1e" stroke-width="1.6" stroke-linecap="round"/><path d="M166.5 122.0 L167.0 116.0" stroke="#b9bec6" stroke-width="0.9"/><ellipse cx="96.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M93.4 151.0 L93.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M98.6 151.0 L98.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M92.0 137.0 H100.0 L101.5 152.0 H90.5 Z" fill="#2f6b4c"/><path d="M92.0 138.0 L100.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="99.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="96.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M90.0 132.0 Q96.0 125.0 102.0 132.0 Q96.0 129.8 90.0 132.0 Z" fill="#1c2431"/><path d="M90.0 132.0 Q96.0 129.8 102.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><ellipse cx="176.0" cy="160.5" rx="6.0" ry="1.6" fill="#000" opacity=".12"/><path d="M173.4 151.0 L173.2 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M178.6 151.0 L178.8 160.0" stroke="#e9e3d4" stroke-width="2.4" stroke-linecap="round"/><path d="M172.0 137.0 H180.0 L181.5 152.0 H170.5 Z" fill="#2f6b4c"/><path d="M172.0 138.0 L180.0 148.0" stroke="#f1ece0" stroke-width="1.3"/><rect x="179.3" y="145.0" width="2.4" height="2.4" fill="#a23f2f"/><circle cx="176.0" cy="133.5" r="3.3" fill="#e6bf98"/><path d="M170.0 132.0 Q176.0 125.0 182.0 132.0 Q176.0 129.8 170.0 132.0 Z" fill="#1c2431"/><path d="M170.0 132.0 Q176.0 129.8 182.0 132.0" stroke="#c9a14a" stroke-width="0.70" fill="none"/><ellipse cx="181.0" cy="147.0" rx="4.0" ry="2.0" fill="#d9ab3c"/><rect x="177.0" y="147.0" width="8.0" height="5.0" fill="#b0392a"/><ellipse cx="181.0" cy="152.0" rx="4.0" ry="1.6" fill="#8a2c20"/><path d="M177.0 147.0 L185.0 152.0 M185.0 147.0 L177.0 152.0" stroke="#f1ece0" stroke-width=".7"/><path d="M179.0 145.0 l-3 -5 M183.0 145.0 l3 -5" stroke="#5a3b1e" stroke-width="1"/><g fill="#f6f4ef" opacity="0.7"><circle cx="140.0" cy="112.0" r="3.3"/><circle cx="143.8" cy="110.3" r="3.9"/><circle cx="148.2" cy="111.5" r="3.3"/><circle cx="144.4" cy="114.2" r="3.0"/><circle cx="136.7" cy="113.1" r="2.5"/><circle cx="151.6" cy="113.7" r="2.2"/></g></svg></a>
+              <div class="pmeta">
+                <div><div class="t">«Который год?»</div><div class="s">8 класс · разберись, почему у одной битвы три даты · без регистрации</div></div>
+                <a class="btn" href="8-klass.html">Начать урок</a>
+              </div>
+            </div>
+            <div class="lesson" data-grade="9">
+              <a class="pic" href="9-klass.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Под Севастополем, 1855 год: сухие холмы, вдали белые палатки лагеря; на дороге закрытый фургон-лаборатория фотографа с лошадью, рядом камера на треноге">
+  <defs>
+    <linearGradient id="g9-t2Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd3e3"/><stop offset="1" stop-color="#f1ead9"/></linearGradient>
+    <linearGradient id="g9-t2Van" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a6a48"/><stop offset="1" stop-color="#6d5137"/></linearGradient>
+  </defs>
+  <rect width="300" height="170" fill="url(#g9-t2Sky)"/>
+  <circle cx="54" cy="30" r="12" fill="#f4d37e"/>
+  <!-- дальние холмы и море -->
+  <path d="M0 86 Q40 70 86 78 Q130 64 180 74 Q236 62 300 76 V130 H0 Z" fill="#b9b08f"/>
+  <path d="M204 72 Q236 63 300 74 V82 Q250 76 204 80 Z" fill="#8fb0c4"/>
+  <!-- лагерь -->
+  <g>
+    <g fill="#f7f2e6" stroke="#c9bfa8" stroke-width=".6">
+      <path d="M30 86 l7 -11 l7 11 Z"/><path d="M46 85 l6 -10 l6 10 Z"/><path d="M60 87 l7 -11 l7 11 Z"/>
+      <path d="M150 80 l6 -9 l6 9 Z"/><path d="M164 81 l6 -9 l6 9 Z"/><path d="M178 80 l6 -9 l6 9 Z"/>
+    </g>
+    <g stroke="#7a6a52" stroke-width=".6"><path d="M37 75 v-3 M52 75 v-3 M67 76 v-3 M156 71 v-3 M170 72 v-3 M184 71 v-3"/></g>
+  </g>
+  <!-- ближние холмы -->
+  <path d="M0 104 Q60 84 120 96 Q180 84 240 92 Q272 88 300 94 V170 H0 Z" fill="#d1bc8c"/>
+  <path d="M0 122 Q70 108 150 116 Q230 106 300 114 V170 H0 Z" fill="#c4ab78"/>
+  <!-- дорога -->
+  <path d="M0 156 Q80 142 150 140 Q210 136 250 112 Q262 106 300 100 V108 Q272 112 262 120 Q226 148 160 154 Q90 160 40 170 H0 Z" fill="#e3d2a8"/>
+  <!-- кусты -->
+  <g fill="#8d9a62"><ellipse cx="40" cy="132" rx="12" ry="5"/><ellipse cx="268" cy="126" rx="10" ry="4"/><ellipse cx="96" cy="150" rx="9" ry="3.5"/></g>
+  <!-- фургон-лаборатория -->
+  <g>
+    <rect x="60" y="96" width="62" height="38" rx="2" fill="url(#g9-t2Van)"/>
+    <path d="M57 97 Q91 86 125 97 Z" fill="#5a4230"/>
+    <rect x="60" y="98" width="62" height="2" fill="#4a3628"/>
+    <rect x="70" y="106" width="12" height="9" fill="#2e2620"/>
+    <rect x="71.5" y="107.5" width="9" height="6" fill="#a85a3a" opacity=".7"/>
+    <rect x="94" y="104" width="20" height="24" fill="#5e4430"/>
+    <path d="M104 104 v24" stroke="#4a3628" stroke-width="1"/>
+    <circle cx="101.5" cy="117" r="1" fill="#d6b45a"/><circle cx="106.5" cy="117" r="1" fill="#d6b45a"/>
+    <path d="M62 128 h58" stroke="#4a3628" stroke-width="1.5"/>
+    <!-- колёса -->
+    <g fill="none" stroke="#3a2c20" stroke-width="2.2"><circle cx="74" cy="138" r="9"/><circle cx="110" cy="138" r="9"/></g>
+    <g stroke="#3a2c20" stroke-width="1"><path d="M74 129 v18 M65 138 h18 M67.6 131.6 l12.8 12.8 M80.4 131.6 l-12.8 12.8"/><path d="M110 129 v18 M101 138 h18 M103.6 131.6 l12.8 12.8 M116.4 131.6 l-12.8 12.8"/></g>
+    <circle cx="74" cy="138" r="2" fill="#3a2c20"/><circle cx="110" cy="138" r="2" fill="#3a2c20"/>
+    <!-- оглобли -->
+    <path d="M122 126 L152 122" stroke="#5a4230" stroke-width="2"/>
+  </g>
+  <!-- лошадь -->
+  <g fill="#6a4a32">
+    <path d="M144 112 q-7 5 -5 16" stroke="#3f2b1d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <rect x="148" y="121" width="3.4" height="19" rx="1"/><rect x="154" y="122" width="3.4" height="18" rx="1"/><rect x="165" y="122" width="3.4" height="18" rx="1"/><rect x="171" y="121" width="3.4" height="19" rx="1"/>
+    <ellipse cx="160" cy="115" rx="17" ry="8.5"/>
+    <path d="M170 110 L177 95 L185 97 L180 117 Z"/>
+    <g transform="translate(181 96) rotate(38)"><rect x="-2" y="-4" width="16" height="8" rx="3.5"/></g>
+    <path d="M177 94 l1 -6 l3 5 Z"/>
+  </g>
+  <path d="M170.5 109 L176.5 95" stroke="#3a2618" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="183.5" cy="98" r="1" fill="#1f1c19"/>
+  <g fill="#3f2b1d"><rect x="147.6" y="138" width="4.2" height="2.4"/><rect x="153.6" y="138" width="4.2" height="2.4"/><rect x="164.6" y="138" width="4.2" height="2.4"/><rect x="170.6" y="138" width="4.2" height="2.4"/></g>
+  <!-- камера на треноге -->
+  <g>
+    <path d="M226 118 L218 148 M228 118 L230 149 M230 118 L240 147" stroke="#4a3628" stroke-width="1.6"/>
+    <rect x="217" y="104" width="20" height="14" fill="#6a4628"/>
+    <rect x="237" y="107" width="8" height="8" fill="#b38b3a"/>
+    <rect x="245" y="108" width="3" height="6" fill="#2b2420"/>
+    <path d="M214 104 h10 v-6 q-6 -2 -10 2 Z" fill="#2b2420"/>
+  </g>
+  <!-- фотограф -->
+  <g>
+    <circle cx="205" cy="112" r="3.2" fill="#e2bf9c"/>
+    <path d="M201.5 110 h7 l-1 -4.5 h-5 Z" fill="#3a3027"/>
+    <path d="M201 116 h8 l2 16 h-12 Z" fill="#45505e"/>
+    <path d="M209 119 l8 -6" stroke="#45505e" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M202.5 132 l-1 15 M207.5 132 l1 15" stroke="#2b2420" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg></a>
+              <div class="pmeta">
+                <div><div class="t">«Кадры одного века»</div><div class="s">9 класс · от Николая I до Первой мировой: Крымская война и реформы · без регистрации</div></div>
+                <a class="btn" href="9-klass.html">Начать урок</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" id="how">
+    <h2>Как проходят занятия</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Вводный урок</h3><p>Знакомимся, смотрим, что ученик уже знает и в чём путается. Бесплатно.</p></div>
+      <div class="step"><div class="n">2</div><h3>План под ученика</h3><p>Идём за школьной программой. Если нужен ОГЭ — добавляем повторение прошлых классов и пробники.</p></div>
+      <div class="step"><div class="n">3</div><h3>Тетрадь к каждому занятию</h3><p>Ответы сохраняются сами. Можно продолжить с другого устройства, а учитель видит всё сразу.</p></div>
+    </div>
+  </section>
+
+  <section class="block" style="border:0;padding-top:0">
+    <div class="contact">
+      <div><h2>Записаться на занятие</h2><p>Напиши, в каком ты классе и что нужно: школа, ОГЭ или всё сразу.</p></div>
+      <a class="btn" href="https://t.me/Crying_Cat11">Написать в Telegram</a>
+    </div>
+  </section>
 </main>
-</body>
-</html>
+
+<footer><div class="wrap"><span>Миша, репетитор по истории</span><a href="https://misharepet.study/tutor">Вход для учителя</a></div></footer>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var lessons=[].slice.call(document.querySelectorAll('.lesson'));
+  var panel=document.getElementById('lesson');
+  function pick(g,focus){
+    tabs.forEach(function(t){var on=t.dataset.grade===g;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
+    lessons.forEach(function(l){l.hidden=l.dataset.grade!==g});
+    panel.setAttribute('aria-labelledby','tab-'+g);
+    try{localStorage.setItem('landing-grade',g)}catch(e){}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){pick(t.dataset.grade)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!d)return;
+      e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length].dataset.grade,true);
+    });
+  });
+  var saved=null;try{saved=localStorage.getItem('landing-grade')}catch(e){}
+  pick(saved&&document.getElementById('tab-'+saved)?saved:'9');
+})();
+</script>
+</body></html>
