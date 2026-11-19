@@ -3,6 +3,7 @@
 # Запуск от root на Ubuntu или Debian:
 #   curl -fsSL https://raw.githubusercontent.com/CryingCat11/Istoriya-5-9-klass/main/marker/deploy/setup.sh | bash
 # Повторный запуск безопасен: обновляет код и перезапускает кабинеты, коды входа и базы не трогает.
+# После установки код из GitHub подтягивается сам каждые 5 минут.
 set -euo pipefail
 
 DOMAIN="${DOMAIN:-misharepet.study}"
@@ -101,23 +102,29 @@ WantedBy=multi-user.target
 EOF
 done
 
-# Ночное обновление кода из GitHub и резервная копия баз
+# Обновление кода из GitHub каждые 5 минут и резервная копия баз раз в день
 cat > /usr/local/bin/marker-update <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 stamp=$(date +%F)
 mkdir -p /var/backups/marker
 for app in istoriya oge; do
-  [ -f /var/lib/marker/$app.sqlite ] && sqlite3 /var/lib/marker/$app.sqlite ".backup '/var/backups/marker/$app-$stamp.sqlite'"
+  if [ -f /var/lib/marker/$app.sqlite ] && [ ! -f /var/backups/marker/$app-$stamp.sqlite ]; then
+    sqlite3 /var/lib/marker/$app.sqlite ".backup '/var/backups/marker/$app-$stamp.sqlite'"
+  fi
 done
 find /var/backups/marker -name '*.sqlite' -mtime +30 -delete
 for app in istoriya oge; do
+  before=$(git -C /opt/marker/$app rev-parse HEAD)
   git -C /opt/marker/$app fetch -q --depth 1 origin main
   git -C /opt/marker/$app reset -q --hard origin/main
+  if [ "$before" != "$(git -C /opt/marker/$app rev-parse HEAD)" ] || [ "${1:-}" = "--force" ]; then
+    [ "$app" = oge ] && (cd /opt/marker/oge/marker && npm ci --omit=dev --no-audit --no-fund --silent)
+    chown -R marker:marker /opt/marker/$app
+    systemctl restart marker-$app
+    echo "Кабинет $app обновлён до $(git -C /opt/marker/$app log -1 --format='%h %s')"
+  fi
 done
-(cd /opt/marker/oge/marker && npm ci --omit=dev --no-audit --no-fund --silent)
-chown -R marker:marker /opt/marker
-systemctl restart marker-istoriya marker-oge
 EOF
 chmod 755 /usr/local/bin/marker-update
 cat > /etc/systemd/system/marker-update.service <<'EOF'
@@ -129,10 +136,10 @@ ExecStart=/usr/local/bin/marker-update
 EOF
 cat > /etc/systemd/system/marker-update.timer <<'EOF'
 [Unit]
-Description=Обновление кабинетов учителя каждую ночь
+Description=Обновление кабинетов учителя каждые 5 минут
 [Timer]
-OnCalendar=*-*-* 04:10
-Persistent=true
+OnBootSec=2min
+OnUnitActiveSec=5min
 [Install]
 WantedBy=timers.target
 EOF
@@ -150,7 +157,8 @@ $OGE_HOST {
 EOF
 
 systemctl daemon-reload
-systemctl enable --now marker-update.timer >/dev/null
+systemctl enable marker-update.timer >/dev/null
+systemctl restart marker-update.timer
 for app in istoriya oge; do systemctl enable marker-$app >/dev/null; systemctl restart marker-$app; done
 systemctl enable caddy >/dev/null
 systemctl restart caddy
@@ -176,5 +184,5 @@ cat <<EOF
 
 Сохрани коды в надёжном месте. Показать их ещё раз: grep CODE /etc/marker/*.env
 Сертификат HTTPS выпускается сам в первые минуты. Для $OGE_HOST нужна запись A в DNS на этот сервер.
-Код обновляется из GitHub каждую ночь, копии баз лежат в /var/backups/marker (30 дней).
+Новые версии из GitHub приходят сами в течение 5 минут. Копии баз раз в день лежат в /var/backups/marker (30 дней).
 EOF

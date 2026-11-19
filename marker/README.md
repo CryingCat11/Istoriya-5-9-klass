@@ -38,10 +38,10 @@ MARKER_TUTOR_CODE='<сгенерированный код>' MARKER_URL='https://
 
 ## Установка на сервер одной командой
 
-`deploy/setup.sh` ставит на чистый Ubuntu или Debian оба кабинета (тетради по истории и тренажёр ОГЭ по обществознанию), Caddy с HTTPS, ночное обновление из GitHub и резервные копии баз. Запусти от root:
+`deploy/setup.sh` ставит на чистый Ubuntu или Debian оба кабинета (тетради по истории и тренажёр ОГЭ по обществознанию), Caddy с HTTPS, обновление из GitHub каждые 5 минут и ежедневные резервные копии баз. Запусти от root:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CryingCat11/Istoriya-5-9-klass/main/marker/deploy/setup.sh | bash
 ```
 
-По умолчанию тетради открываются на `misharepet.study`, тренажёр — на `oge.misharepet.study`. Другие адреса задаются через `HIST_HOST` и `OGE_HOST`. Повторный запуск обновляет код и не трогает коды входа и базы.
+Новые версии из GitHub сервер подтягивает сам каждые 5 минут. По умолчанию тетради открываются на `misharepet.study`, тренажёр — на `oge.misharepet.study`. Другие адреса задаются через `HIST_HOST` и `OGE_HOST`. Повторный запуск обновляет код и не трогает коды входа и базы.
