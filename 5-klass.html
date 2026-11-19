@@ -874,6 +874,7 @@ $("#h-check").addEventListener("click",()=>{
   const n=r.filter(x=>x[0]).length;
   fb($("#h-fb"),n===4?"Всё верно":"Верно "+n+" из 4. Проверь: "+r.filter(x=>!x[0]).map(x=>x[1].split(" — ")[0]).join(", ")+".",n===4);
 });
+window.notebookReport=allText;
 })();
 </script>
 </body>
