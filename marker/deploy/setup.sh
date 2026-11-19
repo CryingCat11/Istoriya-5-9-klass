@@ -47,6 +47,10 @@ fi
 say "4/6 Скачиваю код кабинетов"
 id marker >/dev/null 2>&1 || useradd --system --home-dir /opt/marker --shell /usr/sbin/nologin marker
 mkdir -p /opt/marker /var/lib/marker /etc/marker
+# Код принадлежит пользователю marker, а обновляет его root: разрешаем git работать с этими папками
+for dir in /opt/marker/istoriya /opt/marker/oge; do
+  git config --system --get-all safe.directory 2>/dev/null | grep -qxF "$dir" || git config --system --add safe.directory "$dir"
+done
 fetch() {
   if [ -d "$2/.git" ]; then git -C "$2" fetch --depth 1 origin main && git -C "$2" reset --hard origin/main
   else git clone --depth 1 "$1" "$2"; fi
