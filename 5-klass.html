@@ -454,9 +454,7 @@ footer p{margin:0 0 12px}
   </form>
   <div class="card" id="diag-done" hidden>
     <h3>Разведка закончена</h3>
-    <p>Нажми кнопку и вставь ответы в чат урока, чтобы их увидел учитель.</p>
-    <div class="row"><button class="btn" type="button" id="diag-copy">Скопировать ответы для учителя</button></div>
-    <div class="copybox" id="diag-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="diag-text"></textarea></div>
+    <p>Ответы сохранены. Можно переходить к следующему этапу.</p>
   </div>
   <a class="next" href="#igra">Дальше: Налево или направо →</a>
 </section>
@@ -672,18 +670,6 @@ footer p{margin:0 0 12px}
       <div><label for="it-best">Что было самым интересным?</label><input type="text" id="it-best" data-save></div>
       <div><label for="it-hard">Что было трудным?</label><input type="text" id="it-hard" data-save></div>
     </div>
-    <div class="row"><button class="btn" type="button" id="all-copy">Скопировать все ответы для учителя</button></div>
-    <div class="copybox" id="all-box"><p class="small">Если кнопка не сработала, выдели текст ниже и скопируй его.</p><textarea readonly id="all-text"></textarea></div>
-  </div>
-  <div class="card">
-    <h3>Только для учителя: очистить тетрадь</h3>
-    <p class="small">Стирает ответы на всех этапах, от «Знакомства» до «Домашки». Сначала скопируйте ответы ученика.</p>
-    <div class="row"><input type="password" inputmode="numeric" id="t-code" autocomplete="off" placeholder="Код учителя" aria-label="Код учителя" style="max-width:180px"><button class="btn ghost" type="button" id="reset-open">Стереть все ответы</button></div>
-    <p class="fb" id="t-fb" aria-live="polite"></p>
-    <div class="reset-ask" id="reset-ask" hidden>
-      <p>Точно стереть? Ответы на всех этапах пропадут, вернуть их будет нельзя.</p>
-      <div class="row"><button class="btn danger" type="button" id="reset-yes">Да, стереть</button><button class="btn ghost" type="button" id="reset-no">Отмена</button></div>
-    </div>
   </div>
   <a class="next" href="#dz">Дальше: Домашнее задание →</a>
 </section>
@@ -716,7 +702,7 @@ footer p{margin:0 0 12px}
 </section>
 
 </main>
-<footer>Тетрадь к вводному занятию по истории, 5 класс. Ответы хранятся только в этом браузере; чтобы учитель их увидел, используй кнопки «Скопировать».</footer>
+<footer>Тетрадь к вводному занятию по истории, 5 класс.</footer>
 
 <script>
 (function(){
@@ -808,8 +794,8 @@ function diagText(){
   L.push("Автопроверка заданий 1–6: "+diagScore()+" из 9. Задания 7–10 (до 9 баллов) проверяет учитель.");
   return L.join("\n");
 }
-$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-text").value=diagText();$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
-$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
+$("#diag").addEventListener("submit",e=>{e.preventDefault();$("#diag-done").hidden=false;$("#diag-done").scrollIntoView({behavior:"smooth",block:"center"})});
+$("#diag-copy")&&$("#diag-copy").addEventListener("click",e=>copy(diagText(),$("#diag-box"),$("#diag-text"),e.currentTarget));
 
 /* ---------- 3. Игра ---------- */
 const events=[
@@ -987,14 +973,14 @@ function allText(){
   L.push("ИТОГ: интересно "+(D.interest||"—")+"/5, понятно "+(D.clear||"—")+"/5; интересное: "+val("it-best")+"; трудное: "+val("it-hard"));
   return L.join("\n");
 }
-$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
+$("#all-copy")&&$("#all-copy").addEventListener("click",e=>copy(allText(),$("#all-box"),$("#all-text"),e.currentTarget));
 
 /* ---------- Стереть всё (только по коду учителя) ---------- */
 const CODE_H="1c7f61e7";
 function hc(s){let x=2166136261;for(const c of ("hiero5|"+s)){x^=c.codePointAt(0);x=Math.imul(x,16777619)>>>0}return x.toString(16)}
 let lockUntil=0;
 const codeOk=()=>hc(($("#t-code").value||"").trim())===CODE_H;
-$("#reset-open").addEventListener("click",()=>{
+$("#reset-open")&&$("#reset-open").addEventListener("click",()=>{
   const now=Date.now(),btn=$("#reset-open");
   if(now<lockUntil){fb($("#t-fb"),"Подожди немного и попробуй снова.",false);return}
   if(!codeOk()){
@@ -1004,8 +990,8 @@ $("#reset-open").addEventListener("click",()=>{
   }
   fb($("#t-fb"),"");$("#reset-ask").hidden=false;$("#reset-yes").focus();
 });
-$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#t-code").value="";fb($("#t-fb"),"")});
-$("#reset-yes").addEventListener("click",()=>{
+$("#reset-no")&&$("#reset-no").addEventListener("click",()=>{$("#reset-ask").hidden=true;$("#t-code").value="";fb($("#t-fb"),"")});
+$("#reset-yes")&&$("#reset-yes").addEventListener("click",()=>{
   if(!codeOk()){$("#reset-ask").hidden=true;fb($("#t-fb"),"Неверный код. Эта кнопка только для учителя.",false);return}
   D={};try{localStorage.removeItem(KEY);Object.keys(localStorage).filter(k=>k.indexOf("ieroglify")===0).forEach(k=>localStorage.removeItem(k));sessionStorage.clear()}catch(e){}
   try{history.replaceState(null,"","#znakomstvo")}catch(e){}
