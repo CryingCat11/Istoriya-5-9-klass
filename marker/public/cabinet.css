@@ -60,4 +60,7 @@ legend{font-weight:500;font-size:15px;margin-bottom:6px}
 .report .gap{height:8px}
 .danger{margin-top:32px;padding-top:16px;border-top:1px solid var(--line)}
 .danger p{margin:0 0 8px}
+.danger+.danger{margin-top:16px}
+.btn.danger-btn{background:var(--cin);border-color:var(--cin)}
+.btn.danger-btn:hover{background:#86271a}
 @media (max-width:560px){.sheet{padding:16px}h1{font-size:24px}.row{flex-wrap:wrap}.meta{flex-basis:100%;text-align:left;padding-left:22px}}

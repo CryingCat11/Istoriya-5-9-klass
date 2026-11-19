@@ -106,7 +106,7 @@ async function formBody(request, limit = 32768) {
 
 const id = '[a-f0-9-]{36}';
 const invitePattern = new RegExp(`^/s/(${id})/(?:(${id})/)?([\\w-]{43})$`);
-const studentPattern = new RegExp(`^/tutor/students/(${id})$`);
+const studentPattern = new RegExp(`^/tutor/students/(${id})(/delete)?$`);
 const workPattern = new RegExp(`^/tutor/work/(${id})(\\.json|/reopen)?$`);
 const learnPattern = new RegExp(`^/learn/(${id})(?:/(save|submit))?$`);
 
@@ -121,15 +121,20 @@ async function tutor(request, response, path, search, isPost, loggedIn) {
   if (path === '/tutor/logout' && isPost) return redirect(response, '/tutor/login', makeCookie('marker_tutor', '', 0));
   if (path === '/tutor' && !isPost) return html(response, ui.tutorHome(data.works(), data.students().length > 0));
   if (path === '/tutor/students') {
-    if (!isPost) return html(response, ui.studentList(data.students()));
+    if (!isPost) return html(response, ui.studentList(data.students(), '', '', search.has('removed')));
     const name = (await formBody(request)).get('name')?.trim();
     if (!name || name.length > 80) return html(response, ui.studentList(data.students(), 'Введи имя длиной до 80 символов.', name), 422);
     return redirect(response, '/tutor/students/' + data.addStudent(name));
   }
-  const studentId = studentPattern.exec(path)?.[1];
+  const [, studentId, remove] = studentPattern.exec(path) ?? [];
   if (studentId) {
     const student = data.student(studentId);
     if (!student) return notFound(response);
+    if (remove) {
+      if (!isPost) return html(response, ui.confirmRemove(student, data.works(studentId).length));
+      data.removeStudent(studentId);
+      return redirect(response, '/tutor/students?removed=1');
+    }
     if (isPost) {
       const version = (await formBody(request)).get('version');
       if (/^\d+$/.test(version ?? '')) data.rotateLink(studentId, Number(version));

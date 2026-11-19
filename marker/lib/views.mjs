@@ -65,11 +65,12 @@ export function tutorHome(works, hasStudents) {
     ${body}</section>`, true);
 }
 
-export function studentList(students, error = '', value = '') {
+export function studentList(students, error = '', value = '', removed = false) {
   const list = students.length ? `<ul class="list">${students.map(student => `<li><a class="row" href="/tutor/students/${student.id}">
       <span class="what"><b>${h(student.name)}</b></span><span class="meta">Личная ссылка и работы</span></a></li>`).join('')}</ul>`
     : '<p class="muted">Учеников пока нет.</p>';
-  return page('Ученики', `<section class="sheet"><h1>Ученики</h1>${list}
+  return page('Ученики', `<section class="sheet"><h1>Ученики</h1>
+    ${removed ? '<p class="ok">Ученик удалён вместе с его тетрадями.</p>' : ''}${list}
     <form method="post" action="/tutor/students" class="inline">
       <label>Новый ученик<input name="name" maxlength="80" value="${h(value)}" placeholder="Имя и первая буква фамилии" required></label>
       <button class="btn">Добавить</button>
@@ -92,7 +93,30 @@ export function studentDetail(student, works, link, renewed) {
       <input type="hidden" name="version" value="${student.link_version}">
       <p class="muted">Если ссылку переслали кому-то ещё, замени её. Старые ссылки перестанут работать.</p>
       <button class="btn quiet">Заменить личную ссылку</button>
+    </form>
+    <div class="danger">
+      <p class="muted">Ученик больше не занимается? Можно удалить его вместе со всеми тетрадями и ответами.</p>
+      <a class="btn quiet" href="/tutor/students/${student.id}/delete">Удалить ученика</a>
+    </div></section>`, true);
+}
+
+export function confirmRemove(student, count) {
+  const works = count ? `Вместе с учеником удалятся ${count} ${plural(count, 'тетрадь', 'тетради', 'тетрадей')} и все ответы. ` : '';
+  return page('Удалить ученика', `<section class="sheet narrow">
+    <p class="kicker"><a href="/tutor/students/${student.id}">${h(student.name)}</a></p>
+    <h1>Удалить ученика?</h1>
+    <p>${works}Его ссылки перестанут работать. Вернуть удалённое нельзя.</p>
+    <form method="post" action="/tutor/students/${student.id}/delete" class="inline">
+      <button class="btn danger-btn">Удалить</button>
+      <a class="btn quiet" href="/tutor/students/${student.id}">Отмена</a>
     </form></section>`, true);
+}
+
+function plural(n, one, few, many) {
+  const tens = n % 100, units = n % 10;
+  if (tens > 10 && tens < 20) return many;
+  if (units === 1) return one;
+  return units >= 2 && units <= 4 ? few : many;
 }
 
 export function newWork(students, values = {}, error = '') {

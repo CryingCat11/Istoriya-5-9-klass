@@ -40,6 +40,8 @@ export function dataAccess(db) {
   const save = q('UPDATE works SET state = ?, report = ?, revision = revision + 1, updated_at = ? WHERE id = ? AND revision = ? AND submitted_at IS NULL');
   const submit = q('UPDATE works SET submitted_at = ? WHERE id = ? AND revision = ? AND submitted_at IS NULL');
   const reopen = q('UPDATE works SET submitted_at = NULL WHERE id = ?');
+  const dropWorks = q('DELETE FROM works WHERE student_id = ?');
+  const dropStudent = q('DELETE FROM students WHERE id = ?');
 
   const now = () => new Date().toISOString();
   function outcome(id) {
@@ -75,5 +77,16 @@ export function dataAccess(db) {
       return outcome(id);
     },
     reopen: id => reopen.run(id),
+    removeStudent(id) {
+      db.exec('BEGIN IMMEDIATE');
+      try {
+        dropWorks.run(id);
+        dropStudent.run(id);
+        db.exec('COMMIT');
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+    },
   };
 }
