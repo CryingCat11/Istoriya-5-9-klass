@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-# Ставит на сервер оба кабинета: тетради по истории и тренажёр ОГЭ по обществознанию.
+# Ставит на сервер кабинет учителя для тетрадей по истории.
 # Запуск от root на Ubuntu или Debian:
 #   curl -fsSL https://raw.githubusercontent.com/CryingCat11/Istoriya-5-9-klass/main/marker/deploy/setup.sh | bash
-# Повторный запуск безопасен: обновляет код и перезапускает кабинеты, коды входа и базы не трогает.
+# Повторный запуск безопасен: обновляет код и перезапускает кабинет, код входа и базу не трогает.
 # После установки код из GitHub подтягивается сам каждые 5 минут.
 set -euo pipefail
 
 DOMAIN="${DOMAIN:-misharepet.study}"
 HIST_HOST="${HIST_HOST:-$DOMAIN}"
-OGE_HOST="${OGE_HOST:-oge.$DOMAIN}"
 
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 [ "$(id -u)" = 0 ] || { echo "Запусти скрипт от root."; exit 1; }
@@ -36,7 +35,7 @@ else
 fi
 
 if ! command -v caddy >/dev/null; then
-  say "3/6 Ставлю Caddy: он выдаёт сертификаты HTTPS и передаёт запросы кабинетам"
+  say "3/6 Ставлю Caddy: он выдаёт сертификат HTTPS и передаёт запросы кабинету"
   curl -1sLf https://dl.cloudsmith.io/public/caddy/stable/gpg.key | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
   curl -1sLf https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt -o /etc/apt/sources.list.d/caddy-stable.list
   apt-get update -y
@@ -45,49 +44,57 @@ else
   say "3/6 Caddy уже стоит"
 fi
 
-say "4/6 Скачиваю код кабинетов"
+# Прежние версии ставили рядом тренажёр ОГЭ по обществознанию. Это отдельный проект, убираем его,
+# а его базу не удаляем, а переносим в резервные копии
+if [ -f /etc/systemd/system/marker-oge.service ] || [ -d /opt/marker/oge ]; then
+  say "Убираю тренажёр ОГЭ по обществознанию: это отдельный проект"
+  systemctl disable --now marker-oge >/dev/null 2>&1 || true
+  rm -f /etc/systemd/system/marker-oge.service /etc/marker/oge.env
+  rm -rf /opt/marker/oge
+  if [ -f /var/lib/marker/oge.sqlite ]; then
+    mkdir -p /var/backups/marker
+    sqlite3 /var/lib/marker/oge.sqlite ".backup '/var/backups/marker/oge-removed-$(date +%F).sqlite'"
+    rm -f /var/lib/marker/oge.sqlite /var/lib/marker/oge.sqlite-wal /var/lib/marker/oge.sqlite-shm
+    echo "База тренажёра сохранена в /var/backups/marker/oge-removed-$(date +%F).sqlite"
+  fi
+  git config --system --unset-all safe.directory '^/opt/marker/oge$' 2>/dev/null || true
+  systemctl daemon-reload
+fi
+
+say "4/6 Скачиваю код кабинета"
 id marker >/dev/null 2>&1 || useradd --system --home-dir /opt/marker --shell /usr/sbin/nologin marker
 mkdir -p /opt/marker /var/lib/marker /etc/marker
-# Код принадлежит пользователю marker, а обновляет его root: разрешаем git работать с этими папками
-for dir in /opt/marker/istoriya /opt/marker/oge; do
-  git config --system --get-all safe.directory 2>/dev/null | grep -qxF "$dir" || git config --system --add safe.directory "$dir"
-done
-fetch() {
-  if [ -d "$2/.git" ]; then git -C "$2" fetch --depth 1 origin main && git -C "$2" reset --hard origin/main
-  else git clone --depth 1 "$1" "$2"; fi
-}
-fetch https://github.com/CryingCat11/Istoriya-5-9-klass.git /opt/marker/istoriya
-fetch https://github.com/CryingCat11/Obshchestvoznanie-OGE-2027.git /opt/marker/oge
-(cd /opt/marker/oge/marker && npm ci --omit=dev --no-audit --no-fund)
+# Код принадлежит пользователю marker, а обновляет его root: разрешаем git работать с этой папкой
+git config --system --get-all safe.directory 2>/dev/null | grep -qxF /opt/marker/istoriya || git config --system --add safe.directory /opt/marker/istoriya
+if [ -d /opt/marker/istoriya/.git ]; then
+  git -C /opt/marker/istoriya fetch --depth 1 origin main
+  git -C /opt/marker/istoriya reset --hard origin/main
+else
+  git clone --depth 1 https://github.com/CryingCat11/Istoriya-5-9-klass.git /opt/marker/istoriya
+fi
 chown -R marker:marker /opt/marker /var/lib/marker
 chmod 700 /var/lib/marker /etc/marker
 
-say "5/6 Настраиваю кабинеты"
-newcode() { node -e 'console.log(require("node:crypto").randomBytes(24).toString("base64url"))'; }
-envfile() {
-  local file="/etc/marker/$1.env"
-  if [ ! -f "$file" ]; then
-    printf 'MARKER_TUTOR_CODE=%s\n' "$(newcode)" > "$file"
-  fi
-  sed -i '/^PORT=/d;/^MARKER_DB=/d;/^MARKER_URL=/d' "$file"
-  printf 'PORT=%s\nMARKER_DB=/var/lib/marker/%s.sqlite\nMARKER_URL=https://%s/\n' "$2" "$1" "$3" >> "$file"
-  chmod 600 "$file"
-}
-envfile istoriya 4318 "$HIST_HOST"
-envfile oge 4317 "$OGE_HOST"
+say "5/6 Настраиваю кабинет"
+file=/etc/marker/istoriya.env
+if [ ! -f "$file" ]; then
+  printf 'MARKER_TUTOR_CODE=%s\n' "$(node -e 'console.log(require("node:crypto").randomBytes(24).toString("base64url"))')" > "$file"
+fi
+sed -i '/^PORT=/d;/^MARKER_DB=/d;/^MARKER_URL=/d' "$file"
+printf 'PORT=4318\nMARKER_DB=/var/lib/marker/istoriya.sqlite\nMARKER_URL=https://%s/\n' "$HIST_HOST" >> "$file"
+chmod 600 "$file"
 
-for app in istoriya oge; do
-  cat > "/etc/systemd/system/marker-$app.service" <<EOF
+cat > /etc/systemd/system/marker-istoriya.service <<'EOF'
 [Unit]
-Description=Кабинет учителя ($app)
+Description=Кабинет учителя: тетради по истории
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 User=marker
 Group=marker
-WorkingDirectory=/opt/marker/$app/marker
-EnvironmentFile=/etc/marker/$app.env
+WorkingDirectory=/opt/marker/istoriya/marker
+EnvironmentFile=/etc/marker/istoriya.env
 ExecStart=/usr/bin/node server.mjs
 Restart=always
 RestartSec=3
@@ -100,43 +107,37 @@ ReadWritePaths=/var/lib/marker
 [Install]
 WantedBy=multi-user.target
 EOF
-done
 
-# Обновление кода из GitHub каждые 5 минут и резервная копия баз раз в день
+# Обновление кода из GitHub каждые 5 минут и резервная копия базы раз в день
 cat > /usr/local/bin/marker-update <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 stamp=$(date +%F)
 mkdir -p /var/backups/marker
-for app in istoriya oge; do
-  if [ -f /var/lib/marker/$app.sqlite ] && [ ! -f /var/backups/marker/$app-$stamp.sqlite ]; then
-    sqlite3 /var/lib/marker/$app.sqlite ".backup '/var/backups/marker/$app-$stamp.sqlite'"
-  fi
-done
-find /var/backups/marker -name '*.sqlite' -mtime +30 -delete
-for app in istoriya oge; do
-  before=$(git -C /opt/marker/$app rev-parse HEAD)
-  git -C /opt/marker/$app fetch -q --depth 1 origin main
-  git -C /opt/marker/$app reset -q --hard origin/main
-  if [ "$before" != "$(git -C /opt/marker/$app rev-parse HEAD)" ] || [ "${1:-}" = "--force" ]; then
-    [ "$app" = oge ] && (cd /opt/marker/oge/marker && npm ci --omit=dev --no-audit --no-fund --silent)
-    chown -R marker:marker /opt/marker/$app
-    systemctl restart marker-$app
-    echo "Кабинет $app обновлён до $(git -C /opt/marker/$app log -1 --format='%h %s')"
-  fi
-done
+if [ -f /var/lib/marker/istoriya.sqlite ] && [ ! -f /var/backups/marker/istoriya-$stamp.sqlite ]; then
+  sqlite3 /var/lib/marker/istoriya.sqlite ".backup '/var/backups/marker/istoriya-$stamp.sqlite'"
+fi
+find /var/backups/marker -name 'istoriya-*.sqlite' -mtime +30 -delete
+before=$(git -C /opt/marker/istoriya rev-parse HEAD)
+git -C /opt/marker/istoriya fetch -q --depth 1 origin main
+git -C /opt/marker/istoriya reset -q --hard origin/main
+if [ "$before" != "$(git -C /opt/marker/istoriya rev-parse HEAD)" ] || [ "${1:-}" = "--force" ]; then
+  chown -R marker:marker /opt/marker/istoriya
+  systemctl restart marker-istoriya
+  echo "Кабинет обновлён до $(git -C /opt/marker/istoriya log -1 --format='%h %s')"
+fi
 EOF
 chmod 755 /usr/local/bin/marker-update
 cat > /etc/systemd/system/marker-update.service <<'EOF'
 [Unit]
-Description=Обновление кабинетов учителя
+Description=Обновление кабинета учителя
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/marker-update
 EOF
 cat > /etc/systemd/system/marker-update.timer <<'EOF'
 [Unit]
-Description=Обновление кабинетов учителя каждые 5 минут
+Description=Обновление кабинета учителя каждые 5 минут
 [Timer]
 OnBootSec=2min
 OnUnitActiveSec=5min
@@ -149,17 +150,13 @@ $HIST_HOST {
 	encode gzip
 	reverse_proxy 127.0.0.1:4318
 }
-
-$OGE_HOST {
-	encode gzip
-	reverse_proxy 127.0.0.1:4317
-}
 EOF
 
 systemctl daemon-reload
 systemctl enable marker-update.timer >/dev/null
 systemctl restart marker-update.timer
-for app in istoriya oge; do systemctl enable marker-$app >/dev/null; systemctl restart marker-$app; done
+systemctl enable marker-istoriya >/dev/null
+systemctl restart marker-istoriya
 systemctl enable caddy >/dev/null
 systemctl restart caddy
 
@@ -169,20 +166,14 @@ fi
 
 say "6/6 Проверяю"
 sleep 3
-for app in istoriya oge; do
-  if systemctl is-active --quiet marker-$app; then echo "Кабинет $app работает"
-  else echo "Кабинет $app не запустился, последние строки журнала:"; journalctl -u marker-$app -n 20 --no-pager; fi
-done
+if systemctl is-active --quiet marker-istoriya; then echo "Кабинет работает"
+else echo "Кабинет не запустился, последние строки журнала:"; journalctl -u marker-istoriya -n 20 --no-pager; fi
 
-code() { grep '^MARKER_TUTOR_CODE=' "/etc/marker/$1.env" | cut -d= -f2-; }
 say "Готово"
 cat <<EOF
-Тетради по истории:   https://$HIST_HOST/tutor
-  код входа:          $(code istoriya)
-Тренажёр ОГЭ:         https://$OGE_HOST/tutor
-  код входа:          $(code oge)
+Сайт:            https://$HIST_HOST
+Кабинет учителя: https://$HIST_HOST/tutor
+Показать код входа: grep CODE /etc/marker/istoriya.env
 
-Сохрани коды в надёжном месте. Показать их ещё раз: grep CODE /etc/marker/*.env
-Сертификат HTTPS выпускается сам в первые минуты. Для $OGE_HOST нужна запись A в DNS на этот сервер.
-Новые версии из GitHub приходят сами в течение 5 минут. Копии баз раз в день лежат в /var/backups/marker (30 дней).
+Новые версии из GitHub приходят сами в течение 5 минут. Копии базы раз в день лежат в /var/backups/marker (30 дней).
 EOF
