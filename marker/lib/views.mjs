@@ -22,21 +22,21 @@ export function status(work) {
 
 const notebookName = grade => `${grade} класс · «${byGrade.get(grade)?.title ?? ''}»`;
 
-function page(title, body, tutor = false) {
+function page(title, body, tutor = false, home = tutor ? '/tutor' : '/learn') {
   const nav = tutor ? `<nav>
-      <a href="/tutor">Работы</a><a href="/tutor/students">Ученики</a><a href="/tutor/new">Выдать тетрадь</a>
+      <a href="/">Сайт</a><a href="/tutor">Работы</a><a href="/tutor/students">Ученики</a><a href="/tutor/new">Выдать тетрадь</a>
       <form method="post" action="/tutor/logout"><button class="link">Выйти</button></form>
     </nav>` : '';
   return `<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
 <title>${h(title)} · Тетради по истории</title><link rel="stylesheet" href="/assets/cabinet.css">
 <link rel="icon" href="/assets/mark.svg"><script src="/assets/cabinet.js" defer></script></head>
-<body><header class="top"><div class="top-inner"><a class="brand" href="${tutor ? '/tutor' : '/learn'}">Тетради по истории</a>${nav}</div></header>
+<body><header class="top"><div class="top-inner"><a class="brand" href="${home}">Тетради по истории</a>${nav}</div></header>
 <main>${body}</main></body></html>`;
 }
 
 export function message(title, text) {
-  return page(title, `<section class="sheet narrow"><h1>${h(title)}</h1><p>${h(text)}</p></section>`);
+  return page(title, `<section class="sheet narrow"><h1>${h(title)}</h1><p>${h(text)}</p><p><a href="/">← На главную</a></p></section>`, false, '/');
 }
 
 export function login(error = '') {
@@ -46,7 +46,8 @@ export function login(error = '') {
     <label>Код доступа<input name="code" type="password" autocomplete="current-password" required autofocus></label>
     ${error ? `<p class="error">${h(error)}</p>` : ''}
     <button class="btn">Войти</button>
-  </form></section>`);
+  </form>
+  <p class="back"><a href="/">← На главную</a></p></section>`, false, '/');
 }
 
 function workRow(work, withName = true) {
