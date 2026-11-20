@@ -36,7 +36,7 @@ function page(title, body, tutor = false, home = tutor ? '/tutor' : '/learn') {
 }
 
 export function message(title, text) {
-  return page(title, `<section class="sheet narrow"><h1>${h(title)}</h1><p>${h(text)}</p><p><a href="/">← На главную</a></p></section>`, false, '/');
+  return page(title, `<section class="sheet narrow"><h1>${h(title)}</h1><p>${h(text)}</p><p class="back"><a href="/">← На главную</a></p></section>`, false, '/');
 }
 
 export function login(error = '') {
