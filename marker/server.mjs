@@ -34,7 +34,7 @@ if (demo) {
 
 const assets = new Map();
 for (const [name, type] of [['cabinet.css', 'text/css; charset=utf-8'], ['cabinet.js', 'text/javascript; charset=utf-8'],
-  ['sync.css', 'text/css; charset=utf-8'], ['sync.js', 'text/javascript; charset=utf-8'], ['mark.svg', 'image/svg+xml']]) {
+  ['sync.css', 'text/css; charset=utf-8'], ['sync.js', 'text/javascript; charset=utf-8'], ['mark.svg', 'image/svg+xml'], ['og.jpg', 'image/jpeg']]) {
   assets.set('/assets/' + name, [type, readFileSync(new URL('./public/' + name, import.meta.url))]);
 }
 

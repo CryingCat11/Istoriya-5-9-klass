@@ -2,6 +2,10 @@
 (function () {
   const m = window.MARKER;
   if (!m) return;
+  // В выданной работе ссылка на главную не нужна: ученик остаётся в своей тетради
+  document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('a.home-link').forEach(a => {
+    a.removeAttribute('href'); a.removeAttribute('title'); a.querySelector('.back')?.remove();
+  }));
   const resetFlag = 'marker-reset-' + m.work;
   // Ответы выданной тетради лежат под своим ключом, чтобы не смешиваться с открытой демоверсией и другими тетрадями
   const realKey = 'marker-work-' + m.work;
